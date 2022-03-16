@@ -1,0 +1,143 @@
+Subjects:
+
+Class design
+    Data holder
+        struct vs class
+        Minimal but complete
+        Copy and move
+        Value semantics
+            Constructors
+            Operators
+            Destructor
+        Do not waste space, there could be many of these in a collection, size affects speed
+    Business logic
+        May hide behind interface
+        Minimal state, mostly operate on arguments
+        Few (one?) instances of each concrete type, potentially many implementations of interface
+    IO classes
+        Hides behind interfaces
+        Always at least two implementations, program and test-stub
+    Resource manager
+        RAII
+    Generally
+        Avoid dependencies
+        Keep headers small, less compile-time
+        Private methods can be moved to free functions
+        Some private methods can be new algorithms
+        Private data can be hidden with pImpl-idiom
+
+Function design
+    Naming
+    Arguments
+    Return value
+    Argument order
+    Contract
+    Do or do not
+    Pure functions
+    Const variables
+    constexpr
+
+Type theory light
+    What is a type
+        Values and operations
+        Is-a, Has-a, is-implemented-in-terms-of
+    Why make types/type safety
+        Use the compiler to eliminate semantic bugs
+    Arithmetical types, sum and product
+        Product types
+            struct
+            tuple
+            pair
+        Sum types
+            optional
+            variant
+            any
+    Use types to describe problem space
+        Make undefined/illegal behaviour impossible
+
+Unit testing
+    Why have unit tests
+        Make better design
+        Specify what should happen (test requirements)
+        Avoid debugger (that is a slow process)
+        Avoid starting application (which can take time and then you have to rummage around to get to what you want to test)
+        Allow refactoring with confidence
+        Catch bugs
+        Faster development (less time from coding to coding)
+    How to write tests
+        Test one thing, if it fails it failed for one reason
+        Name the test accordingly, if it fails the name basically tells you what is wrong
+        This makes for many testcases, which is a good thing
+        Test either a free function or a class' behaviour, not a method
+    How to make code testable
+        Separate concerns into separate entities
+            Code not really part of the class/function should be separated and tested separately
+            IO, time and timers are separate entities from the class under test
+        Inject dependencies
+            This allows for faster tests
+            Also easy test of dependency usage
+            Better design in general
+        No global/static/singleton data unless actually constant over all runs
+            These make testcases talk to eachother
+            They make for weird and hard to find bugs
+            Code becomes hard to reason about since there can be spooky action at a distance
+    Speed of running translates to number of runs
+        Tests should run in < 1ms per testcase
+        Tests should be independent of other tests (order of execution)
+        There should be many (hundreds or thousands) of testcases for medium sized projects
+        Tests should ideally be part of the normal build (a buildstep)
+            Failing tests are bugs found before starting application -> Big win
+    The tests are part of the system
+        Not an afterthought
+        Must be maintained with the rest of the code
+
+Standard library
+    Avoid reimplementing standard functionality
+        The standard library is huge and contains a lot of goodies
+        The implementers are better at it than you are
+        If reimplementing standard functionality is OK for you, where do you draw the line? printf()?
+    Efficient use of collections
+        Almost always array or vector
+        Memory allocation cost
+        Data overhead for node-based containers
+        Cost of cache misses
+        Reallocation
+            vector reallocates when it needs to grow
+                Copies/moves data to new buffer
+                iterators and references are invalidated
+                reserve() can fix problem
+            Node-based containers do not copy/move elements
+                iterators and references are stable unless element is removed
+                Copies/moves data only once (into container), unless emplaced
+                Still slower than vector for most usecases (memcpy and sequential access is fast, new and random walk is slow)
+    Lambdas, return them from functions
+        This gives them a name
+        Lambdas have a type, keep the number of types low
+        Should be small, large lambdas should be or call functions
+        IILE for initialization, sometimes
+    Common algorithms
+        any_of()
+        all_of()
+        none_of()
+        find_if()
+        transform()
+        sort()
+        for_each()
+    Not so common algorithms
+        generate()
+        partition()
+        nth_element()
+        copy_if()
+        accumulate()
+
+Extend the standard with your own
+    Collections
+        Why make new ones?
+        Implement in terms of existing collection
+        Create one from scratch
+        Remember iterators!
+    Algorithms
+        Why make them?
+        Implement in terms of existing algorithms
+        Create one from scratch
+        Return something useful

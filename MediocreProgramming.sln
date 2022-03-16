@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MediocreProgramming", "MediocreProgramming\MediocreProgramming.vcxproj", "{CC56A7B6-FF63-40D7-B112-6AFD1E0F4CFF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A669BB59-2916-43E0-B647-40EC902DCAF9}"
+	ProjectSection(SolutionItems) = preProject
+		overview.txt = overview.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
