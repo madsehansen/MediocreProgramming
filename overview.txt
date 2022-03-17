@@ -4,21 +4,34 @@ Class design
     Data holder
         struct vs class
         Minimal but complete
-        Copy and move
+        Copy and move and special functions
         Value semantics
             Constructors
             Operators
             Destructor
         Do not waste space, there could be many of these in a collection, size affects speed
     Business logic
+        Reference semantics
+            Constructors
+            Operators
+            Destructor
         May hide behind interface
         Minimal state, mostly operate on arguments
         Few (one?) instances of each concrete type, potentially many implementations of interface
     IO classes
+        Reference semantics
+            Constructors
+            Operators
+            Destructor
         Hides behind interfaces
         Always at least two implementations, program and test-stub
     Resource manager
+        Value semantics
+            Constructors
+            Operators
+            Destructor
         RAII
+        Pointers, smart and dumb
     Generally
         Avoid dependencies
         Keep headers small, less compile-time
@@ -53,12 +66,13 @@ Type theory light
             variant
             any
     Use types to describe problem space
-        Make undefined/illegal behaviour impossible
+        Make undefined/illegal behaviour/state impossible
 
 Unit testing
     Why have unit tests
         Make better design
         Specify what should happen (test requirements)
+        Document how to use
         Avoid debugger (that is a slow process)
         Avoid starting application (which can take time and then you have to rummage around to get to what you want to test)
         Allow refactoring with confidence
@@ -69,6 +83,9 @@ Unit testing
         Name the test accordingly, if it fails the name basically tells you what is wrong
         This makes for many testcases, which is a good thing
         Test either a free function or a class' behaviour, not a method
+        Group testcases logically
+        Test corner cases as well as normal cases
+        Test error cases
     How to make code testable
         Separate concerns into separate entities
             Code not really part of the class/function should be separated and tested separately
@@ -76,10 +93,11 @@ Unit testing
         Inject dependencies
             This allows for faster tests
             Also easy test of dependency usage
+            Allows faking errors so that error handling code is also tested
             Better design in general
         No global/static/singleton data unless actually constant over all runs
             These make testcases talk to eachother
-            They make for weird and hard to find bugs
+            They make for weird and hard to find bugs (access order dependencies)
             Code becomes hard to reason about since there can be spooky action at a distance
     Speed of running translates to number of runs
         Tests should run in < 1ms per testcase
@@ -113,6 +131,7 @@ Standard library
     Lambdas, return them from functions
         This gives them a name
         Lambdas have a type, keep the number of types low
+            Each lambda becomes its own type, even if they have equal implementation
         Should be small, large lambdas should be or call functions
         IILE for initialization, sometimes
     Common algorithms
@@ -123,12 +142,15 @@ Standard library
         transform()
         sort()
         for_each()
+        remove_if()
     Not so common algorithms
         generate()
         partition()
         nth_element()
         copy_if()
         accumulate()
+        fill()
+        unique()
 
 Extend the standard with your own
     Collections
@@ -141,3 +163,11 @@ Extend the standard with your own
         Implement in terms of existing algorithms
         Create one from scratch
         Return something useful
+
+Miscellaneous
+    Namespaces
+    Class hierarchies
+    Visitor
+    Object oriented programming
+    Functional programming
+    Type erasure
