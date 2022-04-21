@@ -39,15 +39,25 @@ Class design
         Some private methods can be new algorithms
         Private data can be hidden with pImpl-idiom
 
-Function design
+Function/method design
     Naming
+        Should do one thing and be named accordingly
     Arguments
+        By value, reference, pointer, and when to const
+        Hidden argument "this", and the dependency implications
     Return value
+        By value, reference, pointer, and when to const
+        Return value optimization (RVO and NRVO)
     Argument order
     Contract
+        Const methods
     Do or do not
     Pure functions
-    Const variables
+    Variables
+        Const variables where possible
+        Stack vs heap
+    Static methods
+        Useful or just a complicated name for a free function
     constexpr
 
 Type theory light
@@ -119,6 +129,7 @@ Standard library
         Memory allocation cost
         Data overhead for node-based containers
         Cost of cache misses
+        Cost of branch prediction misses
         Reallocation
             vector reallocates when it needs to grow
                 Copies/moves data to new buffer
@@ -165,9 +176,28 @@ Extend the standard with your own
         Return something useful
 
 Miscellaneous
+    Preprocessor
+        Basically just does text replacement
+        #define -> avoid
+        #ifdef/#else/#endif ->avoid
+        #include -> useful :-)
+        #pragma once or #ifndef/#define/#endif -> useful
+        __FILE__, __LINE__, __PRETTY_FUNCTION__ for debug output and logging
+    typedef vs using
     Namespaces
     Class hierarchies
     Visitor
     Object oriented programming
     Functional programming
     Type erasure
+    Exceptions
+        When/when not
+        Alternatives
+    auto variables
+        What is is
+        When to use
+        When not to use
+        auto x = { 3 } -> x is initializer_list...
+    Implicit conversion
+        constructor -> explicit
+        cast operators -> explicit or avoid
