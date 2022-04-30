@@ -1,0 +1,66 @@
+Avoid dependencies
+
+Dependencies
+    Also called coupling
+    Causes tight coupling to other parts of the system
+    Causes bloat
+    Reduces reusability
+    Reduces testability (much more setup needed)
+
+Typical dependencies
+    Include files
+    Members
+    Use of other components (arguments/return values)
+    Use of other components in implementation
+
+Solution
+    Include only what you actually need (probably less than you think)
+        Many things can be forward declared
+        Often adding a layer of abstraction (an interface) can drastically reduce coupling
+    Do not add members that are not actually part of the class
+        If the class can function without the member it probably should
+        Is the member better off being part of another class?
+            This might actually make the class more reusable
+    Many coupled components may be moved from data holding classes to business classes
+    Implementations should rely on as few requirements as possible
+        Avoid placing business knownledge where it does not belong
+        Make your classes independent of system specifics
+        Get things in from the outside rather than handling those things internally
+        Send things out through interfaces rather than handling usage of those things internally
+
+Example
+    The Circle class
+        Does not need a position, only a radius
+            Position is a coordinate, the type of coordinate system should be added by the system that know what the Circle should be used for, if needed at all
+        Does not need to have a draw() method
+            Not all circles will need to be drawable
+            Drawing is graphics library dependent
+            Drawing is not a natural part of a Circle, it is something that may be done to a Circle
+        Does not need color, thickness, or any other drawable characteristics either
+        Does not need to be able to serialize or handle any other IO related functionality
+            To what format should it serialize? JSON? Some binary? Next big thing?
+            Why would you lock it to any particular IO format?
+            May need to be used with several different formats in the same program
+        Does not need to be part of any hierarchy
+            Hierarchies should be very flat (few levels)
+            Hierarchies are not actually needed, and in many cases should be avoided
+        Does not need any virtual methods
+            Since it does not participate in a hierarchy it will not be used polymoprphically
+            Adding a virtual method adds a pointer to vtable, this might make the Circle objects much larger
+        This leaves a minimal Circle class that handles Circle stuff (size, comparison?, other?) only
+        This will make it easy to port to another project/usecase
+        Such a small class may seem to be useless, but it does carry semantic value as well as adding type safety
+        A minimal Circle class is easy to test
+        A minimal Circle class is easy to use in tests for other components
+        A large collection of minimal Circle objects is much faster to process than the same number of objects from a can-do-everything Circle class
+    The Large class doing everything
+        This is basically a whole program in a class, no reusability remains
+        Depressingly common, especially in legacy code and "C with classes" style programming
+        Split the class into several minor classes with specific responsabilities
+        The minor classes may end up being general and useful elsewhere
+        The minor classes should be easier to test
+
+Task
+    <Include an example class with several couplings>
+    Suggest ways to make this class have a better design
+    <Provide a suggested solution>

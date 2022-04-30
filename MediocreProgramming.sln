@@ -10,6 +10,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		overview.txt = overview.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Class design", "Class design", "{8612506C-CD5E-46A8-A4CE-C9402DD6129E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data holder", "Data holder", "{ED03587A-0EE1-4A55-8FCC-F19ADE19C34C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business logic", "Business logic", "{C0B697AC-9D41-49FF-BE16-F8FEFC3EC57D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IO classes", "IO classes", "{0E159484-8852-4A32-95C8-77CFB8350046}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resource manager", "Resource manager", "{37E3942B-B76D-41A2-AEB5-2853EF086A93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generally", "Generally", "{526125BD-68CD-4AD8-95C8-73D0C3FFB506}"
+	ProjectSection(SolutionItems) = preProject
+		Material\ClassDesign\General\AvoidDependencies.txt = Material\ClassDesign\General\AvoidDependencies.txt
+		Material\ClassDesign\General\KeepHeadersSmall.txt = Material\ClassDesign\General\KeepHeadersSmall.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -29,6 +45,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8612506C-CD5E-46A8-A4CE-C9402DD6129E} = {A669BB59-2916-43E0-B647-40EC902DCAF9}
+		{ED03587A-0EE1-4A55-8FCC-F19ADE19C34C} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
+		{C0B697AC-9D41-49FF-BE16-F8FEFC3EC57D} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
+		{0E159484-8852-4A32-95C8-77CFB8350046} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
+		{37E3942B-B76D-41A2-AEB5-2853EF086A93} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
+		{526125BD-68CD-4AD8-95C8-73D0C3FFB506} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5852A9E-9846-4095-B042-03FA11F9FD23}

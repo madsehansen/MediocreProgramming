@@ -1,0 +1,47 @@
+Keep headers small
+
+This is mostly for reducing compile times
+Small headers are also a sign of fewer dependencies
+
+Large headers can be very large
+    Headers often include other headers, which is why spotting a large header can be difficult
+    Headers often are included in other headers
+    So a large header may cause a lot of code to be added to a lot of files
+    Having large headers included in a lot of cpp-files makes the compiler slower
+    Having large headers included in a lot of files makes more code dependent on more code
+    This causes more cpp-files to recompile more frequently
+
+Compile times for a medium to large C++ project can run into double or triple digit minutes
+Fixing the compile time problem late in the project lifetime is a lot of work
+Fixing it late means that a lot of time has been lost to waiting for the compiler
+
+Typical large headers
+    IDL headers can be large, sometimes 50'000 lines or more
+    Classes with a lot of dependencies will tend to include all dependencies
+    Some "utility" type headers include a lot of other headers
+    Many large headers are included in a lot of cpp files
+
+Solution
+    Luckily large headers are often very stable
+    Avoid including headers in headers if you can get away with just knowing the type name (forward declaration)
+        Pointers only need the name
+        References only need the name
+        Return values only need the name
+        Does not apply to all types, enums and typedefs are unfortunate
+        The big issue is knowing the size, so enums that have a specific size can be forward declared
+    Avoid including headers if you can refactor the class to use a small and simple interface
+    Avoid private methods, they can be free functions in the cpp-file without loss of functionality
+    Avoid private data, the pImpl idiom to the rescue
+    This should leave the class with only the public section and a minimal private section without any details
+    This can be a little slower at runtime than the normal class, but normally not noticable
+    Private methods made into free functions might be new algorithms that can benefit other parts of the system
+
+Example
+    <Show a class with includes and private methods and data>
+    Forward declare arguments and return values
+    pImpl the class to get to a minimum dependency class
+
+Task
+    <Include another class with a lot of includes and dependencies>
+    Refactor the class to have a much smaller header
+    <Provide a suggested solution>
