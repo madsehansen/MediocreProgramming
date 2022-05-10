@@ -1,15 +1,15 @@
 Subjects:
 
 Class design
-    Data holder
-        struct vs class
-        Minimal but complete
-        Copy and move and special functions
-        Value semantics
-            Constructors
-            Operators
-            Destructor
-        Do not waste space, there could be many of these in a collection, size affects speed
+*    Data holder
+*        struct vs class
+*        Minimal but complete
+*        Copy and move and special functions
+*        Value semantics
+*            Constructors
+*            Operators
+*            Destructor
+*        Do not waste space, there could be many of these in a collection, size affects speed
     Business logic
         Reference semantics
             Constructors
@@ -32,12 +32,12 @@ Class design
             Destructor
         RAII
         Pointers, smart and dumb
-    Generally
-        Avoid dependencies
-        Keep headers small, less compile-time
-        Private methods can be moved to free functions
-        Some private methods can be new algorithms
-        Private data can be hidden with pImpl-idiom
+*    Generally
+*        Avoid dependencies
+*        Keep headers small, less compile-time
+*        Private methods can be moved to free functions
+*        Some private methods can be new algorithms
+*        Private data can be hidden with pImpl-idiom
 
 Function/method design
     Naming

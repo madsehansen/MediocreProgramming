@@ -17,6 +17,8 @@ Fixing it late means that a lot of time has been lost to waiting for the compile
 
 Typical large headers
     IDL headers can be large, sometimes 50'000 lines or more
+    Some headers have a lot of code, not just declarations
+        Templates can cause bloat if large or many
     Classes with a lot of dependencies will tend to include all dependencies
     Some "utility" type headers include a lot of other headers
     Many large headers are included in a lot of cpp files
@@ -32,6 +34,8 @@ Solution
     Avoid including headers if you can refactor the class to use a small and simple interface
     Avoid private methods, they can be free functions in the cpp-file without loss of functionality
     Avoid private data, the pImpl idiom to the rescue
+        pImpl points to implementation detail, can also contain the private methods
+        The Impl class shall be a struct, and it is declared and defined in the main class' cpp-file
     This should leave the class with only the public section and a minimal private section without any details
     This can be a little slower at runtime than the normal class, but normally not noticable
     Private methods made into free functions might be new algorithms that can benefit other parts of the system
