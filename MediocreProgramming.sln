@@ -26,9 +26,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generally", "Generally", "{
 		Material\ClassDesign\General\KeepHeadersSmall.txt = Material\ClassDesign\General\KeepHeadersSmall.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data holder", "Data holder", "{1CD46BD2-120A-484A-8916-307776174DF4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dataholder", "Dataholder", "{69DDFDD8-5831-4E42-B2F6-788A5AC7194D}"
 	ProjectSection(SolutionItems) = preProject
 		Material\ClassDesign\DataHolder\DataHolder.txt = Material\ClassDesign\DataHolder\DataHolder.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Businesslogic", "Businesslogic", "{75F66164-56E4-4CBC-8C9A-6A73FB902E51}"
+	ProjectSection(SolutionItems) = preProject
+		Material\ClassDesign\Business logic\BusinessLogic.txt = Material\ClassDesign\Business logic\BusinessLogic.txt
 	EndProjectSection
 EndProject
 Global
@@ -58,7 +63,8 @@ Global
 		{0E159484-8852-4A32-95C8-77CFB8350046} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
 		{37E3942B-B76D-41A2-AEB5-2853EF086A93} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
 		{526125BD-68CD-4AD8-95C8-73D0C3FFB506} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
-		{1CD46BD2-120A-484A-8916-307776174DF4} = {A669BB59-2916-43E0-B647-40EC902DCAF9}
+		{69DDFDD8-5831-4E42-B2F6-788A5AC7194D} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
+		{75F66164-56E4-4CBC-8C9A-6A73FB902E51} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5852A9E-9846-4095-B042-03FA11F9FD23}

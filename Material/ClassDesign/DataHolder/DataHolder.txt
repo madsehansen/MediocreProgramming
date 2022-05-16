@@ -77,11 +77,11 @@ Field order
         This typically means by size
             At least for 1-8 byte fields
             Enums can have several sizes, unless specified at declaration
-            Allocated size in not included in size (this is on the heap)
+            Allocated size is not included in size (this is on the heap)
             Arrays are aligned the same as the elements
             Composite fields (classes and structs) are aligned by largest alignment field
         Order the fields so that the larger alignment fields are first, and then smaller and smaller
-            This can in some cases allow for using inheritance to add fields without increasing object size
+            This can, in some cases, allow for using inheritance to add fields without increasing object size
     For some objects proper ordering of fields can drastically reduce the memory requirements
 
 Typical data holders
