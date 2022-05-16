@@ -10,21 +10,21 @@ Class design
 *            Operators
 *            Destructor
 *        Do not waste space, there could be many of these in a collection, size affects speed
-    Business logic
-        Reference semantics
-            Constructors
-            Operators
-            Destructor
-        May hide behind interface
-        Minimal state, mostly operate on arguments
-        Few (one?) instances of each concrete type, potentially many implementations of interface
-    IO classes
-        Reference semantics
-            Constructors
-            Operators
-            Destructor
-        Hides behind interfaces
-        Always at least two implementations, program and test-stub
+*    Business logic
+*        Reference semantics
+*            Constructors
+*            Operators
+*            Destructor
+*        May hide behind interface
+*        Minimal state, mostly operate on arguments
+*        Few (one?) instances of each concrete type, potentially many implementations of interface
+*    IO classes
+*        Reference semantics
+*            Constructors
+*            Operators
+*            Destructor
+*        Hides behind interfaces
+*        Always at least two implementations, program and test-stub
     Resource manager
         Value semantics
             Constructors

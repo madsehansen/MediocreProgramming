@@ -5,7 +5,8 @@ Reference semantics
         The typical use for these objects are create one and keep it for the duration of the program
         Any class/function that needs these objects shall receive a reference or pointer to one
         Sometimes there need to be several of one of these (they may need to have some different settings), but this should be avoided, keep such state in a data holder instead
-        Some state/dependencies may be needed/desired for ease of use, typically IO-interfaces
+        Some dependencies may be needed/desired for ease of use, typically IO-interfaces
+        Some state-references (or pointers) may be needed to know which data to operate on for callbacks
     Constructors
         These object should have a single constructor that accepts all arguments needed to operate
         Copy/move/default constructors are not wanted. These objects do not copy or move naturally
@@ -24,6 +25,7 @@ Reference semantics
 Typical business classes
     Visitor pattern functions
     Data manipulation classes
+    Consider free functions, they may be enough
 
 Example
     A visitor class for drawing

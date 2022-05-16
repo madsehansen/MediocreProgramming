@@ -1,0 +1,45 @@
+IO classes
+
+IO classes shall always implement some interface
+    There shall always be at least two implementations, the program's implementation and the test's implementation
+    This is probably one of the most efficient ways to make writing tests easy and efficient
+
+Reference semantics
+    These classes should not be like ints or strings
+        The typical use for these objects are create one and keep it for the duration of the program. They are usually sent to and used by business logic classes
+        Any class/function that needs these objects shall receive a reference or pointer to one
+        Sometimes there need to be several of one of these (they may need to have some different settings), but this should be avoided, keep such state in a data holder instead
+        Some state/dependencies may be needed/desired for ease of use, typically IO-interfaces
+    Constructors
+        These object should have one or more constructors that sets up the different ways to create the object
+        Copy/default constructors are not wanted. Sometimes move contructor can be used. These objects do not copy naturally, but in a few cases they may move
+        Constructors that fail to construct a valid object should prefer to throw
+            This makes it impossible to construct an invalid object
+            No invalid object means the IO is at least theoretically possible
+    Operators
+        No operators needed
+        Delete the copy assignment operator (and usually move assignment), as they make no sense
+    Methods
+        All methods should be public
+        These classes shall always implement an interface, only the interface shall be used by client code
+        In the case of errors, either an error is returned or an exception is thrown. This is part of the interface, and shall be documented there. Do not mix these for any interface implementation.
+        All methods not part of the interface are for setup/teardown/diagnostics only
+    Destructor
+        Add a virtual destructor, should probably be = default in the cpp-file.
+
+Typical IO classes
+    Database connections
+    Network connections
+    File IO
+    Test IO, very useful for unit tests
+
+Example
+    Publishing data through DDS data writer
+    Receiving data from file
+
+Task
+    Design a generic network (TCP, UDP and serial line) class/class hierarchy
+        Should be able to open, read, write, close
+        The read can be asynchronous, so it may have to use a callback...
+        Remember that errors may occur, come up with a small number of relevant and generic errors and decide how to express and handle them
+    <Provide a suggested solution>
