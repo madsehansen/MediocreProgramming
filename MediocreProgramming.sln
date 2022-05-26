@@ -46,6 +46,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ResourceManager", "Resource
 		Material\ClassDesign\ResourceManager\ResourceManager.txt = Material\ClassDesign\ResourceManager\ResourceManager.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FunctionDesign", "FunctionDesign", "{0A88AF68-7D46-4B17-BB27-ACF2C1E4BF24}"
+	ProjectSection(SolutionItems) = preProject
+		Material\FunctionDesign\FunctionDesign.txt = Material\FunctionDesign\FunctionDesign.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -77,6 +82,7 @@ Global
 		{75F66164-56E4-4CBC-8C9A-6A73FB902E51} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
 		{0386E068-B960-4BB9-8DF5-CA8CB5A52C1D} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
 		{5C8FC9CC-A028-4187-9FF4-CCFD6C7B43A6} = {8612506C-CD5E-46A8-A4CE-C9402DD6129E}
+		{0A88AF68-7D46-4B17-BB27-ACF2C1E4BF24} = {A669BB59-2916-43E0-B647-40EC902DCAF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5852A9E-9846-4095-B042-03FA11F9FD23}

@@ -39,26 +39,26 @@ Class design
 *        Some private methods can be new algorithms
 *        Private data can be hidden with pImpl-idiom
 
-Function/method design
-    Naming
-        Should do one thing and be named accordingly
-    Arguments
-        By value, reference, pointer, and when to const
-        Hidden argument "this", and the dependency implications
-    Return value
-        By value, reference, pointer, and when to const
-        Return value optimization (RVO and NRVO)
-    Argument order
-    Contract
-        Const methods
-    Do or do not
-    Pure functions
-    Variables
-        Const variables where possible
-        Stack vs heap
-    Static methods
-        Useful or just a complicated name for a free function
-    constexpr
+*Function/method design
+*    Naming
+*        Should do one thing and be named accordingly
+*    Arguments
+*        By value, reference, pointer, and when to const
+*        Hidden argument "this", and the dependency implications
+*    Return value
+*        By value, reference, pointer, and when to const
+*        Return value optimization (RVO and NRVO)
+*    Argument order
+*    Contract
+*        Const methods
+*    Do or do not
+*    Pure functions
+*    Variables
+*        Const variables where possible
+*        Stack vs heap
+*    Static methods
+*        Useful or just a complicated name for a free function
+*    constexpr
 
 Type theory light
     What is a type
@@ -194,7 +194,7 @@ Miscellaneous
         When/when not
         Alternatives
     auto variables
-        What is is
+        What it is
         When to use
         When not to use
         auto x = { 3 } -> x is initializer_list...
