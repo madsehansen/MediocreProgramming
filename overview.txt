@@ -25,13 +25,13 @@ Class design
 *            Destructor
 *        Hides behind interfaces
 *        Always at least two implementations, program and test-stub
-    Resource manager
-        Value semantics
-            Constructors
-            Operators
-            Destructor
-        RAII
-        Pointers, smart and dumb
+*    Resource manager
+*        Value semantics
+*            Constructors
+*            Operators
+*            Destructor
+*        RAII
+*        Pointers, smart and dumb
 *    Generally
 *        Avoid dependencies
 *        Keep headers small, less compile-time

@@ -53,7 +53,6 @@ Value semantics
     Operators
         These classes should have copy and move assignment operators
             The compiler generated ones should be OK
-            If a destructor is needed, these probably could be = default
         Other operators can be added, follow the general expectation for what they should do
     Methods
         These classes should have methods for basic manipulation
