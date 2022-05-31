@@ -24,6 +24,7 @@ Arguments
             As long as the argument type is const correct
     Hidden argument "this", and the dependency implications
         <What did I mean here?>
+        Methods have access to full object, consider using free functions where possible
 
 Return value
     By value, reference, pointer, and when to const
@@ -128,7 +129,7 @@ Pure functions
 Variables
     Name variables after what they represent
         Not the type
-        Do not use abbreviations
+        Do not use abbreviations, generally
         It is OK to use abbreviations that are
             Commonly known and unambigous in the business field
             Loop index variables (i, j, k...)
@@ -139,7 +140,7 @@ Variables
         Do not declare variables until they can be given a value
             It is OK to call a function to get the value
             Sometimes this function can be a lambda
-        Do not change variables unless absolutely necessary
+        Do not change value of variables unless absolutely necessary
             Mostly they do not need changing
             Some do, mostly those that are used for iterations/loops
             Subexpressions can be given their own names if a complex result is needed
@@ -184,9 +185,9 @@ Static methods
     Useful or just a complicated name for a free function
     Gives the function a strong relation to the class
         Easy for intellisense
+        Ok for constructor-like functions
     Often abused
         Singleton antipattern
-        Global variables
         Unrelated operations
 
 constexpr

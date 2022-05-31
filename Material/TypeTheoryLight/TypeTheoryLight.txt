@@ -1,0 +1,113 @@
+Type theory light
+
+What is a type
+    Values and operations
+        A type has a set of legal values
+            Values that are not legal should not be representable (would cause UB)
+            The number of legal values is important for deciding how to implement the type
+            Should also consider uses as there may be expensive conversions
+        A type supports a set of operations
+            Operations should never produce a value that is illegal (would cause UB)
+            Operations may create a value of the same type
+            Operations may create a value of another type
+            Operations may use values of another type
+    Is-a, Has-a, is-implemented-in-terms-of
+        Is-a is for inheritance hierarchies
+            Should not be used for simple reuse of code in base class
+            Should be used so that existing code can use the type
+            Shall always follow the Liskov substitution principle LSP
+                Basically a subclass shall behave similarily to the superclass
+                Do not add surprises, in OO a square is not a subtype of a rectangle, nor a rectangle a subclass of a square
+        Has-a is composition
+            Should be used if the code of the held object is to be reused
+            Should be used if the LSP does not hold
+        Is-implemented-in-terms-of is for type subsetting
+            A variant of has-a in that the other type is used for a member variable
+            Requires that the other type can hold at least as many values as this type
+            May require conversions to values the rest of the system can use
+            May require conversions from values the rest of the system is using
+            Not used enough in code, type safety benefits lost
+
+Why make types/type safety
+    Use the compiler to eliminate semantic bugs
+        Making good types for objects in the system can help avoid common and hard to find bugs
+        Avoids the argument lists with several arguments of the same type (which is what?)
+        Helps when using intellisense
+    May be easier to reason about
+        Making distance a different type than speed allows for code to look more physics-like
+        Making types for more concepts allows restricting usage to correct use only
+        Using built-in types for everything makes unrelated things interchangeable
+            weight = speed + angle * temperature // May compile, but should it?
+
+Arithmetical types, sum and product
+    Product types
+        A product type is so named because it can have as many different values as the product of values the members can have
+        struct
+            All fields have a name
+            Easy to use and read
+            Order of fields as declared
+            Can be harder to create generic code
+        tuple
+            Fields do not have a name, but a number and a type
+            Order is unspecified/implementation dependant
+            Harder to use and read, generally
+            May be easier to use in generic code
+        pair
+            Basically a tuple with two fields
+            Basically a struct with two fields, first and second
+            Used mainly in std::map
+    Sum types
+        A sum type is so named because it can have as many different values as the sum of values the members can have
+        optional
+            Very useful for values that may be missing
+            Nice for return values if the value was not found
+        variant
+            Very useful for state machines
+            Very useful for some types of collections
+            The value can be any of the defined values, or monostate in case of unfortunate exception
+        any
+            Not all that useful in practice
+            Can hold any value of any type that can be copy constructed
+            Can provide information on type of value held
+
+Use types to describe problem space
+    Make undefined/illegal behaviour/state impossible
+        If the types of the system only allows legal values, no checking is needed for most of the code
+        If the types only allow legal operations and gives results of legal type and value, no illegal operations will be allowed by the compiler
+    Making good types can be a little difficult, but the gains in less bugs and simpler code can be great
+        Most such types only need very little and very similar functionality
+            Construction
+            Assignment
+            Comparison
+            Some way to extract the underlying value so that it can be sent to other systems
+        Creating a simple (set of) template(s) and macro(s) can simplify this process a lot
+        Giving the types a name and a real type is the first step, later these can be modified if needed
+    C++ is not the best language for type production, but it is still possible to reap some gains
+    In some cases the compiler may create faster code, mostly the code should be basically the same performance
+
+Example
+    Common types
+        int, double, bool, string, vector
+    Specific types
+        Speed
+            Implemented in terms of double
+            If the system only receives input in 12bit cm/s, a short may be used and converted from
+        Angle
+            Implemented in terms of double
+            If the system only receives input in degrees, a short may be used and converted from
+        FirstName
+            Implemented in terms of string
+            If only a small or known set of names are legal, may be an int index into a table
+        LastName
+            Implemented in terms of string
+            If only a small or known set of names are legal, may be an int index into a table
+        FullName
+            Has a FirstName
+            Has a LastName
+        TrackList
+            Implemented in terms of vector
+
+Task
+    <Come up with a task for designing some useful types for a system>
+    <This may be something track-related>
+    <Provide a suggested solution>

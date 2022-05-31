@@ -60,23 +60,23 @@ Class design
 *        Useful or just a complicated name for a free function
 *    constexpr
 
-Type theory light
-    What is a type
-        Values and operations
-        Is-a, Has-a, is-implemented-in-terms-of
-    Why make types/type safety
-        Use the compiler to eliminate semantic bugs
-    Arithmetical types, sum and product
-        Product types
-            struct
-            tuple
-            pair
-        Sum types
-            optional
-            variant
-            any
-    Use types to describe problem space
-        Make undefined/illegal behaviour/state impossible
+*Type theory light
+*    What is a type
+*        Values and operations
+*        Is-a, Has-a, is-implemented-in-terms-of
+*    Why make types/type safety
+*        Use the compiler to eliminate semantic bugs
+*    Arithmetical types, sum and product
+*        Product types
+*            struct
+*            tuple
+*            pair
+*        Sum types
+*            optional
+*            variant
+*            any
+*    Use types to describe problem space
+*        Make undefined/illegal behaviour/state impossible
 
 Unit testing
     Why have unit tests
