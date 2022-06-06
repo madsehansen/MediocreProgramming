@@ -1,0 +1,89 @@
+Miscellaneous language features
+
+Preprocessor
+    Basically just does text replacement
+    #define
+        Defines a macro
+        Often used for constants, this is not good
+        Can be used to make some code less full of boilerplate
+    #ifdef/#else/#endif
+        Conditional include of code based on some macro-name
+        Better handled by sub-classing or otherwise injecting dependencies
+        Causes code to be very hard to follow
+    #include
+        Includes declarations needed
+    #pragma once or #ifndef/#define/#endif
+        To avoid including headers multiple times
+        Can be used together
+        One is sufficient
+        pragma once works fine until includes can be found several ways through symlinks
+        ifndef works fins as long as it has the right macro and it is unique for the file
+    __FILE__, __LINE__, __PRETTY_FUNCTION__
+        For debug output and logging
+
+typedef vs using
+    Basically does the same thing, makes an alias for a type, not a new type
+    Order of alias name vs type differs
+        typedef is old C-syntax and follows the C rules
+        using is modern C++ syntax and follows modern C++ rules
+        using can be a template
+
+Namespaces
+    Use these with some thought
+    They give a space for names, this can be expanded by anyone
+    It is common to include the namespace in the use of every item in the namespace
+    Keep namespace names short, they are repeated often
+    Keep namespaces shallow, one or two levels should be enough
+    Can be aliased, so sometimes having a deep namespace can be OK
+    Not necessary to use this for code organization
+    Never "using namespace" in a header
+
+Exceptions
+    Exceptions can happen at "any" time
+        Actually, they happen at throw and escape at function return paths
+        Since C++ allows operator overload, this can be more places than it seems
+    When/when not
+        Exceptions are the only safe way to signal that a constructor has failed
+        Exceptions can be used by any function to signal failure
+        Exceptions are slow, so should not be used for normal error handling
+        Unhandled exceptions terminate the program, this may or may not be OK
+        Several exceptions can be in flight at any time, but only one can be allowed to escape a function
+            Otherwise there is no way to know which exception to catch
+        Never allow exceptions to escape destructors, this will create problems for cleanup-code
+    Alternatives
+        Error codes
+            Fast, traditional and often ignored
+        std::optional
+            Fast, does not provide a reason for failure, but is OK for functions that have only one failure
+        Either, gives either a result or an error
+            Best of both error code and optional
+            Not yet common
+
+auto variables
+    What it is
+        Tells the compiler to figure out what type a variable shall have based on initial value
+        For lambdas this makes the lambda a template
+    When to use
+        When the type name would be written twice otherwise (like for pointers)
+        When the type name is rather obvious but has a long name (like for iterators)
+        When the actual type is not really important
+    When not to use
+        When the type is important but not easy to see from context
+        When the auto type deduction produces the wrong type
+    auto x = { 3 } -> x is initializer_list< int >...
+        Surprises can happen...
+        auto x = 3 -> x is int
+        Rules are a bit complicated, so keep usage to simple cases
+
+Implicit conversion
+    From C the language has implicit conversions
+    Implicit conversions can have surprising results
+    Avoid implicit conversions unless they actually make sense
+    constructor -> explicit
+        Constructors that can be called with a single argument are cast operators, so the compiler may call one in order to get the type it wants
+        Since this may be something other than what is correct, implicit single argument constructors should be avoided
+        Since the actual number of argument constructors need may change during the class lifetime, all constructors should be marked explicit
+        This makes no difference to other constructors, but keeps them OK if the number of required arguments become one
+    cast operators -> explicit or avoid
+        The language also allows overriding the cast operators
+        These should also be explicit, since the compiler may call these at will as well

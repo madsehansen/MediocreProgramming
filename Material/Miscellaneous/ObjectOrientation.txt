@@ -1,0 +1,35 @@
+Object oriented programming
+
+Object orientation is about managing complexity
+    Through hiding it in objects with a small and controlled interface
+    The interface can be shared between many classes of objects
+    Shared interfaces allows objects to be treated similarily even though that may lead to very different results
+
+Classes may inherit eachother
+    Should follow the Liskov principle
+        Allows subclasses to be used as if they were the superclass, without surprises
+    Inherit, not to reuse code, but to allow other, existing, code to use this class
+        Simple code reuse can be implemented via composition
+    C++ allows multiple inheritance
+        This can cause problems with shared base classes
+        Only inherit from at most one base class
+        Inherit from any number of interface classes
+        Interface classes have only pure virtual methods, and a virtual destructor, no data
+
+Class hierarchies
+    These shall be shallow, avoid building deep trees, this tend to be a bad design
+    There is a very strong dependency on the base class(es), which may have more dpendencies
+
+Object orientation then gives frameworks where it is
+    Easy to add types
+        They need to inherit something and then they can be used in the system
+        Framework built to handle this
+        Clients can add any number of types
+    Hard to add functionality
+        Results in having to modify all the types affected
+        Framework must support the functionality
+        Affects all clients as well
+
+Visitor pattern
+    Basically a way to make it easy to add functionality
+    Comes with the cost that it will be hard to add types

@@ -78,90 +78,90 @@ Class design
 *    Use types to describe problem space
 *        Make undefined/illegal behaviour/state impossible
 
-Unit testing
-    Why have unit tests
-        Make better design
-        Specify what should happen (test requirements)
-        Document how to use
-        Avoid debugger (that is a slow process)
-        Avoid starting application (which can take time and then you have to rummage around to get to what you want to test)
-        Allow refactoring with confidence
-        Catch bugs
-        Faster development (less time from coding to coding)
-    How to write tests
-        Test one thing, if it fails it failed for one reason
-        Name the test accordingly, if it fails the name basically tells you what is wrong
-        This makes for many testcases, which is a good thing
-        Test either a free function or a class' behaviour, not a method
-        Group testcases logically
-        Test corner cases as well as normal cases
-        Test error cases
-    How to make code testable
-        Separate concerns into separate entities
-            Code not really part of the class/function should be separated and tested separately
-            IO, time and timers are separate entities from the class under test
-        Inject dependencies
-            This allows for faster tests
-            Also easy test of dependency usage
-            Allows faking errors so that error handling code is also tested
-            Better design in general
-        No global/static/singleton data unless actually constant over all runs
-            These make testcases talk to eachother
-            They make for weird and hard to find bugs (access order dependencies)
-            Code becomes hard to reason about since there can be spooky action at a distance
-    Speed of running translates to number of runs
-        Tests should run in < 1ms per testcase
-        Tests should be independent of other tests (order of execution)
-        There should be many (hundreds or thousands) of testcases for medium sized projects
-        Tests should ideally be part of the normal build (a buildstep)
-            Failing tests are bugs found before starting application -> Big win
-    The tests are part of the system
-        Not an afterthought
-        Must be maintained with the rest of the code
+*Unit testing
+*    Why have unit tests
+*        Make better design
+*        Specify what should happen (test requirements)
+*        Document how to use
+*        Avoid debugger (that is a slow process)
+*        Avoid starting application (which can take time and then you have to rummage around to get to what you want to test)
+*        Allow refactoring with confidence
+*        Catch bugs
+*        Faster development (less time from coding to coding)
+*    How to write tests
+*        Test one thing, if it fails it failed for one reason
+*        Name the test accordingly, if it fails the name basically tells you what is wrong
+*        This makes for many testcases, which is a good thing
+*        Test either a free function or a class' behaviour, not a method
+*        Group testcases logically
+*        Test corner cases as well as normal cases
+*        Test error cases
+*    How to make code testable
+*        Separate concerns into separate entities
+*            Code not really part of the class/function should be separated and tested separately
+*            IO, time and timers are separate entities from the class under test
+*        Inject dependencies
+*            This allows for faster tests
+*            Also easy test of dependency usage
+*            Allows faking errors so that error handling code is also tested
+*            Better design in general
+*        No global/static/singleton data unless actually constant over all runs
+*            These make testcases talk to eachother
+*            They make for weird and hard to find bugs (access order dependencies)
+*            Code becomes hard to reason about since there can be spooky action at a distance
+*    Speed of running translates to number of runs
+*        Tests should run in < 1ms per testcase
+*        Tests should be independent of other tests (order of execution)
+*        There should be many (hundreds or thousands) of testcases for medium sized projects
+*        Tests should ideally be part of the normal build (a buildstep)
+*            Failing tests are bugs found before starting application -> Big win
+*    The tests are part of the system
+*        Not an afterthought
+*        Must be maintained with the rest of the code
 
-Standard library
-    Avoid reimplementing standard functionality
-        The standard library is huge and contains a lot of goodies
-        The implementers are better at it than you are
-        If reimplementing standard functionality is OK for you, where do you draw the line? printf()?
-    Efficient use of collections
-        Almost always array or vector
-        Memory allocation cost
-        Data overhead for node-based containers
-        Cost of cache misses
-        Cost of branch prediction misses
-        Reallocation
-            vector reallocates when it needs to grow
-                Copies/moves data to new buffer
-                iterators and references are invalidated
-                reserve() can fix problem
-            Node-based containers do not copy/move elements
-                iterators and references are stable unless element is removed
-                Copies/moves data only once (into container), unless emplaced
-                Still slower than vector for most usecases (memcpy and sequential access is fast, new and random walk is slow)
-    Lambdas, return them from functions
-        This gives them a name
-        Lambdas have a type, keep the number of types low
-            Each lambda becomes its own type, even if they have equal implementation
-        Should be small, large lambdas should be or call functions
-        IILE for initialization, sometimes
-    Common algorithms
-        any_of()
-        all_of()
-        none_of()
-        find_if()
-        transform()
-        sort()
-        for_each()
-        remove_if()
-    Not so common algorithms
-        generate()
-        partition()
-        nth_element()
-        copy_if()
-        accumulate()
-        fill()
-        unique()
+*Standard library
+*    Avoid reimplementing standard functionality
+*        The standard library is huge and contains a lot of goodies
+*        The implementers are better at it than you are
+*        If reimplementing standard functionality is OK for you, where do you draw the line? printf()?
+*    Efficient use of collections
+*        Almost always array or vector
+*        Memory allocation cost
+*        Data overhead for node-based containers
+*        Cost of cache misses
+*        Cost of branch prediction misses
+*        Reallocation
+*            vector reallocates when it needs to grow
+*                Copies/moves data to new buffer
+*                iterators and references are invalidated
+*                reserve() can fix problem
+*            Node-based containers do not copy/move elements
+*                iterators and references are stable unless element is removed
+*                Copies/moves data only once (into container), unless emplaced
+*                Still slower than vector for most usecases (memcpy and sequential access is fast, new and random walk is slow)
+*    Lambdas, return them from functions
+*        This gives them a name
+*        Lambdas have a type, keep the number of types low
+*            Each lambda becomes its own type, even if they have equal implementation
+*        Should be small, large lambdas should be or call functions
+*        IILE for initialization, sometimes
+*    Common algorithms
+*        any_of()
+*        all_of()
+*        none_of()
+*        find_if()
+*        transform()
+*        sort()
+*        for_each()
+*        remove_if()
+*    Not so common algorithms
+*        generate()
+*        partition()
+*        nth_element()
+*        copy_if()
+*        accumulate()
+*        fill()
+*        unique()
 
 Extend the standard with your own
     Collections
@@ -175,29 +175,29 @@ Extend the standard with your own
         Create one from scratch
         Return something useful
 
-Miscellaneous
-    Preprocessor
-        Basically just does text replacement
-        #define -> avoid
-        #ifdef/#else/#endif ->avoid
-        #include -> useful :-)
-        #pragma once or #ifndef/#define/#endif -> useful
-        __FILE__, __LINE__, __PRETTY_FUNCTION__ for debug output and logging
-    typedef vs using
-    Namespaces
-    Class hierarchies
-    Visitor
-    Object oriented programming
-    Functional programming
-    Type erasure
-    Exceptions
-        When/when not
-        Alternatives
-    auto variables
-        What it is
-        When to use
-        When not to use
-        auto x = { 3 } -> x is initializer_list...
-    Implicit conversion
-        constructor -> explicit
-        cast operators -> explicit or avoid
+*Miscellaneous
+*    Preprocessor
+*        Basically just does text replacement
+*        #define -> avoid
+*        #ifdef/#else/#endif ->avoid
+*        #include -> useful :-)
+*        #pragma once or #ifndef/#define/#endif -> useful
+*        __FILE__, __LINE__, __PRETTY_FUNCTION__ for debug output and logging
+*    typedef vs using
+*    Namespaces
+*    Class hierarchies
+*    Visitor
+*    Object oriented programming
+*    Functional programming
+*    Type erasure
+*    Exceptions
+*        When/when not
+*        Alternatives
+*    auto variables
+*        What it is
+*        When to use
+*        When not to use
+*        auto x = { 3 } -> x is initializer_list...
+*    Implicit conversion
+*        constructor -> explicit
+*        cast operators -> explicit or avoid

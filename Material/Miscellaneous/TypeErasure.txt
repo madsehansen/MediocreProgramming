@@ -1,0 +1,40 @@
+Type erasure
+
+A technique for adding any interface to any object of any type
+Most useful for collections of types
+
+Used in a few places in the standard library
+    std::any
+        Can hold almost any value
+    std::function
+        Can hold any function pointer, method pointer or other callable object like lambdas
+
+Basic construction of type erasure object
+    Make an interface to force upon objects
+    Create a class that implements the interface
+    Have a method template that adds or sets new values
+    Have a private collection of interface pointers, or a single interface pointer
+    Have a private template class implementation of the interface
+    Add method creates an object of the right type and adds to collection or sets the pointer
+    All interface methods call same method on held object(s)
+    Private implementation class methods call free functions with the held value as first argument
+    Free functions taking the right type as first argument and interface method arguments as the remining arguments for all supported types
+
+With this technique classes that do not inherit a useful interface can have that interface added to values
+Allows for adding new types and new functionality
+Reduce dependencies to only those needed
+
+Data management is an issue, especially if objects can have several interfaces added
+    Can be solved by having a data holding collection and the other interfaces added with pointers to objects in the data holder
+        Choose a collection with stable data if they are pointed to
+            vector can be used if reserved large enough
+            deque is a reasonable alternative
+            Look out for deleting or reordering elements, this may require special care
+    Since the interfaces are basically under client control, they can be extended to include all functionality
+        This may not be desired if it causes more dependencies to be involved
+    Data holder can also hold pointers to objects, allowing objects to be stationary even if data order changes
+        Still requires care when deleting and possibly when reordering
+    If all type-erasured interface implementation objects are simple (just points to data) and has the same size, maybe (re-)create them when deleting or reordering?
+        Consider the cost in each case
+        Having a vector of objects that represent type-erased objects rather than pointers to such objects may be efficient
+        Maybe add methods that ensures that these operations are efficient and safe

@@ -1,0 +1,33 @@
+Functional programming
+
+Functional programming is about managing complexity
+    Through hiding it in functions with a small and controlled responsability
+    The functions can be passed into other functions to build more complex functions
+    Shared interfaces allows functions to be treated similarily even though that may lead to very different results
+
+Functions may use eachother
+    Can be passed as arguments to eachother
+    Composes so that it is easy to use them together
+    C++ does not have a full support for this, but it can do a lot of it
+
+Types
+    Functional programming is typically very type oriented
+    Functions are overloaded on type
+    Generic functions are very useful
+    Template programming is basically functional in nature
+
+Values
+    Functional programming often uses immutable data
+    This leads to very threadsafe code
+    It is often slower than imperative programming
+    C++ allows imperative programming mixed with functional for best of several worlds
+
+Functional programming then gives frameworks where it is
+    Hard to add types
+        They need to be supported by all functions they will be used in
+        Framework built to have all supported types
+        Clients can typically not extend with new types
+        Adding new types to framework causes all clients to have to modify their functions
+    Easy to add functionality
+        Clients can add any number of new functions
+        Adding new functions to framework does not affect clients
