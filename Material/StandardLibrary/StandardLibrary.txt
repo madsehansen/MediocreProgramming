@@ -14,7 +14,7 @@ Avoid reimplementing standard functionality
         It's just a simple for-loop!
             Yes, but it still needs to be interpreted by the reader
             It does not convey intent, what is the purpose for the loop?
-            Classic for loop that loops over a collection and breaks out when some condition is met
+            Classic for-loop that loops over a collection and breaks out when some condition is met
                 Seen in a lot of code, but does not say what the purpose is
                 Find an element to operate on?
                 See if an element is present?
@@ -22,173 +22,15 @@ Avoid reimplementing standard functionality
                 Count the number of elements that satisfy the condition (implemented with a bug...)
 
 Collections
-    array
-        Fixed size, array
-        No allocations
-        Elements always there
-        Contiguous memory
-        No memory overhead
-    c-array
-        Fixed size, array
-        No allocations
-        Elements always there
-        Contiguous memory
-        No memory overhead
-        Less type safe, but OK for local scope use
-    initializer_list
-        Fixed size, array
-        No allocations
-        Elements always there
-        Contiguous memory
-        No memory overhead
-        Type safe, but more typing, useful in generic programming, pops up in some places
-    vector
-        Dynamic size, array
-        Allocates when growing, most allocations at the start
-        Elements move when vector grows
-        Contiguous memory
-        Memory overhead when capacity > size
-    deque
-        Dynamic size, array
-        Allocates when growing, allocates space for several elements at a time
-        Elements do not move when deque grows
-        Memory contiguous in groups of elements, nodes of groups
-        Memory overhead when capacity > size and for management
-    map
-        Dynamic size, associative tree
-        Allocates on every element inserted, deallocates on every element removed
-        Elements do not move when the map grows
-        Memory node based, each element can be anywhere
-        Memory overhead on each node
-    set
-        Dynamic size, tree
-        Allocates on every element inserted, deallocates on every element removed
-        Elements do not move when the set grows
-        Memory node based, each element can be anywhere
-        Memory overhead on each node
-    unordered_map
-        Dynamic size, hashmap
-        Allocates on every element inserted, deallocates on every element removed
-        Elements do not move when the unordered_map grows but may trigger re-hashing
-        Memory node based, each element can be anywhere
-        Memory overhead on each node and for management
-    others
-        list
-            Dynamic size, list
-            Allocates on every element inserted, deallocates on every element removed
-            Elements do not move when the list grows
-            Memory node based, each element can be anywhere
-            Memory overhead on each node
-        forward_list
-            Dynamic size, list
-            Allocates on every element inserted, deallocates on every element removed
-            Elements do not move when the list grows
-            Memory node based, each element can be anywhere
-            Memory overhead on each node, but less than list at the cost of only allowing forward iteration
-        multimap
-            Dynamic size, associative tree
-            Allocates on every element inserted, deallocates on every element removed
-            Elements do not move when the multimap grows
-            Memory node based, each element can be anywhere
-            Memory overhead on each node
-        multiset
-            Dynamic size, tree
-            Allocates on every element inserted, deallocates on every element removed
-            Elements do not move when the multiset grows
-            Memory node based, each element can be anywhere
-            Memory overhead on each node
-        unordered_set
-            Dynamic size, hashset
-            Allocates on every element inserted, deallocates on every element removed
-            Elements do not move when the unordered_set grows but may trigger re-hashing
-            Memory node based, each element can be anywhere
-            Memory overhead on each node and for management
-
-Efficient use of collections
-    Different collections have different tradeoffs, but there are some guidelines on what to use
-    Almost always array or vector
-        If the size is fixed and always the same, use array
-            If the scope is very small, consider the C-array
-            If the array is returned or stored in a struct/class, use array
-        If the size is not fixed, use vector
-            reserve the capacity if known at runtime
-            Most collections should be vectors
-    Memory allocation cost
-        The cost of allocating memory is high, some collections allocate a lot
-        Deallocation is at least as expensive as allocation
-        Memory can fragment over time, resulting in even poorer performance
-            C++ could have a garbage collector, but nobody gave it one
-        Avoid allocations that are not needed
-            Vector grows often when small, but can be given a larger memory to work with
-            All node based containers allocate for every element
-    Data overhead for node-based containers
-        All node based containers have data overhead causing less memory to ba available for data
-        There is a minimum allocation size the memory management system uses, no allocation is smaller
-            This is at least 16 bytes, but could be larger (multiple of 2) as it is implementation dependant
-            Some allocations happen on 512 or 4096 byte boudaries, but that is for special types of data, requested from OS typically
-        deque has some overhead, but it is not as much as other node-based collections since it stores several elements in each node
-        forward_list has only a single pointer, but still uses a full allocation block for each node
-        list has two pointers for each node
-        The others have even more overhead
-        This adds up, especially when each element is small
-    Cost of cache misses
-        Iterating over a collection is a very common operation
-        It is much faster to iterate over contiguous memory than jumping around looking for the next node
-        This is because of caches and prefetching functionality
-        Cache is a limited resource, so efficient usage requires data to be small, less cache lines needed
-        Cache-misses are expensive, up to about 100 cycles, so efficient usage requires few misses
-        Memory manager can predict memory usage patterns, if they are regular, so getting the next cache line can be pre ordered and ready in about 20 cycles
-        This makes node-based collections slow, they waste cache space with memory overhead and cache predictions by placing data in basically random places
-    Cost of branch prediction misses
-        Due to processor architecture (the instruction pipeline) the processor can perform several instructions for each cycle
-        Some of these instructions are conditional branches
-        This only works if the processor guesses correctly if the branch is taken or not
-        The correct guessing is basically free, 0 cycles
-        The wrong guessing causes the full pipeline to be reset, and all calculations in the pipeline to be undone, this can be 20 cycles or more
-        This causes trees and binary seaching to be slow, as they are maximizing branch prediction misses
-*    Reallocation
-*        vector reallocates when it needs to grow
-*            Copies/moves data to new buffer
-*            iterators and references are invalidated
-*            reserve() can fix problem
-*        Node-based containers do not copy/move elements
-*            iterators and references are stable unless element is removed
-*            Copies/moves data only once (into container), unless emplaced
-*            Still slower than vector for most usecases (memcpy and sequential access is fast, new and random walk is slow)
+    There are several useful collections in the standard library
+    They cover the most useful cases, though computer architecture may override which collection is most useful
+    They are designed to cooperate well with the algorithms
+    Should be used more as basis for user defined collections than directly
 
 Algorithms
-    Most of them have been around for a long time but were cumbersome to use, lambdas changed that
-    With the variations, there are over 100 algorithms in the standard library
-    It is not necessary to memorize them all, but when a loop is pesenting itself, think about what it does, there is a good chance that it does something common and therfore exists in the standard
-Lambdas are essential for algorithms, return them from functions
-    This gives them a name, so that code becomes easier to read
-    This allows them to be easily customized with function arguments
-    Most lambdas are very similar, no need to rewrite them everywhere
-    Lambdas have a type, keep the number of types low
-        Each lambda becomes its own type, even if they have equal implementation
-    Should be small, large lambdas should be or call functions
-        For lambda purposes small may be as little as two or three statements
-        Large lambdas are a bit hard to read, which is the main motivation for this recommendation
-    IILE for initialization, sometimes
-        Useful for making a variable const even if it requires a little calculation
-Common algorithms
-    any_of()
-    all_of()
-    none_of()
-    find_if()
-    transform()
-    sort()
-    for_each()
-    remove_if()
-Not so common algorithms
-    generate()
-    partition()
-    nth_element()
-    copy_if()
-    accumulate()
-    fill()
-    unique()
-
+    There are many algorithms, covering a lot of useful and common activities
+    Some algorithms perform more obscure activities, that may be useful for what the code shall do
+    The algorithms are designed to cooperate well with the collections
 
 Other library functionalities
     IO

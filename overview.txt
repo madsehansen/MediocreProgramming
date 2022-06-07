@@ -163,17 +163,17 @@ Class design
 *        fill()
 *        unique()
 
-Extend the standard with your own
-    Collections
-        Why make new ones?
-        Implement in terms of existing collection
-        Create one from scratch
-        Remember iterators!
-    Algorithms
-        Why make them?
-        Implement in terms of existing algorithms
-        Create one from scratch
-        Return something useful
+*Extend the standard with your own
+*    Collections
+*        Why make new ones?
+*        Implement in terms of existing collection
+*        Create one from scratch
+*        Remember iterators!
+*    Algorithms
+*        Why make them?
+*        Implement in terms of existing algorithms
+*        Create one from scratch
+*        Return something useful
 
 *Miscellaneous
 *    Preprocessor

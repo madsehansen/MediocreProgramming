@@ -1,0 +1,181 @@
+Collections
+    Many of them have been around for a long time
+    There are over 13 collections and 3 adaptors in the standard library
+    It is not necessary to memorize them all, most usecases will be just a few collections
+
+array
+    Fixed size, array
+    No allocations
+    Elements always there
+    Contiguous memory
+    No memory overhead
+c-array
+    Fixed size, array
+    No allocations
+    Elements always there
+    Contiguous memory
+    No memory overhead
+    Less type safe, but OK for local scope use
+initializer_list
+    Fixed size, array
+    No allocations
+    Elements always there
+    Contiguous memory
+    No memory overhead
+    Type safe, but more typing, useful in generic programming, pops up in some places
+vector
+    Dynamic size, array
+    Allocates when growing, most allocations at the start
+    Elements move when vector grows
+    Contiguous memory
+    Memory overhead when capacity > size
+deque
+    Dynamic size, array
+    Allocates when growing, allocates space for several elements at a time
+    Elements do not move when deque grows
+    Memory contiguous in groups of elements, nodes of groups
+    Memory overhead when capacity > size and for management
+map
+    Dynamic size, associative tree
+    Allocates on every element inserted, deallocates on every element removed
+    Elements do not move when the map grows
+    Memory node based, each element can be anywhere
+    Memory overhead on each node
+set
+    Dynamic size, tree
+    Allocates on every element inserted, deallocates on every element removed
+    Elements do not move when the set grows
+    Memory node based, each element can be anywhere
+    Memory overhead on each node
+unordered_map
+    Dynamic size, hashmap
+    Allocates on every element inserted, deallocates on every element removed
+    Elements do not move when the unordered_map grows but may trigger re-hashing
+    Memory node based, each element can be anywhere
+    Memory overhead on each node and for management
+others
+    list
+        Dynamic size, list
+        Allocates on every element inserted, deallocates on every element removed
+        Elements do not move when the list grows
+        Memory node based, each element can be anywhere
+        Memory overhead on each node
+    forward_list
+        Dynamic size, list
+        Allocates on every element inserted, deallocates on every element removed
+        Elements do not move when the list grows
+        Memory node based, each element can be anywhere
+        Memory overhead on each node, but less than list at the cost of only allowing forward iteration
+    multimap
+        Dynamic size, associative tree
+        Allocates on every element inserted, deallocates on every element removed
+        Elements do not move when the multimap grows
+        Memory node based, each element can be anywhere
+        Memory overhead on each node
+    multiset
+        Dynamic size, tree
+        Allocates on every element inserted, deallocates on every element removed
+        Elements do not move when the multiset grows
+        Memory node based, each element can be anywhere
+        Memory overhead on each node
+    unordered_set
+        Dynamic size, hashset
+        Allocates on every element inserted, deallocates on every element removed
+        Elements do not move when the unordered_set grows but may trigger re-hashing
+        Memory node based, each element can be anywhere
+        Memory overhead on each node and for management
+
+Efficient use of collections
+    Different collections have different tradeoffs, but there are some guidelines on what to use
+    Almost always array or vector
+        If the size is fixed and always the same, use array
+            If the scope is very small, consider the C-array
+            If the array is returned or stored in a struct/class, use array
+        If the size is not fixed, use vector
+            reserve the capacity if known at runtime
+            Most collections should be vectors
+    Memory allocation cost
+        The cost of allocating memory is high, some collections allocate a lot
+        Deallocation is at least as expensive as allocation
+        Memory can fragment over time, resulting in even poorer performance
+            C++ could have a garbage collector, but nobody gave it one
+        Avoid allocations that are not needed
+            Vector grows often when small, but can be given a larger memory to work with
+            All node based containers allocate for every element
+    Data overhead for node-based containers
+        All node based containers have data overhead causing less memory to ba available for data
+        There is a minimum allocation size the memory management system uses, no allocation is smaller
+            This is at least 16 bytes, but could be larger (multiple of 2) as it is implementation dependant
+            Some allocations happen on 512 or 4096 byte boudaries, but that is for special types of data, requested from OS typically
+        deque has some overhead, but it is not as much as other node-based collections since it stores several elements in each node
+        forward_list has only a single pointer, but still uses a full allocation block for each node
+        list has two pointers for each node
+        The others have even more overhead
+        This adds up, especially when each element is small
+    Cost of cache misses
+        Iterating over a collection is a very common operation
+        It is much faster to iterate over contiguous memory than jumping around looking for the next node
+        This is because of caches and prefetching functionality
+        Cache is a limited resource, so efficient usage requires data to be small, less cache lines needed
+        Cache-misses are expensive, up to about 100 cycles, so efficient usage requires few misses
+        Memory manager can predict memory usage patterns, if they are regular, so getting the next cache line can be pre ordered and ready in about 20 cycles
+        This makes node-based collections slow, they waste cache space with memory overhead and cache predictions by placing data in basically random places
+    Cost of branch prediction misses
+        Due to processor architecture (the instruction pipeline) the processor can perform several instructions for each cycle
+        Some of these instructions are conditional branches
+        This only works if the processor guesses correctly if the branch is taken or not
+        The correct guessing is basically free, 0 cycles
+        The wrong guessing causes the full pipeline to be reset, and all calculations in the pipeline to be undone, this can be 20 cycles or more
+        This causes trees and binary seaching to be slow, as they are maximizing branch prediction misses
+*    Reallocation
+*        vector reallocates when it needs to grow
+*            Copies/moves data to new buffer
+*            iterators and references are invalidated
+*            reserve() can fix problem
+*        Node-based containers do not copy/move elements
+*            iterators and references are stable unless element is removed
+*            Copies/moves data only once (into container), unless emplaced
+*            Still slower than vector for most usecases (memcpy and sequential access is fast, new and random walk is slow)
+
+Extend the standard with your own
+    Why make new ones?
+        Many collection types are not in the standard
+        There may be performance reasons for the application
+        But the most important is to create specific collections for some data
+            This allows the freedom of specifying exactly which operations are allowed on the collection
+            This also separates the collection from the implementation, so that should a different collection be more useful the client code does not have to be changed
+    Implement in terms of existing collection
+        Simple and usually good enough to achieve the goal of separating the concept of the collection from the underlying collection
+        Remember to hide the underlying collection from the interface
+        Typically will need a few constructors
+            Default, for empty collection, "= default"
+            Copy and move, for copying and moving, "= default"
+            Range, for filling with copies of another range
+        Similarily the copy and move assignment operators, "= default"
+        Some useful methods
+            empty()
+            size()
+            push_back(), emplace_back() / insert(), emplace()
+            erase()
+            begin(), end()
+            Other methods that make sense for this collection
+        Iterators must be public
+            Just use "using iterator = " the underlying collections iterator
+            And const_iterator...
+    Create one from scratch
+        More difficult, but the only way if a special collection is to be made
+        Must handle memory correctly
+            <memory> helps with this
+            unique_ptr to hold pointer to heap, if any
+                Must allocate uninitialized memory, to avoid creating defult value elements
+                May use new, but make sure that alignment is OK and that the correct number of bytes are allocated
+            uninitialized_copy(), uninitialized_move() to copy and move elements to new data area
+        Must handle creation and destruction of elements correctly
+            construct_at() and destroy_at() helps with creation and destruction of elements in uninitialized data area
+            Alternatively placement new and direct call to destructor can be used
+        Must have useful methods, operators and constructors like the "implemented in terms of"-collection
+        Must implement iterators
+            This is important for the integration with algorithms
+            They must satisfy the correct interface so that algorithms can use them
+            They can be fairly complex if needed for the collection and the internal data structure
+            They should be as competent as possible, so that they fit with as many algorithms as possible

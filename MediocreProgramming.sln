@@ -63,6 +63,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StandardLibrary", "StandardLibrary", "{F8285FB7-177B-497A-A747-E4C144FE43FA}"
 	ProjectSection(SolutionItems) = preProject
+		Material\StandardLibrary\Algorithms.txt = Material\StandardLibrary\Algorithms.txt
+		Material\StandardLibrary\Collections.txt = Material\StandardLibrary\Collections.txt
 		Material\StandardLibrary\StandardLibrary.txt = Material\StandardLibrary\StandardLibrary.txt
 	EndProjectSection
 EndProject

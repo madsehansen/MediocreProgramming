@@ -1,0 +1,109 @@
+Algorithms
+    Most of them have been around for a long time but were cumbersome to use, lambdas changed that
+    With the variations, there are over 100 algorithms in the standard library
+    It is not necessary to memorize them all, but when a loop is pesenting itself, think about what it does, there is a good chance that it does something common and therfore exists in the standard
+
+Lambdas are essential for algorithms, return them from functions
+    This gives them a name, so that code becomes easier to read
+    This allows them to be easily customized with function arguments
+    Most lambdas are very similar, no need to rewrite them everywhere
+    Lambdas have a type, keep the number of types low
+        Each lambda becomes its own type, even if they have equal implementation
+    Should be small, large lambdas should be or call functions
+        For lambda purposes small may be as little as two or three statements
+        Large lambdas are a bit hard to read, which is the main motivation for this recommendation
+    IILE for initialization, sometimes
+        Useful for making a variable const even if it requires a little calculation
+
+Common algorithms
+    any_of()
+    all_of()
+    none_of()
+    find_if()
+        These all loop over a collection and break out when some condition is met
+        The difference is in the communicated meaning and the returned value
+    transform()
+        Changes the values in a collection or transforms them into another collection
+    sort()
+        Sort a collection based on some ordering
+        Only useful for collections where elements can move, so not for sets or maps
+    for_each()
+        Perform some action on each element
+        Use when operating on iterators, so mostly for subsets or when implementing new algorithms
+        When just iterating over a full collection, use range based for-loop
+    remove_if()
+        Loops over a collection and overwrites elements that satisfy the requirement with those that don't
+        Does NOT actually remove any elements from the collection
+        Returns an iterator to the new end, that is the first element in the set of elements to erase
+        Use in the erase-remove idiom
+        Elements from the new end to the old end are no longer useful and should be erased
+
+Not so common algorithms
+    generate()
+        Fill a collection with newly created values
+    partition()
+        Split a collection into elements that satisfy a requirement and elements that don't
+        May change the internal order of the groups
+        Returns the end for the elements that satisfy, which is also the begin of the not satisfy
+    nth_element()
+        Places an element at the specified position in a collection
+        This element is the element that would be there if the collection was sorted
+        Elements before are elements that would be in that area if sorted, but they may be in any order
+        Elements after are elements that would be in that area if sorted, but they may be in any order
+    copy_if()
+        Copies elements that satisfy the requirement to another collection
+    accumulate()
+        Perform some operation on all the elements in a collection and accumulate the results of the operation
+        Normally some form of addition, but can be anything
+        Good for things like concatenating strings and placing a delimiter between elements
+    fill()
+        Fills a collection with copies of a given value
+    unique()
+        Removes duplicates from a collection
+        Only removes duplicates that are adjacent
+        Combine with sort to get the properly unique elements
+        Returns the new end, the remaining elements should be erased as with remove_if()
+
+Other algorithms exists, check them out to have an overview
+    The usefulness of an algorithm is strongly related to the collections used and the operations of the application
+    So the common or rare algorithm experience depends on the application
+    <algorithm>
+    <numeric>
+
+Extend the standard with your own
+    Why make them?
+        Not all possible algorithms have been made
+        There may be specific algorithms for the application
+        There may be specific algorithms for the organization
+    Generally
+        Shall operate on iterators
+        May have different implementations depending on capabilities of iterators
+            But in general, keep the requirements on the iterators as few as possible
+        Will be a template function
+        If there are customization points they must be arguments (e.g. operations to perform must be passed in)
+        Return something useful
+            This may help a lot in combining it with other algorithms
+        Make sure it does one thing only, and it should be general (though it may have certain requirements on arguments)
+            If it actually does more things, it should be a helper function instead
+            Helper functions can have other more specific arguments and do several things that would otherwise be boilerplate around the code
+        Document well, these may be very useful and the correct understanding will be important
+            Look at cppreference.com for an idea as to what to emulate when writing documentation
+            Arguments, return value, complexity, requirements on arguments
+            What it does
+        Write a decent set of unit tests for the algorithm
+            Remember edge-cases like empty collection, single element, many elements (for most algorithms this may be two-five)
+            If predicates are used, what if no element satisfies? All elements?
+            Do not test for undefined behaviour like begin and end from different collections, this shall be undefined behaviour that crashes the application
+    Implement in terms of existing algorithms
+        This is the easy thing to do
+        Write the algorithm as a series of steps using other algorithms
+        Should be easy to understand
+        Very good for first draft
+            Only change to "created from scratch" if needed (as shown through performance tests)
+    Create one from scratch
+        This is slightly harder, but not by much
+        Basically will be a loop from begin to end and some type operation on each element
+        Can use other algorithms if this is convenient or provides good description on what is done
+        Should be easy to understand
+            Keep the code simple, within the possibilities of the algorithm in question
+            Compiler is usually good with simple code
