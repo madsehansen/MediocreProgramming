@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Material/UnitTests/unit_test.html
+/Material/UnitTests/unit_test.pptx
+/Material/slides.html

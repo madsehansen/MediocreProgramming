@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MediocreProgramming", "Medi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A669BB59-2916-43E0-B647-40EC902DCAF9}"
 	ProjectSection(SolutionItems) = preProject
+		Material\header.md = Material\header.md
+		Material\make_slides.bat = Material\make_slides.bat
 		overview.txt = overview.txt
 	EndProjectSection
 EndProject
@@ -58,6 +60,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TypeTheoryLight", "TypeTheo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{9F5427B3-9217-44F7-A9CB-F757EB9B175E}"
 	ProjectSection(SolutionItems) = preProject
+		Material\UnitTests\unit_test.md = Material\UnitTests\unit_test.md
 		Material\UnitTests\UnitTests.txt = Material\UnitTests\UnitTests.txt
 	EndProjectSection
 EndProject
