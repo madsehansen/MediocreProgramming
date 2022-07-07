@@ -1,1 +1,7 @@
-pandoc -s --slide-level=3 --number-sections -t slidy .\header.md unittests\unit_test.md -o .\slides.html
+@echo off
+
+set FILES=
+set FILES=%FILES% .\header.md
+set FILES=%FILES% .\unittests\unit_test.md
+
+pandoc -s --slide-level=3 --number-sections -t slidy %FILES% -o .\slides.html
