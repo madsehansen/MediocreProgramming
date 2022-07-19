@@ -73,8 +73,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StandardLibrary", "Standard
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Miscellaneous", "Miscellaneous", "{E76FC40C-BA9E-4A81-9A30-CA2ABBFA6656}"
 	ProjectSection(SolutionItems) = preProject
+		Material\Miscellaneous\functional_programming.md = Material\Miscellaneous\functional_programming.md
 		Material\Miscellaneous\FunctionalProgramming.txt = Material\Miscellaneous\FunctionalProgramming.txt
 		Material\Miscellaneous\LanguageFeatures.txt = Material\Miscellaneous\LanguageFeatures.txt
+		Material\Miscellaneous\object_orientation.md = Material\Miscellaneous\object_orientation.md
 		Material\Miscellaneous\ObjectOrientation.txt = Material\Miscellaneous\ObjectOrientation.txt
 		Material\Miscellaneous\TypeErasure.txt = Material\Miscellaneous\TypeErasure.txt
 	EndProjectSection
