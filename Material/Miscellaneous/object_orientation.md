@@ -8,10 +8,15 @@
 
 
 ## Object orientation is about managing complexity
-- Hide complexity in objects with a small and controlled interface
-- The interface can be shared between many classes of objects
+- Make code easier to reason about by providing common interfaces
+- Make objects with a small and controlled interface
+- Interfaces can be shared between many classes of objects
 
-### Hide complexity in objects with a small and controlled interface
+### Make code easier to reason about by providing common interfaces
+- Allows objects to be substituted for other functionality
+- Less clutter of code with special treatment for each type
+
+### Make objects with a small and controlled interface
 - Should follow the Open/Close principle
 
   These come naturally in C++
@@ -46,10 +51,11 @@ private: // Interface stops here
 };
 ~~~
 
-### The interface can be shared between many classes of objects
+### Interfaces can be shared between many classes of objects
 - Sharing the interface makes the objects look the same to client code
 - Having different classes share a useful interface makes writing general code easier
 - Also allows for collections to hold pointers to different types
+- Thus this makes polymorphism possible
 
 ### Shared interface
 ~~~{.cpp .numberLines}
@@ -76,7 +82,7 @@ public:
 
 ## Classes may inherit eachother
 - Should follow the Liskov principle
-- Inherit, not to reuse code, but to allow other, existing code to use this class
+- Inherit, not to reuse code, but to allow other, existing code, to use this class
 - C++ allows multiple inheritance
 
 ### Should follow the Liskov principle
@@ -85,7 +91,7 @@ public:
 
   Square is not a special case of rectangle but may be a property of rectangle
 
-### Inherit, not to reuse code, but to allow other, existing code to use this class
+### Inherit, not to reuse code, but to allow other, existing code, to use this class
 - Simple code reuse can be implemented via composition
 - Composed objects can hide the dependency, with inheritance this is impossible
 - This is what polymorphism is about, allowing old code to use new code
@@ -180,15 +186,19 @@ class Circle : public IShape
 {
 public:
     ...
-    void accept( IVisitor& a_visitor ) final { a_visitor.visit( *this };
+    void accept( IVisitor& a_visitor ) final;
 };
 class Rectangle : public IShape
 {
 public:
     ...
-    void accept( IVisitor& a_visitor ) final { a_visitor.visit( *this };
+    void accept( IVisitor& a_visitor ) final;
 };
+~~~
 
+## Example: Shape hierarchy, visitor
+
+~~~{.cpp .numberLines}
 class IVisitor
 {
 public:
@@ -215,7 +225,6 @@ void drawShapes( Canvas& a_canvas, std::vector< IShape* >& a_shapes )
 {
     forAllShapes( DrawVisitor{ a_canvas }, a_shapes );
 }
-
 ~~~
 
 ## Task

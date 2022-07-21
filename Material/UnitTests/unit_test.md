@@ -24,7 +24,7 @@
 + Encourages less dependencies
 
 ### Specify what should happen
-+ Test the reqiurements
++ Test the requirements
 + Understand what the code should do, write tests to verify that it does so
 
 ### Document how to use
