@@ -88,7 +88,7 @@ int count_digits( const std::string_view a_str )
 ~~~{.cpp .numberLines}
 constexpr auto char_counter( char a_ch )
 {
-    return [a_ch]( std::string_view a_str )
+    return [a_ch]( const std::string_view a_str )
     {
         int result { 0 };
     

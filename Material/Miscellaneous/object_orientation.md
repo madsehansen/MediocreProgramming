@@ -18,11 +18,8 @@
 
 ### Make objects with a small and controlled interface
 - Should follow the Open/Close principle
-
-  These come naturally in C++
-
-- Open for use, let clients use class freely
-- Closed for modification, do not let clients change the class
+- Open for extension, let clients add functionality freely by adding new classes that inherit
+- Closed for modification, do not let clients change the class itself
 - All access to the object shall go through the public interface
 
   Avoid using 'friend', and never ever #define private public
@@ -65,12 +62,14 @@ public:
     virtual ~IShape() = default;
     virtual void draw() = 0;
 };
+
 class Circle : public IShape
 {
 public:
     ...
     void draw() final;
 };
+
 class Rectangle : public IShape
 {
 public:
@@ -145,6 +144,7 @@ public:
     virtual void read( std::istream& a_stream ) = 0;
     virtual void write( std::ostream& a_stream ) = 0;
 };
+
 class Circle : public IShape
 {
 public:
@@ -153,6 +153,7 @@ public:
     void read( std::istream& a_stream ) final;
     void write( std::ostream& a_stream ) final;
 };
+
 class Rectangle : public IShape
 {
 public:
@@ -182,12 +183,14 @@ public:
     virtual ~IShape() = default;
     virtual void accept( IVisitor& a_visitor ) = 0;
 };
+
 class Circle : public IShape
 {
 public:
     ...
     void accept( IVisitor& a_visitor ) final;
 };
+
 class Rectangle : public IShape
 {
 public:
@@ -202,7 +205,7 @@ public:
 class IVisitor
 {
 public:
-    virtuel ~IVisitor() = default;
+    virtual ~IVisitor() = default;
     virtual void visit( Circle& a_element ) = 0;
     virtual void visit( Rectangle& a_element ) = 0;
 };

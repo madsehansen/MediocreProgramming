@@ -30,16 +30,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generally", "Generally", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dataholder", "Dataholder", "{69DDFDD8-5831-4E42-B2F6-788A5AC7194D}"
 	ProjectSection(SolutionItems) = preProject
+		Material\ClassDesign\DataHolder\data_holder.md = Material\ClassDesign\DataHolder\data_holder.md
 		Material\ClassDesign\DataHolder\DataHolder.txt = Material\ClassDesign\DataHolder\DataHolder.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Businesslogic", "Businesslogic", "{75F66164-56E4-4CBC-8C9A-6A73FB902E51}"
 	ProjectSection(SolutionItems) = preProject
-		Material\ClassDesign\Business logic\BusinessLogic.txt = Material\ClassDesign\Business logic\BusinessLogic.txt
+		Material\ClassDesign\BusinessLogic\business_logic.md = Material\ClassDesign\BusinessLogic\business_logic.md
+		Material\ClassDesign\BusinessLogic\BusinessLogic.txt = Material\ClassDesign\BusinessLogic\BusinessLogic.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IOClasses", "IOClasses", "{0386E068-B960-4BB9-8DF5-CA8CB5A52C1D}"
 	ProjectSection(SolutionItems) = preProject
+		Material\ClassDesign\IOClasses\io_classes.md = Material\ClassDesign\IOClasses\io_classes.md
 		Material\ClassDesign\IOClasses\IOClasses.txt = Material\ClassDesign\IOClasses\IOClasses.txt
 	EndProjectSection
 EndProject

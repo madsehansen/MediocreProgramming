@@ -1,0 +1,53 @@
+# Business logic
+- This is where the program converts/processes data
+
+## Reference semantics
+
+### These classes should not be like ints or strings
+- The typical use for these objects are create one and keep it for the duration of the program
+- Any class/function that needs these objects shall receive a reference or pointer to one
+- Sometimes there need to be several of one of these (they may need to have some different settings), but this should be avoided, keep such state in a data holder instead
+- Some dependencies may be needed/desired for ease of use, typically IO-interfaces
+- Some state-references (or pointers) may be needed to know which data to operate on for callbacks
+
+### Constructors
+- These object should have a single constructor that accepts all arguments needed to operate
+- Copy/move/default constructors are not wanted. These objects do not copy or move naturally
+- Normally the constructors of these objects do not fail, any failure happens before calling the constructor (fail to create the dependencies)
+
+### Operators
+- No operators needed
+- Delete the assignment operators (copy and move), as they make no sense
+
+### Methods
+- All methods should be public, and take in the needed arguments for each call
+- Sometimes private methods are useful, but consider making them free functions
+- Some of the methods may be virtual, these classes can use inheritance to reuse code
+- The class may implement some interface(s), these classes can be reused by other business logic classes or functions
+
+### Destructor
+- Since some polymorphic use of these classes are likely, add a virtual destructor
+
+## Typical business classes
+- Visitor pattern functions
+- Data manipulation classes
+- Consider free functions, they may be enough
+
+## Example
+- A visitor class for drawing
+- A simple Employee transforming class
+  * Create
+  * Update salary
+  * Change address
+
+## Task
+* A visitor class for collision detection (circles and rectangles)
+* Threat evaluation of tracks
+  * Tracks closer to a point have higher threat value
+  * Tracks moving towards a point have higher threat value
+  * Make up some threat value function
+  * Allow some details of threat value function to be configured
+  * Receive a track, return the track threat value
+  * Receive a list of tracks, return the threats ordered most threatening first
+
+## Provide suggested solutions
