@@ -8,5 +8,7 @@ set FILES=%FILES% .\unittests\unit_test.md
 set FILES=%FILES% .\ClassDesign\DataHolder\data_holder.md
 set FILES=%FILES% .\ClassDesign\IOClasses\io_classes.md
 set FILES=%FILES% .\ClassDesign\BusinessLogic\business_logic.md
+set FILES=%FILES% .\ClassDesign\ResourceManager\resource_manager.md
+set FILES=%FILES% .\FunctionDesign\function_design.md
 
 pandoc -s --slide-level=3 --number-sections -t slidy %FILES% -o .\slides.html

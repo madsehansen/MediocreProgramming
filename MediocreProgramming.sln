@@ -48,11 +48,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IOClasses", "IOClasses", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ResourceManager", "ResourceManager", "{5C8FC9CC-A028-4187-9FF4-CCFD6C7B43A6}"
 	ProjectSection(SolutionItems) = preProject
+		Material\ClassDesign\ResourceManager\resource_manager.md = Material\ClassDesign\ResourceManager\resource_manager.md
 		Material\ClassDesign\ResourceManager\ResourceManager.txt = Material\ClassDesign\ResourceManager\ResourceManager.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FunctionDesign", "FunctionDesign", "{0A88AF68-7D46-4B17-BB27-ACF2C1E4BF24}"
 	ProjectSection(SolutionItems) = preProject
+		Material\FunctionDesign\function_design.md = Material\FunctionDesign\function_design.md
 		Material\FunctionDesign\FunctionDesign.txt = Material\FunctionDesign\FunctionDesign.txt
 	EndProjectSection
 EndProject

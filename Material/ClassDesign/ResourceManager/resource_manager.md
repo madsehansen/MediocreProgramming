@@ -1,0 +1,72 @@
+# Resource managers
+
+These objects are used to ensure that resource management is done properly and that resources are released when no longer needed
+    This is RAII, Resource Acquisition Is Initialization
+
+## Value semantics
+
+### These objects might have similarities with int, string, vector type objects
+- This does not include overloading operators
+
+### Constructors
+- These classes should have copy and/or move constructors, depending on desired semantics
+  * The compiler generated ones are probably not OK
+  * Those not wanted shall be "= delete"
+  * A destructor is needed, this is a very important part of the resource manager
+- These classes might have a default constructor
+  * If so, it should set the state of the object to some form of "no resource currently owned"
+  * It would also need some method for taking ownership over a resource
+    - Such a method must properly handle the release of previously owned resources
+- These classes should have some constructors for setting a proper value
+  * There might be only one, for most classes
+    - This takes ownership of a resource of the correct type
+    - This is used when old APIs are used to create the resource
+  * There may be several, if there are several ways to construct a valid resource
+- Constructors should not fail to construct a valid object
+  * This makes it impossible to construct an invalid object
+  * There should not be a way to fail this, it might lead to an empty object though
+
+### Operators
+- These classes might have copy and/or move assignment operators,
+  * Same as the constructors
+  * The compiler generated ones are not OK
+- Other operators should be avoided
+
+### Methods
+- These classes should have methods for basic manipulation
+  * Resetting the resource under control (probably)
+  * Clearing the resource under control (possibly)
+  * Getting access to the resource under control (probably) to allow the use of existing APIs
+- Methods should not allow an invalid object to exist
+  * Object may be in an error state though
+
+### Destructor
+- This is maybe the most important method of the class
+- Not virtual, these objects are not meant to be inherited
+- Releases the resource, if still held
+
+## Typical resource managers
+- Objects owning memory
+- Objects owning files
+- Objects owning database connections
+
+## Non-typical resource managers that maybe should be typical
+- Objects owning operations that should always be performed at the end of scope
+  * Since the general idea of these objects are the destructor, they can in fact be used to assure some operation is performed at the end of scope
+    - This can eliminate the need to check if a value is set or a flag at the end of the scope
+    - Will also be exception safe
+    - Can actually check if reached because of exception or normal flow
+    - Check Andrei at CppCon...
+- Objects owning access to another object
+  * locked_ptr
+
+## Example
+- std::unique_ptr (memory, only moveable)
+- std::shared_ptr (memory, move and copy)
+- std::ifstream (file, only moveable)
+- std::lock_guard (mutex-lock, neither move nor copy)
+
+## Task
+    TODO: come up with some useful task
+    
+## Provide a suggested solution
