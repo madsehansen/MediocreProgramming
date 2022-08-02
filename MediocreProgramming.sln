@@ -86,6 +86,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Miscellaneous", "Miscellane
 		Material\Miscellaneous\TypeErasure.txt = Material\Miscellaneous\TypeErasure.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tasks", "Tasks", "{0CDCD7B8-8E2D-4742-9476-37B1421BA8C0}"
+	ProjectSection(SolutionItems) = preProject
+		Material\Tasks\TicTacToe_1.md = Material\Tasks\TicTacToe_1.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -122,6 +127,7 @@ Global
 		{9F5427B3-9217-44F7-A9CB-F757EB9B175E} = {A669BB59-2916-43E0-B647-40EC902DCAF9}
 		{F8285FB7-177B-497A-A747-E4C144FE43FA} = {A669BB59-2916-43E0-B647-40EC902DCAF9}
 		{E76FC40C-BA9E-4A81-9A30-CA2ABBFA6656} = {A669BB59-2916-43E0-B647-40EC902DCAF9}
+		{0CDCD7B8-8E2D-4742-9476-37B1421BA8C0} = {A669BB59-2916-43E0-B647-40EC902DCAF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5852A9E-9846-4095-B042-03FA11F9FD23}

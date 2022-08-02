@@ -140,12 +140,12 @@ const auto countZero { char_counter( '0' ) };
 
 
 ## Values
-- Functional programming often uses immutable data
+- Functional programming uses immutable data
 - This leads to very threadsafe code
 - It is often slower than imperative programming
 - C++ allows imperative programming mixed with functional for best of several worlds
 
-### Functional programming often uses immutable data
+### Functional programming uses immutable data
 - Can not be changed after creation (no assignments, only initialization)
 - Easier to reason about, can be emulated in functions by const variables
 - Can be shared between datastructures, may need special datastructures for this
