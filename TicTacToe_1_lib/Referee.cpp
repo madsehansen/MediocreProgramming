@@ -1,16 +1,19 @@
+#include "pch.h"
+
 #include "Referee.h"
 
 Referee::Referee( IntraCom::IntraCom& a_intraCom )
-    : m_rRegisterPlayer { a_intraCom.getCommandReader< RegisterPlayer >( [this]( IntraCom::DataReader* a_reader ) { readData( a_reader ); } ) }
-    , m_rMove { a_intraCom.getCommandReader< Move >( [this]( IntraCom::DataReader* a_reader ) { readData( a_reader ); } ) }
-    , m_wAssignedPlayer { a_intraCom.getCommandWriter< AssignedPlayer >( ) }
-    , m_wBoard { a_intraCom.getCommandWriter< Board >() }
+    : m_rRegisterPlayer { a_intraCom.createReader< RegisterPlayer >( [this]( IntraCom::Reader* a_reader ) { readData( a_reader ); } ) }
+    , m_rMove { a_intraCom.createReader< Move >( [this]( IntraCom::Reader* a_reader ) { readData( a_reader ); } ) }
+    , m_wAssignedPlayer { a_intraCom.createWriter< AssignedPlayer >( ) }
+    , m_wBoard { a_intraCom.createWriter< Board >() }
+    , player_o { "", PlayerToken::PlayO }
+    , player_x { "", PlayerToken::PlayX }
+    , board { GameState::Draw, {} }
 {
-    player_o.token = PlayerToken::PlayO;
-    player_x.token = PlayerToken::PlayX;
 }
 
-void Referee::readData( IntraCom::DataReader* a_reader )
+void Referee::readData( IntraCom::Reader* a_reader )
 {
     if ( a_reader == m_rRegisterPlayer )
     {

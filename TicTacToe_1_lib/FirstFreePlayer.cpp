@@ -1,12 +1,14 @@
+#include "pch.h"
+
 #include "FirstFreePlayer.h"
 
 FirstFreePlayer::FirstFreePlayer(
     IntraCom::IntraCom& a_intraCom,
     const std::string& a_name )
-    : m_rAssignedPlayer { a_intraCom.getCommandReader< AssignedPlayer >( [this]( IntraCom::DataReader* a_reader ) { readData( a_reader ); } ) }
-    , m_rBoard { a_intraCom.getCommandReader< Board >( [this]( IntraCom::DataReader* a_reader ) { readData( a_reader ); } ) }
-    , m_wRegisterPlayer { a_intraCom.getCommandWriter< RegisterPlayer >( ) }
-    , m_wMove { a_intraCom.getCommandWriter< Move >() }
+    : m_rAssignedPlayer { a_intraCom.createReader< AssignedPlayer >( [this]( IntraCom::Reader* a_reader ) { readData( a_reader ); } ) }
+    , m_rBoard { a_intraCom.createReader< Board >( [this]( IntraCom::Reader* a_reader ) { readData( a_reader ); } ) }
+    , m_wRegisterPlayer { a_intraCom.createWriter< RegisterPlayer >( ) }
+    , m_wMove { a_intraCom.createWriter< Move >() }
     , m_myName { a_name }
 {
     RegisterPlayer sample;
@@ -15,7 +17,7 @@ FirstFreePlayer::FirstFreePlayer(
     m_wRegisterPlayer->write( sample );
 }
 
-void FirstFreePlayer::readData( IntraCom::DataReader* a_reader )
+void FirstFreePlayer::readData( IntraCom::Reader* a_reader )
 {
     if ( a_reader == m_rAssignedPlayer )
     {

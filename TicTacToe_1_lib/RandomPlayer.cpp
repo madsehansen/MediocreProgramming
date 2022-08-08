@@ -1,12 +1,14 @@
+#include "pch.h"
+
 #include "RandomPlayer.h"
 
 RandomPlayer::RandomPlayer(
     IntraCom::IntraCom& a_intraCom,
     const std::string& a_name )
-    : m_rAssignedPlayer { a_intraCom.getCommandReader< AssignedPlayer >( [this]( IntraCom::DataReader* a_reader ) { readData( a_reader ); } ) }
-, m_rBoard { a_intraCom.getCommandReader< Board >( [this]( IntraCom::DataReader* a_reader ) { readData( a_reader ); } ) }
-, m_wRegisterPlayer { a_intraCom.getCommandWriter< RegisterPlayer >() }
-, m_wMove { a_intraCom.getCommandWriter< Move >() }
+    : m_rAssignedPlayer { a_intraCom.createReader< AssignedPlayer >( [this]( IntraCom::Reader* a_reader ) { readData( a_reader ); } ) }
+, m_rBoard { a_intraCom.createReader< Board >( [this]( IntraCom::Reader* a_reader ) { readData( a_reader ); } ) }
+, m_wRegisterPlayer { a_intraCom.createWriter< RegisterPlayer >() }
+, m_wMove { a_intraCom.createWriter< Move >() }
 , m_myName { a_name }
 {
     RegisterPlayer sample;
@@ -18,7 +20,7 @@ RandomPlayer::RandomPlayer(
     m_wRegisterPlayer->write( sample );
 }
 
-void RandomPlayer::readData( IntraCom::DataReader* a_reader )
+void RandomPlayer::readData( IntraCom::Reader* a_reader )
 {
     if ( a_reader == m_rAssignedPlayer )
     {
@@ -55,10 +57,13 @@ void RandomPlayer::handleBoard( const Board& a_sample )
                 if ( a_sample.squares[ myMove.row ][ myMove.col ] == SquareState::Empty )
                     freeSquares.emplace_back( myMove.row, myMove.col );
 
-        int selected = std::rand() % freeSquares.size();
-        myMove.row = freeSquares[ selected ].first;
-        myMove.col = freeSquares[ selected ].second;
+        if ( freeSquares.size() > 0 )
+        {
+            int selected = std::rand() % freeSquares.size();
+            myMove.row = freeSquares[ selected ].first;
+            myMove.col = freeSquares[ selected ].second;
 
-        m_wMove->write( myMove );
+            m_wMove->write( myMove );
+        }
     }
 }

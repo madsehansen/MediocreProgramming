@@ -5,19 +5,19 @@
 
 #include "../IntraCom/IntraCom.h"
 
-#include "Referee.h"
-#include "FirstFreePlayer.h"
-#include "RandomPlayer.h"
+#include "../TicTacToe_1_lib/Referee.h"
+#include "../TicTacToe_1_lib/FirstFreePlayer.h"
+#include "../TicTacToe_1_lib/RandomPlayer.h"
 
 void printBoard( const Board& a_board )
 {
+    std::cout << std::endl << toString( a_board.state ) << std::endl;
     for ( int row = 0; row < 3; ++row )
     {
         for ( int col = 0; col < 3; ++col )
             std::cout << toString( a_board.squares[ row ][ col ] );
         std::cout << std::endl;
     }
-    std::cout << toString( a_board.state ) << std::endl << std::endl;
 }
 
 int main()
@@ -31,7 +31,7 @@ int main()
     FirstFreePlayer player_one { intracom, "FFP 1"};
     RandomPlayer    player_two { intracom, "RP 2" };
 
-    IntraCom::CommandReader< Board >* rBoard { intracom.getCommandReader< Board >( [&]( IntraCom::DataReader* a_reader ) {
+    IntraCom::DataReader< Board >* rBoard { intracom.createReader< Board >( [&]( IntraCom::Reader* a_reader ) {
         if ( a_reader == rBoard )
         {
             for ( const Board& b : rBoard->read() )

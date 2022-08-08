@@ -10,18 +10,18 @@ public:
     explicit Referee( IntraCom::IntraCom& a_intraCom );
 
 private:
-    void readData( IntraCom::DataReader* a_reader );
+    void readData( IntraCom::Reader* a_reader );
 
     void handleRegisterPlayer( const RegisterPlayer& a_sample );
     void handleMove( const Move& a_sample );
 
     void startGame();
 
-    IntraCom::CommandReader< RegisterPlayer >* m_rRegisterPlayer { nullptr };
-    IntraCom::CommandReader< Move >* m_rMove { nullptr };
+    IntraCom::DataReader< RegisterPlayer >* m_rRegisterPlayer { nullptr };
+    IntraCom::DataReader< Move >* m_rMove { nullptr };
 
-    IntraCom::CommandWriter< AssignedPlayer >* m_wAssignedPlayer { nullptr };
-    IntraCom::CommandWriter< Board >*          m_wBoard { nullptr };
+    IntraCom::DataWriter< AssignedPlayer >* m_wAssignedPlayer { nullptr };
+    IntraCom::DataWriter< Board >*          m_wBoard { nullptr };
 
     AssignedPlayer player_x;
     AssignedPlayer player_o;

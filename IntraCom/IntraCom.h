@@ -21,13 +21,10 @@ namespace IntraCom
         T data;
     };
 
-    template <typename T>
-    struct CommandData;
-
-    class DataReader
+    class Reader
     {
     public:
-        virtual ~DataReader() = default;
+        virtual ~Reader() = default;
 
         auto generation() const->Generation
         {
@@ -40,78 +37,82 @@ namespace IntraCom
         }
 
     protected:
-        explicit DataReader(
-            std::function<void( DataReader* )> a_callback )
+        explicit Reader(
+            std::function<void( Reader* )> a_callback )
             : m_callback { std::move( a_callback ) }
         {
         }
 
-        std::function< void( DataReader* )> m_callback;
+        std::function< void( Reader* )> m_callback;
         Generation m_generation { 0 };
     };
 
-    template <typename T>
-    class CommandReader : public DataReader
+    class Writer
     {
     public:
-        explicit CommandReader(
-            std::function<void( DataReader* )> a_callback,
-            CommandData<T>* a_commandData )
-            : DataReader( std::move( a_callback ) )
+        virtual ~Writer() = default;
+
+    protected:
+        explicit Writer()
+        {
+        }
+    };
+
+
+    template <typename T>
+    struct IntraComData
+    {
+        std::recursive_mutex m_mutexData;
+        std::recursive_mutex m_mutexStructure;
+        std::vector<std::unique_ptr<Reader>> m_readers;
+        std::vector<std::unique_ptr<Writer>> m_writers;
+        std::vector<DataElement<T>> m_data;
+        Generation m_generation { 0 };
+    };
+
+
+    template <typename T>
+    class DataReader : public Reader
+    {
+    public:
+        explicit DataReader(
+            std::function<void( Reader* )> a_callback,
+            IntraComData<T>* a_commandData )
+            : Reader( std::move( a_callback ) )
             , m_commandData { a_commandData }
         {
-            m_commandData->m_readers.push_back( this );
-            m_generation = m_commandData->m_generation;
+            m_commandData->m_readers.emplace_back( this );
+            m_generation = 0;
         }
 
-        ~CommandReader() override = default;
+        ~DataReader() override = default;
 
         auto read()->std::vector<T>;
 
     private:
-        CommandData<T>* m_commandData { nullptr };
-    };
-
-    class DataWriter
-    {
-    public:
-        virtual ~DataWriter() = default;
-
-    protected:
-        explicit DataWriter( )
-        {
-        }
+        IntraComData<T>* m_commandData { nullptr };
     };
 
     template <typename T>
-    class CommandWriter : public DataWriter
+    class DataWriter : public Writer
     {
     public:
-        explicit CommandWriter(
-            CommandData<T>* a_commandData )
+        explicit DataWriter(
+            IntraComData<T>* a_commandData )
             : m_commandData { a_commandData }
         {
-            m_commandData->m_writers.push_back( this );
+            m_commandData->m_writers.emplace_back( this );
         }
 
-        ~CommandWriter() override = default;
+        ~DataWriter() override = default;
 
         void write( const T& a_data );
 
     private:
-        CommandData<T>* m_commandData { nullptr };
+        IntraComData<T>* m_commandData { nullptr };
     };
 
-    template <typename T>
-    struct CommandData
-    {
-        std::recursive_mutex m_mutexData;
-        std::recursive_mutex m_mutexStructure;
-        std::vector<DataReader*> m_readers;
-        std::vector<DataWriter*> m_writers;
-        std::vector<DataElement<T>> m_data;
-        Generation m_generation { 0 };
-    };
+
 
     class IntraCom
     {
@@ -124,29 +125,29 @@ namespace IntraCom
         }
 
         template <typename T>
-        auto getCommandReader( std::function<void( DataReader* )> a_callback )->CommandReader< T >*;
+        auto createReader( std::function<void( Reader* )> a_callback )->DataReader< T >*;
 
         template <typename T>
-        auto getCommandWriter()->CommandWriter< T >*;
+        auto createWriter()->DataWriter< T >*;
 
         void start();
         void stop();
 
     private:
 
-        struct ICommandData
+        struct ICommonData
         {
-            virtual ~ICommandData() = default;
+            virtual ~ICommonData() = default;
             virtual auto getTypeIndex() const->std::type_index = 0;
-            virtual auto createDataReader( std::function<void( DataReader* )> a_callback  )->DataReader* = 0;
-            virtual auto createDataWriter()->DataWriter* = 0;
+            virtual auto createDataReader( std::function<void( Reader* )> a_callback  )->Reader* = 0;
+            virtual auto createDataWriter()->Writer* = 0;
             virtual void runReaders() = 0;
         };
 
         template <typename T>
-        struct ConcreteData : public ICommandData
+        struct CommonData : public ICommonData
         {
-            CommandData< T > data;
+            IntraComData< T > data;
 
 
             // Inherited via ICommandData
@@ -155,18 +156,18 @@ namespace IntraCom
                 return std::type_index( typeid( T ) );
             }
 
-            auto createDataReader( std::function<void( DataReader* )> a_callback ) -> DataReader* override
+            auto createDataReader( std::function<void( Reader* )> a_callback ) -> Reader* override
             {
                 std::lock_guard lockStructure( data.m_mutexStructure );
 
-                return new CommandReader<T>( std::move( a_callback ), &data );
+                return new DataReader<T>( std::move( a_callback ), &data );
             }
 
-            auto createDataWriter() -> DataWriter* override
+            auto createDataWriter() -> Writer* override
             {
                 std::lock_guard lockStructure( data.m_mutexStructure );
 
-                return new CommandWriter<T>( &data );
+                return new DataWriter<T>( &data );
             }
 
             void runReaders() override
@@ -197,14 +198,14 @@ namespace IntraCom
 
         void runReaders();
 
-        std::vector<std::unique_ptr<ICommandData>> m_commandData;
+        std::vector<std::unique_ptr<ICommonData>> m_commandData;
 
         bool m_keepRunning { false };
         std::thread m_thread;
     };
 
     template<typename T>
-    inline void CommandWriter<T>::write( const T& a_data )
+    inline void DataWriter<T>::write( const T& a_data )
     {
         std::lock_guard lockData( m_commandData->m_mutexData );
         
@@ -214,7 +215,7 @@ namespace IntraCom
     }
 
     template<typename T>
-    inline auto CommandReader<T>::read() -> std::vector<T>
+    inline auto DataReader<T>::read() -> std::vector<T>
     {
         std::lock_guard lockData( m_commandData->m_mutexData );
         
@@ -238,7 +239,7 @@ namespace IntraCom
     }
 
     template<typename T>
-    inline auto IntraCom::getCommandReader( std::function<void( DataReader* )> a_callback ) -> CommandReader<T>*
+    inline auto IntraCom::createReader( std::function<void( Reader* )> a_callback ) -> DataReader<T>*
     {
         auto existing = std::find_if(
             m_commandData.begin(),
@@ -246,16 +247,16 @@ namespace IntraCom
             [ type = std::type_index( typeid( T ) ) ]( const auto& commandData ) { return type == commandData->getTypeIndex(); } );
 
         if ( existing != m_commandData.end() )
-            return static_cast< CommandReader<T>* >( (*existing)->createDataReader( a_callback ) );
+            return static_cast< DataReader<T>* >( (*existing)->createDataReader( a_callback ) );
         else
         {
-            auto& newData { m_commandData.emplace_back( new ConcreteData< T >() ) };
-            return static_cast<CommandReader<T>*>( newData->createDataReader( a_callback ) );
+            auto& newData { m_commandData.emplace_back( new CommonData< T >() ) };
+            return static_cast<DataReader<T>*>( newData->createDataReader( a_callback ) );
         }
     }
 
     template<typename T>
-    inline auto IntraCom::getCommandWriter() -> CommandWriter<T>*
+    inline auto IntraCom::createWriter() -> DataWriter<T>*
     {
         auto existing = std::find_if(
             m_commandData.begin(),
@@ -263,11 +264,11 @@ namespace IntraCom
             [ type = std::type_index( typeid( T ) ) ]( const auto& commandData ) { return type == commandData->getTypeIndex(); } );
 
         if ( existing != m_commandData.end() )
-            return static_cast<CommandWriter<T>*>( (*existing)->createDataWriter( ) );
+            return static_cast<DataWriter<T>*>( (*existing)->createDataWriter( ) );
         else
         {
-            auto& newData { m_commandData.emplace_back( new ConcreteData< T >() ) };
-            return static_cast<CommandWriter<T>*>( newData->createDataWriter( ) );
+            auto& newData { m_commandData.emplace_back( new CommonData< T >() ) };
+            return static_cast<DataWriter<T>*>( newData->createDataWriter( ) );
         }
     }
 
