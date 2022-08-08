@@ -13,8 +13,6 @@ The system to design, and then implement is the game of Tic-Tac-Toe. This is als
 - The goal of the game is to get three in a row, horizontally, vertically or diagonally
 - If a player succeeds in getting three in a row, that player wins the game
 - If no player has three in a row when there are no more free squares, the game is a draw
-- If a player makes an illegal move (outside board or on a square that already has a token or out of turn) that player looses
-- There will be a given number of games in a run
 
 ## Architecture
 - There needs to be a referee, that holds the board
@@ -28,20 +26,15 @@ The system to design, and then implement is the game of Tic-Tac-Toe. This is als
 - This simplified middleware allows several components to send messages to each other within one executable
 - It is a many to many communication
 - There are writers that sends data and readers that receives data
-- Data can be either state or command
-- All state data sent by a writer can be read by all readers of that data
-- State data must have a key, to separate different instances from eachother
-- State data can be removed from the system, this is called dispose, readers will detect this
-- All command data sent by a writer can be read by all readers connected at the time of sending
-- Command data does not have a key, the same command can be sent several times, all instances will be delivered to available readers
-- Command data are automatically disposed when all readers have received them, readers are not notified
+- All data sent by a writer can be read by all readers connected at the time of sending
+- Data does not have a key, the same data can be sent several times, all instances will be delivered to available readers
+- Data are automatically removed when all readers have received them, readers are not notified
 
 ## Design the classes and data types this game needs
 - Use OOP for the design
 - The players should have different strategies, but actual AI is not needed, random and first available square is OK
 - The players should present themselves to the referee, and the referee decides if their token is X or O
 - Once the players have presented themselves and received their tokens the board is created and the game is on
-- The game is played several times, and the system shall count how many times each player won and how many draws
 
 ## One possible design
 [Link to images of design]

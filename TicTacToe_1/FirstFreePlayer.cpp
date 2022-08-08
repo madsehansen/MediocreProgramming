@@ -34,8 +34,6 @@ void FirstFreePlayer::handleAssignedPlayer( const AssignedPlayer& a_sample )
     if ( a_sample.name != m_myName )
         return;
 
-    std::cout << "AssignedPlayer: " << a_sample.name << " is " << toString( a_sample.token ) << std::endl;
-
     m_myToken = a_sample.token;
 }
 

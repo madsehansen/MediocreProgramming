@@ -44,6 +44,7 @@ void Referee::handleRegisterPlayer( const RegisterPlayer& a_sample )
 
 void Referee::handleMove( const Move& a_sample )
 {
+    // Make move
     if ( a_sample.token == PlayerToken::PlayO )
     {
         board.squares[ a_sample.row ][ a_sample.col ] = SquareState::HasO;
@@ -55,6 +56,7 @@ void Referee::handleMove( const Move& a_sample )
         board.state = GameState::ToMoveO;
     }
 
+    // Check for draw
     bool done { true };
     for ( int row = 0; row < 3; ++row )
         for ( int col = 0; col < 3; ++col )
@@ -64,6 +66,45 @@ void Referee::handleMove( const Move& a_sample )
     {
         board.state = GameState::Draw;
     }
+
+    // Check for winner, draw may have been set incorrectly, so we cannot check that
+    SquareState lookForWinner { board.squares[ a_sample.row ][ a_sample.col ] };
+    bool hasWinner { false };
+    // Check rows
+    for ( int row = 0; row < 3; ++row )
+        if ( board.squares[ row ][ 0 ] == lookForWinner &&
+             board.squares[ row ][ 1 ] == lookForWinner &&
+             board.squares[ row ][ 2 ] == lookForWinner )
+            {
+                hasWinner = true;
+            }
+    // Check columns
+    for ( int col = 0; col < 3; ++col )
+        if ( board.squares[ 0 ][ col ] == lookForWinner &&
+             board.squares[ 1 ][ col ] == lookForWinner &&
+             board.squares[ 2 ][ col ] == lookForWinner )
+        {
+            hasWinner = true;
+        }
+    // Check diagonals
+    if ( board.squares[ 0 ][ 0 ] == lookForWinner &&
+         board.squares[ 1 ][ 1 ] == lookForWinner &&
+         board.squares[ 2 ][ 2 ] == lookForWinner )
+    {
+        hasWinner = true;
+    }
+    if ( board.squares[ 2 ][ 0 ] == lookForWinner &&
+         board.squares[ 1 ][ 1 ] == lookForWinner &&
+         board.squares[ 0 ][ 2 ] == lookForWinner )
+    {
+        hasWinner = true;
+    }
+
+    if ( hasWinner )
+        if ( lookForWinner == SquareState::HasO )
+            board.state = GameState::VictoryO;
+        else
+            board.state = GameState::VictoryX;
 
     m_wBoard->write( board );
 }
