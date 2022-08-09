@@ -1,4 +1,9 @@
 # Data holders
+- These are the classes that hold the data and important state of your application
+- Keeping these as separate objects allows them to be easily shared between components and applications
+- This allows for simpler communication
+- They also say a lot about what the application does
+
 
 ## struct vs class
 - The difference is spelling and intent
@@ -23,6 +28,22 @@
 - Therefore the class objects should never be in an illegal state
   * Error states can be valid states, but should be avoided for most types
 
+### enum
+- An enum is a set of names where the value can be any one of those values
+- Useful for discriminating between states/types
+- Useful for giving names to different values of a type with a small set of legal values
+- No fields, methods or operators
+- Can be argument in free functions and free operators
+- Strictly speaking, any type in a computer can be represented by an enum
+
+
+### union
+- Old mechanism from C
+- Does not help with types
+- Needs some form of discriminant to be useful
+- Needs a bit of supporting code to be correct, especially with regards to object lifetime
+- Basically obsolete, use std::variant instead, which has all the supporting code to be safe to use
+
 
 ## Minimal but complete
 
@@ -42,6 +63,7 @@
 - For some objects it may be desirable to cache some calculations, this is OK
 - Do not hold data that can be easily calculated from other data
 - Do not hold data that couples the object to other objects that are actually external, do not force a data structure that is not naturally a part of the object
+- For objects that will exist in large numbers, rember that most fields will have a very limited range of legal values, consider using enums...
 
 
 ## Copy and move special functions
@@ -60,7 +82,7 @@
 ### Constructors
 - These classes should have copy and move constructors
   * The compiler generated ones should be OK
-  * If a destructor is included, these constructors probably could be = default
+  * If a destructor is included, these constructors should be implemented
 - These classes probably should have a default constructor
   * This might not be OK for all, but for most
   * Ommitting a default constructor can cause usage-problems for collections
@@ -78,6 +100,7 @@
 ### Operators
 - These classes should have copy and move assignment operators
   * The compiler generated ones should be OK
+  * If a destructor is included, these operators should be implemented
 - Other operators can be added, follow the general expectation for what they should do
   * For symmetric operators, make them free functions
   * Most operators should be implementable as free functions
@@ -93,7 +116,7 @@
 - Only add this if needed
 - Design data holder classes primarily so that the destructor is not needed
   * Thus the compiler generated is OK
-  * Sometimes it is adviseable to add a destructor so that the compiler does NOT inline it
+  * Sometimes it is advisable to add a destructor so that the compiler does NOT inline it
     - It should then be = default in the cpp file
     - This happens when the destructor is large and/or inlined a lot of places
 
@@ -102,14 +125,14 @@
 - Data holder objects will often be held in collections, and size of the object is important for performance
 - Do not use larger fields than needed
   * If an int is enough for the data, do not use a string
-  * Most data types will have a very limited range, so a smaller data type can be used
+  * Most data types will have a very limited range, so a smaller data type can be used, maybe enum, maybe some integer that is an index into a table
   * This should not be a problem, as the inner representation should not be visible outside class
   * For some objects the extra computation to translate from a small representation
 to an actual value is less then the extra time needed to fetch more cache lines
 - Order the fields by alignment
   * This typically means by size
     - At least for 1-8 byte fields
-    - Enums can have several sizes, unless specified at declaration
+    - Enums can have several sizes, unless specified at declaration, this is compiler dependant
     - Allocated size is not included in size (this is on the heap)
     - Arrays are aligned the same as the elements
     - Composite fields (classes and structs) are aligned by largest alignment field
@@ -127,14 +150,8 @@ to an actual value is less then the extra time needed to fetch more cache lines
 - Employee
 
 ## Task
-- Create a data holder for tracks on a battlefield
-  * A track has an ID
-  * A track has a position (lat, lon, alt)
-  * A track has a velocity (north, east, up)
-  * A track has a class (Unknown, Civilian, Bomber, Fighter, Helicopter)
-  * Position, velocity and class can be modified
-  * Tracks should be transferrable over networks
-    - It must be possible to extract all data fields
-    - It must be possible to recreate from extracted data fields
-
-## Provide a suggested solution
+- Look at the TicTacToe code and try to identify DataHolder objects
+- Can they be improved?
+- If so, how?
+- Try making one of the DataHolder objects into a proper DataHolder
+- Add automatic tests for it

@@ -47,10 +47,12 @@ void FirstFreePlayer::handleBoard( const Board& a_sample )
         Move myMove {};
         myMove.token = m_myToken;
 
-        for ( myMove.row = 0; myMove.row < 3; myMove.row++ )
-            for ( myMove.col = 0; myMove.col < 3; myMove.col++ )
-                if ( a_sample.squares[ myMove.row ][ myMove.col ] == SquareState::Empty )
+        for ( int row = 0; row < 3; row++ )
+            for ( int col = 0; col < 3; col++ )
+                if ( a_sample.squares[ row ][ col ] == SquareState::Empty )
                 {
+                    myMove.row = row;
+                    myMove.col = col;
                     m_wMove->write( myMove );
                     return;
                 }

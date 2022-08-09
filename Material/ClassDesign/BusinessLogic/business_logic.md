@@ -4,9 +4,10 @@
 ## Reference semantics
 
 ### These classes should not be like ints or strings
-- The typical use for these objects are create one and keep it for the duration of the program
+- The typical use for these objects is create one and keep it for the duration of the program
 - Any class/function that needs these objects shall receive a reference or pointer to one
-- Sometimes there need to be several of one of these (they may need to have some different settings), but this should be avoided, keep such state in a data holder instead
+- Sometimes there need to be several of one of these (they may need to have some different settings),
+but this should be avoided, keep such state in a data holder instead
 - Some dependencies may be needed/desired for ease of use, typically IO-interfaces
 - Some state-references (or pointers) may be needed to know which data to operate on for callbacks
 
@@ -41,13 +42,10 @@
   * Change address
 
 ## Task
-* A visitor class for collision detection (circles and rectangles)
-* Threat evaluation of tracks
-  * Tracks closer to a point have higher threat value
-  * Tracks moving towards a point have higher threat value
-  * Make up some threat value function
-  * Allow some details of threat value function to be configured
-  * Receive a track, return the track threat value
-  * Receive a list of tracks, return the threats ordered most threatening first
+- Look at the TicTacToe code and try to identify BusinessLogic objects
+- Can their design be improved?
+- If so, how?
+- Try making the BusinessLogic objects into proper BusinessLogic class(es) and/or free functions
+- Change the automatic tests to take advantage of this
 
 ## Provide suggested solutions

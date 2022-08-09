@@ -21,6 +21,7 @@ The system to design, and then implement is the game of Tic-Tac-Toe. This is als
 - Each player makes a move when allowed, only one move
 - There are two players, they do not talk to each other
 - Communication between the referee and the players will be done using IntraCom
+- Tip: implement the game in a static library that is linked from a driver executable
 
 ## IntraCom middleware
 - This simplified middleware allows several components to send messages to each other within one executable

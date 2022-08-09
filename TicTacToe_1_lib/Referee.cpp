@@ -59,18 +59,7 @@ void Referee::handleMove( const Move& a_sample )
         board.state = GameState::ToMoveO;
     }
 
-    // Check for draw
-    bool done { true };
-    for ( int row = 0; row < 3; ++row )
-        for ( int col = 0; col < 3; ++col )
-            if ( board.squares[ row ][ col ] == SquareState::Empty )
-                done = false;
-    if ( done )
-    {
-        board.state = GameState::Draw;
-    }
-
-    // Check for winner, draw may have been set incorrectly, so we cannot check that
+    // Check for winner
     SquareState lookForWinner { board.squares[ a_sample.row ][ a_sample.col ] };
     bool hasWinner { false };
     // Check rows
@@ -78,9 +67,9 @@ void Referee::handleMove( const Move& a_sample )
         if ( board.squares[ row ][ 0 ] == lookForWinner &&
              board.squares[ row ][ 1 ] == lookForWinner &&
              board.squares[ row ][ 2 ] == lookForWinner )
-            {
-                hasWinner = true;
-            }
+        {
+            hasWinner = true;
+        }
     // Check columns
     for ( int col = 0; col < 3; ++col )
         if ( board.squares[ 0 ][ col ] == lookForWinner &&
@@ -108,7 +97,19 @@ void Referee::handleMove( const Move& a_sample )
             board.state = GameState::VictoryO;
         else
             board.state = GameState::VictoryX;
-
+    else
+    {
+        // Check for draw
+        bool draw { true };
+        for ( int row = 0; row < 3; ++row )
+            for ( int col = 0; col < 3; ++col )
+                if ( board.squares[ row ][ col ] == SquareState::Empty )
+                    draw = false;
+        if ( draw )
+        {
+            board.state = GameState::Draw;
+        }
+    }
     m_wBoard->write( board );
 }
 
