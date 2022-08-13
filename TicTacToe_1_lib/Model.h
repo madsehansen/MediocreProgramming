@@ -50,7 +50,7 @@ struct AssignedPlayer
 
 
 
-inline auto toString( PlayerToken a_token ) -> std::string
+inline auto ToString( PlayerToken a_token ) -> std::string
 {
     switch ( a_token )
     {
@@ -64,7 +64,7 @@ inline auto toString( PlayerToken a_token ) -> std::string
 }
 
 
-inline auto toString( SquareState a_state ) -> std::string
+inline auto ToString( SquareState a_state ) -> std::string
 {
     switch ( a_state )
     {
@@ -79,7 +79,7 @@ inline auto toString( SquareState a_state ) -> std::string
     }
 }
 
-inline auto toString( GameState a_state ) -> std::string
+inline auto ToString( GameState a_state ) -> std::string
 {
     switch ( a_state )
     {

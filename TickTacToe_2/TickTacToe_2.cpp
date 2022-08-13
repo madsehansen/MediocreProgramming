@@ -5,17 +5,17 @@
 
 #include "../IntraCom/IntraCom.h"
 
-#include "../TicTacToe_1_lib/Referee.h"
-#include "../TicTacToe_1_lib/FirstFreePlayer.h"
-#include "../TicTacToe_1_lib/RandomPlayer.h"
+#include "../TicTacToe_2_lib/Referee.h"
+#include "../TicTacToe_2_lib/FirstFreePlayer.h"
+#include "../TicTacToe_2_lib/RandomPlayer.h"
 
 void printBoard( const Board& a_board )
 {
-    std::cout << std::endl << ToString( a_board.state ) << std::endl;
+    std::wcout << std::endl << ToString( a_board.state() ) << std::endl;
     for ( int row = 0; row < 3; ++row )
     {
         for ( int col = 0; col < 3; ++col )
-            std::cout << ToString( a_board.squares[ row ][ col ] );
+            std::wcout << ToString( a_board.square( row, col ) );
         std::cout << std::endl;
     }
 }
@@ -28,7 +28,7 @@ int main()
 
     IntraCom::IntraCom intracom;
     Referee referee { intracom };
-    FirstFreePlayer player_one { intracom, "FFP 1"};
+    FirstFreePlayer player_one { intracom, "FFP 1" };
     RandomPlayer    player_two { intracom, "RP 2" };
 
     IntraCom::DataReader< Board >* rBoard { intracom.createReader< Board >( [&]( IntraCom::Reader* a_reader ) {
@@ -37,9 +37,9 @@ int main()
             for ( const Board& b : rBoard->read() )
             {
                 printBoard( b );
-                if ( b.state == GameState::Draw ||
-                     b.state == GameState::VictoryO ||
-                     b.state == GameState::VictoryX )
+                if ( b.state() == GameState::Draw ||
+                     b.state() == GameState::VictoryO ||
+                     b.state() == GameState::VictoryX )
                     stopRunning = true;
             }
         }

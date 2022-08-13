@@ -85,7 +85,7 @@
   * If a destructor is included, these constructors should be implemented
 - These classes probably should have a default constructor
   * This might not be OK for all, but for most
-  * Ommitting a default constructor can cause usage-problems for collections
+  * Omitting a default constructor can cause usage-problems for collections
 - These classes probably should have some constructors for setting a proper value
   * There might be only one, for simple classes
   * There may be several, if there are several ways to construct a valid object
