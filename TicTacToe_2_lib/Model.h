@@ -135,6 +135,12 @@ struct AssignedPlayer
     PlayerToken token;
 };
 
+struct GameData
+{
+    Board board;
+    AssignedPlayer playerX;
+    AssignedPlayer playerO;
+};
 
 
 inline auto ToString( PlayerToken a_token ) -> std::wstring

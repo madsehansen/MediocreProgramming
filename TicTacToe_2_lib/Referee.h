@@ -23,8 +23,6 @@ private:
     IntraCom::DataWriter< AssignedPlayer >* m_wAssignedPlayer { nullptr };
     IntraCom::DataWriter< Board >*          m_wBoard { nullptr };
 
-    AssignedPlayer player_x;
-    AssignedPlayer player_o;
-    Board board;
+    GameData game;
 };
 
