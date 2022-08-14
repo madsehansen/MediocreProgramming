@@ -48,4 +48,4 @@ but this should be avoided, keep such state in a data holder instead
 - Try making the BusinessLogic objects into proper BusinessLogic class(es) and/or free functions
 - Change the automatic tests to take advantage of this
 
-## Provide suggested solutions
+## <Provide a suggested solution>

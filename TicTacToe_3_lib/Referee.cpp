@@ -3,7 +3,7 @@
 #include "Referee.h"
 
 Referee::Referee( IDataWriter< AssignedPlayer >* a_wAssignedPlayer, IDataWriter< Board >* a_wBoard )
-    :m_wAssignedPlayer { a_wAssignedPlayer }
+    : m_wAssignedPlayer { a_wAssignedPlayer }
     , m_wBoard { a_wBoard }
     , game { Board{ }, AssignedPlayer{ "", PlayerToken::PlayX }, AssignedPlayer{ "", PlayerToken::PlayO } }
 {
