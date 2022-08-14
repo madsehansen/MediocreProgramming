@@ -12,13 +12,12 @@ These objects are used to ensure that resource management is done properly and t
 - These classes should have copy and/or move constructors, depending on desired semantics
   * The compiler generated ones are probably not OK
   * Those not wanted shall be "= delete"
-  * A destructor is needed, this is a very important part of the resource manager
 - These classes might have a default constructor
   * If so, it should set the state of the object to some form of "no resource currently owned"
   * It would also need some method for taking ownership over a resource
     - Such a method must properly handle the release of previously owned resources
 - These classes should have some constructors for setting a proper value
-  * There might be only one, for most classes
+  * There might be only one
     - This takes ownership of a resource of the correct type
     - This is used when old APIs are used to create the resource
   * There may be several, if there are several ways to construct a valid resource
@@ -31,6 +30,7 @@ These objects are used to ensure that resource management is done properly and t
   * Same as the constructors
   * The compiler generated ones are not OK
 - Other operators should be avoided
+  * Unless they make sense, like operator* and operator-> for pointer-like classes
 
 ### Methods
 - These classes should have methods for basic manipulation
@@ -38,7 +38,7 @@ These objects are used to ensure that resource management is done properly and t
   * Clearing the resource under control (possibly)
   * Getting access to the resource under control (probably) to allow the use of existing APIs
 - Methods should not allow an invalid object to exist
-  * Object may be in an error state though
+  * Managed resource may be in an error state though
 
 ### Destructor
 - This is maybe the most important method of the class
@@ -58,7 +58,7 @@ These objects are used to ensure that resource management is done properly and t
     - Can actually check if reached because of exception or normal flow
     - Check Andrei at CppCon...
 - Objects owning access to another object
-  * locked_ptr
+  * locked_ptr (not standard, make your own)
 
 ## Example
 - std::unique_ptr (memory, only moveable)

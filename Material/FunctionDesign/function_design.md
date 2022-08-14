@@ -77,6 +77,10 @@ auto func( const vector< string >& lines )
 
 ### Hidden argument "this", and the dependency implications
 - Methods have access to full object, consider using free functions where possible
+- Methods must preserve the invariant of the object at all times
+- Free functions only need to produce some result from some arguments
+- Methods requires the class and usually an object
+- Free functions are much easier to reuse, test and compose
 
 ## Return value
 
@@ -96,7 +100,7 @@ auto func( ) -> vector< string >
 - Never return the base class by value, use pointer or reference for this scenario (slicing)
 
 ### Return by reference
-- When the function returns access to a member to something guaranteed to survive the call, so no local variables
+- When the function returns access to a member or something guaranteed to survive the call, so no local variables
 - When the function returns access to an object held by this object, like in containers
 ~~~{.cpp .numberLines}
 class C
@@ -112,7 +116,7 @@ private:
 ~~~
 
 ### Return by pointer
-- When the function returns a potential access to a member of something guaranteed to survive the call, so no local variables
+- When the function returns a potential access to a member or something guaranteed to survive the call, so no local variables
 - When the function returns a potential access to an object held by this object, like in containers
 - Note that this can be done by returning an optional<>, which makes for clearer code
 ~~~{.cpp .numberLines}
@@ -205,7 +209,7 @@ private:
   * Easy for intellisense
   * Ok for constructor-like functions
 - Often abused
-  * Singleton antipattern
+  * Singleton anti-pattern
   * Unrelated operations
   * Java programming
 
@@ -254,7 +258,7 @@ private:
 ### Name variables after what they represent
 - Not the type
 - Do not use abbreviations, generally
-- It is OK to use abbreviations that are
+- It is OK to use abbreviations or short names that are
   * Commonly known and unambigous in the business field
   * Loop index variables (i, j, k...)
   * Limited to a very small scope
@@ -289,6 +293,7 @@ private:
   * Some objects may need the heap
     - Strings and collections tend to use the heap for storage even though they themselves can be on the stack
     - Arrays tend to be on the stack unless explicitly on the heap
+    - Some objects that are to be used polymorphically will live naturally on the heap
         
 ## General
 
