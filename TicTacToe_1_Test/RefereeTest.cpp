@@ -70,7 +70,7 @@ namespace TicTacToe1Test
 		{
 			m_intraCom->stop();
 
-			m_sut.release();
+			m_sut.reset();
 			m_rAssignedPlayer = nullptr;
 			m_assignedPlayers.clear();
 			m_rBoard = nullptr;
@@ -79,7 +79,7 @@ namespace TicTacToe1Test
 			m_wRegisterPlayer = nullptr;
 			m_wMove = nullptr;
 
-			m_intraCom.release();
+			m_intraCom.reset();
 		}
 
 		TEST_METHOD( RegisteringTwoPlayersAsXAndO )
