@@ -31,6 +31,53 @@ The system to design, and then implement is the game of Tic-Tac-Toe. This is als
 - Data does not have a key, the same data can be sent several times, all instances will be delivered to available readers
 - Data are automatically removed when all readers have received them, readers are not notified
 
+### IntraCom usage
+- There shall be a single instance of an IntraCom object, all objects that are going to communicate must use this object
+- The IntraCom object can produce readers and writers for any copyable type
+- Readers and writers are not shared between objects, but any number of readers and writers for any type can be created
+- When a writer writes a message, this message is copied to a queue where readers can get it
+- When a reader detects that there are data in the queue, it makes a callback call with an argument that is a pointer to the reader
+- IntraCom has an internal thread, reader callbacks are made from this thread
+- The callback must then check for which reader to read from, read all the data and process them
+- A reader will not read the same data twice, so process all data when it has data
+
+### IntraCom example
+ ~~~{.cpp .numberLines}
+    // In main()
+    {
+        IntraCom::IntraCom intracom;
+        Class obj( &intracom );
+        intracom.start();
+        // Wait for game to end
+    }
+
+    // Class implementation
+    Class::Class( IntraCom::IntraCom* a_intraCom)
+        : m_reader1 { a_intraCom->createReader< Msg1 >( [this]( IntraCom::Reader* a_reader ) { readData( a_reader ); } ) };
+        , m_reader2 { a_intraCom->createReader< Msg2 >( [this]( IntraCom::Reader* a_reader ) { readData( a_reader ); } ) };
+        , m_writer1 { a_intraCom->createWriter< Msg3 >( ) }
+    { 
+        Msg3 sample;
+        // init sample
+        m_writer1->write( sample );
+    }
+
+    void Class::readData( IntraCom::Reader* a_reader )
+    {
+        if ( a_reader == m_reader1 )
+        {
+            for ( Msg1& sample : m_reader1->read() )
+                handleMsg1( sample );
+        }
+        if ( a_reader == m_reader2 )
+        {
+            for ( Msg2& sample : m_reader2->read() )
+                handleMsg2( sample );
+        }
+    }
+~~~
+
+
 ## Design the classes and data types this game needs
 - Use OOP for the design
 - The players should have different strategies, but actual AI is not needed, random and first available square is OK
@@ -41,6 +88,9 @@ The system to design, and then implement is the game of Tic-Tac-Toe. This is als
 [TicTacToe_1]
 
 ## Write the code
+- Remember that there must be some termination criteria
+- Create a reader in main() that sets a flag when the game is finished
+- Since IntraCom operates in its own thread, main() can just sleep until the flag is set
 
 ## One solution for the possible design
 [TicTacToe_1]
