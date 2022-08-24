@@ -178,6 +178,7 @@ private:
 - Return a class
   * Basically the same as for structs, but also implies some invariant
   * More natural to have query methods on the returned class for checking the returned value(s)
+  * Example: std::string
 
 ## Argument order
 - When deciding the order of arguments a few things should be considered
@@ -294,7 +295,8 @@ private:
     - Strings and collections tend to use the heap for storage even though they themselves can be on the stack
     - Arrays tend to be on the stack unless explicitly on the heap
     - Some objects that are to be used polymorphically will live naturally on the heap
-        
+    - Objects that must survive the returning from the function
+
 ## General
 
 ### Size of function

@@ -4,6 +4,7 @@
 #include "../TicTacToe_4_lib/RandomPlayer.h"
 
 #include "DataWriterMock.h"
+#include "RandomMock.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -13,6 +14,7 @@ namespace TicTacToe4Test
 	{
 		DataWriterMock<RegisterPlayer> m_wRegisterPlayer;
 		DataWriterMock<Move> m_wMove;
+		RandomMock m_random { { 1, 2, 3, 4, 5, 6, 7, 8, 9 } };
 		std::unique_ptr<RandomPlayer> m_sut;
 		AssignedPlayer m_data;
 
@@ -21,7 +23,11 @@ namespace TicTacToe4Test
 		TEST_METHOD_INITIALIZE( setup )
 		{
 			m_data = AssignedPlayer { "TestPlayerRandom", PlayerToken::PlayO };
-			m_sut = std::make_unique<RandomPlayer>( &m_wRegisterPlayer, &m_wMove, &m_data );
+			m_sut = std::make_unique<RandomPlayer>(
+				&m_wRegisterPlayer, 
+				&m_wMove, 
+				&m_random,
+				&m_data );
 		}
 		TEST_METHOD_CLEANUP( cleanup )
 		{

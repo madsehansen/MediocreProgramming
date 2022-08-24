@@ -41,5 +41,8 @@
     <ClInclude Include="DataWriterMock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RandomMock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

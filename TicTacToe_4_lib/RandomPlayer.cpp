@@ -7,10 +7,12 @@
 RandomPlayer::RandomPlayer(
     IDataWriter< RegisterPlayer >* a_wRegisterPlayer,
     IDataWriter< Move >* a_wMove,
+    IRandom* a_random,
     AssignedPlayer* a_name )
     : m_wRegisterPlayer { a_wRegisterPlayer }
     , m_wMove { a_wMove }
     , m_data { a_name }
+    , m_random { a_random }
 {
     if ( m_data == nullptr )
         throw std::invalid_argument( "a_name must contain a valid and unique name" );
@@ -27,6 +29,8 @@ void RandomPlayer::handleAssignedPlayer( const AssignedPlayer& a_sample )
         return;
 
     m_data->token = a_sample.token;
+
+    m_random->seed();
 }
 
 void RandomPlayer::handleBoard( const Board& a_sample )
@@ -43,7 +47,7 @@ void RandomPlayer::handleBoard( const Board& a_sample )
 
         if ( freeSquares.size() > 0 )
         {
-            int selected = std::rand() % freeSquares.size();
+            int selected = m_random->getNext() % freeSquares.size();
             Move myMove { m_data->token, freeSquares[ selected ].first, freeSquares[ selected ].second };
 
             m_wMove->write( myMove );

@@ -2,6 +2,9 @@
 
 #include "RandomPlayer.h"
 
+#include <vector>
+#include <time.h>
+
 RandomPlayer::RandomPlayer(
     IntraCom::IntraCom& a_intraCom,
     const std::string& a_name )
@@ -13,9 +16,6 @@ RandomPlayer::RandomPlayer(
 {
     RegisterPlayer sample;
     sample.name = m_myName;
-
-    time_t t { time( nullptr ) };
-    std::srand( static_cast< int >( t ) % 1024 );
 
     m_wRegisterPlayer->write( sample );
 }
@@ -40,6 +40,9 @@ void RandomPlayer::handleAssignedPlayer( const AssignedPlayer& a_sample )
         return;
 
     m_myToken = a_sample.token;
+
+    time_t t { time( nullptr ) };
+    std::srand( static_cast<int>( t ) );
 }
 
 void RandomPlayer::handleBoard( const Board& a_sample )

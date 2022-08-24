@@ -7,10 +7,12 @@
 RandomPlayer::RandomPlayer(
     IDataWriter< RegisterPlayer >* a_wRegisterPlayer,
     IDataWriter< Move >* a_wMove,
+    IRandom* a_random,
     const std::string& a_name )
     : m_wRegisterPlayer { a_wRegisterPlayer }
     , m_wMove { a_wMove }
     , m_myName { a_name }
+    , m_random { a_random }
 {
     RegisterPlayer sample;
     sample.name = m_myName;
@@ -24,6 +26,8 @@ void RandomPlayer::handleAssignedPlayer( const AssignedPlayer& a_sample )
         return;
 
     m_myToken = a_sample.token;
+
+    m_random->seed();
 }
 
 void RandomPlayer::handleBoard( const Board& a_sample )
@@ -40,7 +44,7 @@ void RandomPlayer::handleBoard( const Board& a_sample )
 
         if ( freeSquares.size() > 0 )
         {
-            int selected = std::rand() % freeSquares.size();
+            int selected = m_random->getNext() % freeSquares.size();
             Move myMove { m_myToken, freeSquares[ selected ].first, freeSquares[ selected ].second };
 
             m_wMove->write( myMove );

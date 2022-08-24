@@ -7,6 +7,7 @@
 
 #include "../TicTacToe_3_lib/DataReader.h"
 #include "../TicTacToe_3_lib/DataWriter.h"
+#include "../TicTacToe_3_lib/Random.h"
 
 #include "../TicTacToe_3_lib/Referee.h"
 #include "../TicTacToe_3_lib/FirstFreePlayer.h"
@@ -40,9 +41,11 @@ int main()
     DataWriter<RegisterPlayer> wPlayer_two_RegisterPlayer { intracom };
     DataWriter<Move> wPlayer_two_Move { intracom };
 
+    Random random;
+
     Referee referee { &wReferee_AssignedPlayer, &wReferee_Board  };
     FirstFreePlayer player_one { &wPlayer_one_RegisterPlayer, &wPlayer_one_Move, "FFP 1" };
-    RandomPlayer    player_two { &wPlayer_one_RegisterPlayer, &wPlayer_one_Move, "RP 2" };
+    RandomPlayer    player_two { &wPlayer_one_RegisterPlayer, &wPlayer_one_Move, &random, "RP 2" };
 
     DataReader< Referee, RegisterPlayer > referee_RegisterPlayer { intracom, &referee, &Referee::handleRegisterPlayer };
     DataReader< Referee, Move > referee_Move { intracom, &referee, &Referee::handleMove };

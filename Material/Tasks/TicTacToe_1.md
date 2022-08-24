@@ -38,12 +38,12 @@ The system to design, and then implement is the game of Tic-Tac-Toe. This is als
 - Once the players have presented themselves and received their tokens the board is created and the game is on
 
 ## One possible design
-[Link to images of design]
+[TicTacToe_1]
 
 ## Write the code
 
 ## One solution for the possible design
-[Link to the code]
+[TicTacToe_1]
 
 
 ## Automatic tests
@@ -54,4 +54,4 @@ The system to design, and then implement is the game of Tic-Tac-Toe. This is als
 - Do not modify the game code, that could introduce bugs
 
 ## One solution to tests for the possible design
-[Link to test-code]
+[TicTacToe_1]

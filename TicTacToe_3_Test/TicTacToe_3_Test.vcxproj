@@ -175,6 +175,7 @@
   <ItemGroup>
     <ClInclude Include="DataWriterMock.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="RandomMock.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TicTacToe_3_lib\TicTacToe_3_lib.vcxproj">
