@@ -30,7 +30,7 @@ class Board
 {
 public:
     explicit Board()
-        : m_state( GameState::ToMoveX )
+        : m_state { GameState::ToMoveX }
         , m_squares {
             SquareState::Empty, SquareState::Empty, SquareState::Empty,
             SquareState::Empty, SquareState::Empty, SquareState::Empty,
@@ -42,7 +42,7 @@ public:
         SquareState a_0_0, SquareState a_0_1, SquareState a_0_2,
         SquareState a_1_0, SquareState a_1_1, SquareState a_1_2,
         SquareState a_2_0, SquareState a_2_1, SquareState a_2_2 )
-        : m_state( a_state )
+        : m_state { a_state }
         , m_squares {
             a_0_0, a_0_1, a_0_2,
             a_1_0, a_1_1, a_1_2,
@@ -63,9 +63,13 @@ public:
     auto square(int row, int col) const -> SquareState
     {
         if ( row < 0 || row > 2 )
+        {
             throw std::range_error( "row must be 0..2" );
+        }
         if ( col < 0 || col > 2 )
+        {
             throw std::range_error( "col must be 0..2" );
+        }
 
         return m_squares[ row ][ col ];
     }
@@ -73,9 +77,13 @@ public:
     void setSquare( int row, int col, SquareState state )
     {
         if ( row < 0 || row > 2 )
+        {
             throw std::range_error( "row must be 0..2" );
+        }
         if ( col < 0 || col > 2 )
+        {
             throw std::range_error( "col must be 0..2" );
+        }
 
         m_squares[ row ][ col ] = state;
     }
@@ -100,9 +108,13 @@ public:
         , m_col { a_col }
     {
         if ( a_row < 0 || a_row > 2 )
+        {
             throw std::range_error( "a_row must be 0..2" );
+        }
         if ( a_col < 0 || a_col > 2 )
+        {
             throw std::range_error( "a_col must be 0..2" );
+        }
     }
 
     auto token() const -> PlayerToken

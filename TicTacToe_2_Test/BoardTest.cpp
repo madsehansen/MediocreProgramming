@@ -17,8 +17,12 @@ namespace TicTacToe2Test
 			Board sut;
 
 			for ( int row { 0 }; row < 3; ++row )
+			{
 				for ( int col { 0 }; col < 3; ++col )
+				{
 					Assert::AreEqual( SquareState::Empty, sut.square( row, col ) );
+				}
+			}
 		}
 
 		TEST_METHOD( GettingTheStateGivesTheSameStateAsPreviouslySet )

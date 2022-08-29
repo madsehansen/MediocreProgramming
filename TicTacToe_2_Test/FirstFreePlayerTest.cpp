@@ -44,7 +44,9 @@ namespace TicTacToe2Test
 			for ( int tries { 0 }; tries < 10; ++tries )
 			{
 				if ( data.size() < a_target )
+				{
 					std::this_thread::sleep_for( std::chrono::milliseconds( 200 ) );
+				}
 			}
 
 			return data.size() >= a_target;
@@ -91,7 +93,7 @@ namespace TicTacToe2Test
 		{
 			Assert::AreEqual( true, waitForData( m_registeredPlayers ) );
 
-			AssignedPlayer assignedPlayer = { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
 			m_wAssignedPlayer->write( assignedPlayer );
 
 			Board board( GameState::ToMoveO, 
@@ -110,7 +112,7 @@ namespace TicTacToe2Test
 		{
 			Assert::AreEqual( true, waitForData( m_registeredPlayers ) );
 
-			AssignedPlayer assignedPlayer = { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
 			m_wAssignedPlayer->write( assignedPlayer );
 
 			Board board( GameState::ToMoveX,
@@ -126,7 +128,7 @@ namespace TicTacToe2Test
 		{
 			Assert::AreEqual( true, waitForData( m_registeredPlayers ) );
 
-			AssignedPlayer assignedPlayer = { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
 			m_wAssignedPlayer->write( assignedPlayer );
 
 			Board board( GameState::ToMoveO,
@@ -145,7 +147,7 @@ namespace TicTacToe2Test
 		{
 			Assert::AreEqual( true, waitForData( m_registeredPlayers ) );
 
-			AssignedPlayer assignedPlayer = { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
 			m_wAssignedPlayer->write( assignedPlayer );
 
 			Board board( GameState::ToMoveO,

@@ -143,7 +143,7 @@ private:
 class C
 {
 public:
-    auto func( ) const -> const vector< string >& // Bad, as it allows clients to see internal data structure
+    auto func( ) const -> const vector< string >& //  Better, clients not allowed to change internal data, but structure revealed
     {
         return m_myStrings;
     }
@@ -187,6 +187,7 @@ private:
   * Common use
     - The arguments that would be "fixed" in a currying should be first
     - This makes the STL incorrect, as the range of data to operate on would vary, rather than the operation to perform
+      * Not really a problem, it is always possible to "convenience-function" around this
     - There is a std::bind_front() that basically provides currying, in C++20
     - There is a std::bind_back() to remedy the reversed currying, in C++23
   * Overloads
@@ -241,7 +242,7 @@ private:
   * has no side effects
   * can be called at any time
   * can be called from any thread
-  * is easy to compose with other functions
+  * is often easy to compose with other functions
   * is easy to test
   * is easy to reason about
   * can be implemented as a table lookup
@@ -263,9 +264,18 @@ private:
   * Commonly known and unambigous in the business field
   * Loop index variables (i, j, k...)
   * Limited to a very small scope
+- Most coding standards place some extra requirements on names, like
+  * a_ prefix for arguments
+  * m_ prefix for members
+  * no prefix for locals
+  * also statics and globals may have prefixes
 
 ### Use a variable for a single purpose
 - There is some temptation to reuse variables for new purposes later in functions, avoid this
+- It is possible to limit the scope of some variables
+  * This makes them easier to reason about
+  * Stack space can be reused by later variables, if this is a concern, but it usually is not
+  * While this does free up the name, avoid using the same name for another variable
 
 ### Const variables where possible
 - Do not declare variables until they can be given a value
@@ -337,5 +347,5 @@ private:
 - More capabilities as the language continues to grow
 - When run at compiletime, can result in massive optimizations
   * At the cost of compile speed
-- When possible, use "constexpr" on functions and methods, including constructors and destructors
+- When possible, use "constexpr" on functions and methods, including constructors and destructors (C++20)
     

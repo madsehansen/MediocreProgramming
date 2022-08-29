@@ -44,7 +44,9 @@ namespace TicTacToe1Test
 			for ( int tries { 0 }; tries < 10; ++tries )
 			{
 				if ( data.size() < a_target )
+				{
 					std::this_thread::sleep_for( std::chrono::milliseconds( 200 ) );
+				}
 			}
 
 			return data.size() >= a_target;
@@ -91,10 +93,10 @@ namespace TicTacToe1Test
 		{
 			Assert::AreEqual( true, waitForData( m_registeredPlayers ) );
 
-			AssignedPlayer assignedPlayer = { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
 			m_wAssignedPlayer->write( assignedPlayer );
 
-			Board board = { GameState::ToMoveO, 
+			Board board { GameState::ToMoveO, 
 				{
 					{ SquareState::Empty, SquareState::Empty, SquareState::Empty },
 					{ SquareState::Empty, SquareState::Empty, SquareState::Empty },
@@ -112,10 +114,10 @@ namespace TicTacToe1Test
 		{
 			Assert::AreEqual( true, waitForData( m_registeredPlayers ) );
 
-			AssignedPlayer assignedPlayer = { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
 			m_wAssignedPlayer->write( assignedPlayer );
 
-			Board board = { GameState::ToMoveX,
+			Board board { GameState::ToMoveX,
 				{
 					{ SquareState::Empty, SquareState::Empty, SquareState::Empty },
 					{ SquareState::Empty, SquareState::Empty, SquareState::Empty },
@@ -130,10 +132,10 @@ namespace TicTacToe1Test
 		{
 			Assert::AreEqual( true, waitForData( m_registeredPlayers ) );
 
-			AssignedPlayer assignedPlayer = { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
 			m_wAssignedPlayer->write( assignedPlayer );
 
-			Board board = { GameState::ToMoveO,
+			Board board { GameState::ToMoveO,
 				{
 					{ SquareState::HasX,  SquareState::Empty, SquareState::Empty },
 					{ SquareState::Empty, SquareState::Empty, SquareState::Empty },
@@ -151,10 +153,10 @@ namespace TicTacToe1Test
 		{
 			Assert::AreEqual( true, waitForData( m_registeredPlayers ) );
 
-			AssignedPlayer assignedPlayer = { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_registeredPlayers[ 0 ].name, PlayerToken::PlayO };
 			m_wAssignedPlayer->write( assignedPlayer );
 
-			Board board = { GameState::ToMoveO,
+			Board board { GameState::ToMoveO,
 				{
 					{ SquareState::HasO, SquareState::HasX, SquareState::HasX },
 					{ SquareState::HasO, SquareState::HasX, SquareState::HasO },

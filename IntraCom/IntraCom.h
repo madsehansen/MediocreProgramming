@@ -82,7 +82,6 @@ namespace IntraCom
             , m_commandData { a_commandData }
         {
             m_commandData->m_readers.emplace_back( this );
-            m_generation = 0;
         }
 
         ~DataReader() override = default;
@@ -121,7 +120,9 @@ namespace IntraCom
         ~IntraCom()
         {
             if ( m_keepRunning )
+            {
                 stop();
+            }
         }
 
         template <typename T>
@@ -158,32 +159,38 @@ namespace IntraCom
 
             auto createDataReader( std::function<void( Reader* )> a_callback ) -> Reader* override
             {
-                std::lock_guard lockStructure( data.m_mutexStructure );
+                std::lock_guard lockStructure { data.m_mutexStructure };
 
                 return new DataReader<T>( std::move( a_callback ), &data );
             }
 
             auto createDataWriter() -> Writer* override
             {
-                std::lock_guard lockStructure( data.m_mutexStructure );
+                std::lock_guard lockStructure { data.m_mutexStructure };
 
                 return new DataWriter<T>( &data );
             }
 
             void runReaders() override
             {
-                std::lock_guard lockStructure( data.m_mutexStructure );
+                std::lock_guard lockStructure { data.m_mutexStructure };
 
                 for ( auto& reader : data.m_readers )
+                {
                     if ( data.m_generation > reader->generation() )
+                    {
                         reader->makeCallback();
+                    }
+                }
 
                 // Find last element read by all readers
-                std::lock_guard lockData( data.m_mutexData );
+                std::lock_guard lockData { data.m_mutexData };
 
                 Generation minGeneration { data.m_generation };
                 for ( auto& reader : data.m_readers )
+                {
                     minGeneration = std::min( reader->generation(), minGeneration );
+                }
 
                 // Remove all elements read by all readers, to preserve space
                 data.m_data.erase(
@@ -207,7 +214,7 @@ namespace IntraCom
     template<typename T>
     inline void DataWriter<T>::write( const T& a_data )
     {
-        std::lock_guard lockData( m_commandData->m_mutexData );
+        std::lock_guard lockData { m_commandData->m_mutexData };
         
         ++m_commandData->m_generation;
 
@@ -217,7 +224,7 @@ namespace IntraCom
     template<typename T>
     inline auto DataReader<T>::read() -> std::vector<T>
     {
-        std::lock_guard lockData( m_commandData->m_mutexData );
+        std::lock_guard lockData { m_commandData->m_mutexData };
         
         auto currGen { m_generation };
         m_generation = m_commandData->m_generation;
@@ -241,13 +248,15 @@ namespace IntraCom
     template<typename T>
     inline auto IntraCom::createReader( std::function<void( Reader* )> a_callback ) -> DataReader<T>*
     {
-        auto existing = std::find_if(
+        auto existing { std::find_if(
             m_commandData.begin(),
             m_commandData.end(),
-            [ type = std::type_index( typeid( T ) ) ]( const auto& commandData ) { return type == commandData->getTypeIndex(); } );
+            [ type = std::type_index( typeid( T ) ) ]( const auto& commandData ) { return type == commandData->getTypeIndex(); } ) };
 
         if ( existing != m_commandData.end() )
-            return static_cast< DataReader<T>* >( (*existing)->createDataReader( a_callback ) );
+        {
+            return static_cast<DataReader<T>*>( ( *existing )->createDataReader( a_callback ) );
+        }
         else
         {
             auto& newData { m_commandData.emplace_back( new CommonData< T >() ) };
@@ -258,13 +267,15 @@ namespace IntraCom
     template<typename T>
     inline auto IntraCom::createWriter() -> DataWriter<T>*
     {
-        auto existing = std::find_if(
+        auto existing { std::find_if(
             m_commandData.begin(),
             m_commandData.end(),
-            [ type = std::type_index( typeid( T ) ) ]( const auto& commandData ) { return type == commandData->getTypeIndex(); } );
+            [ type = std::type_index( typeid( T ) ) ]( const auto& commandData ) { return type == commandData->getTypeIndex(); } ) };
 
         if ( existing != m_commandData.end() )
-            return static_cast<DataWriter<T>*>( (*existing)->createDataWriter( ) );
+        {
+            return static_cast<DataWriter<T>*>( ( *existing )->createDataWriter() );
+        }
         else
         {
             auto& newData { m_commandData.emplace_back( new CommonData< T >() ) };
@@ -290,10 +301,12 @@ namespace IntraCom
         {
             while ( m_keepRunning )
             {
-                std::this_thread::sleep_for( std::chrono::milliseconds( 500 ) );
+                std::this_thread::sleep_for( std::chrono::milliseconds( 200 ) );
 
                 for ( auto& topic : m_commandData )
+                {
                     topic->runReaders();
+                }
             }
         }
         catch ( const std::exception& ex )

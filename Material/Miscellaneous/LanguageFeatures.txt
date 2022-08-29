@@ -17,7 +17,7 @@ Preprocessor
         Can be used together
         One is sufficient
         pragma once works fine until includes can be found several ways through symlinks
-        ifndef works fins as long as it has the right macro and it is unique for the file
+        ifndef works fine as long as it has the right macro and it is unique for the file
     __FILE__, __LINE__, __PRETTY_FUNCTION__
         For debug output and logging
 
@@ -31,7 +31,7 @@ typedef vs using
 Namespaces
     Use these with some thought
     They give a space for names, this can be expanded by anyone
-    It is common to include the namespace in the use of every item in the namespace
+    It is common to include the namespace in the use of every item from the namespace
     Keep namespace names short, they are repeated often
     Keep namespaces shallow, one or two levels should be enough
     Can be aliased, so sometimes having a deep namespace can be OK
@@ -47,6 +47,7 @@ Exceptions
         Exceptions can be used by any function to signal failure
         Exceptions are slow, so should not be used for normal error handling
         Unhandled exceptions terminate the program, this may or may not be OK
+            Functions that are noexcept and still throw, terminate the program
         Several exceptions can be in flight at any time, but only one can be allowed to escape a function
             Otherwise there is no way to know which exception to catch
         Never allow exceptions to escape destructors, this will create problems for cleanup-code
@@ -62,7 +63,7 @@ Exceptions
 auto variables
     What it is
         Tells the compiler to figure out what type a variable shall have based on initial value
-        For lambdas this makes the lambda a template
+        For lambda arguments this makes the lambda a template
     When to use
         When the type name would be written twice otherwise (like for pointers)
         When the type name is rather obvious but has a long name (like for iterators)

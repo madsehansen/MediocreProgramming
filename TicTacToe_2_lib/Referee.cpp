@@ -16,12 +16,16 @@ void Referee::readData( IntraCom::Reader* a_reader )
     if ( a_reader == m_rRegisterPlayer )
     {
         for ( RegisterPlayer& sample : m_rRegisterPlayer->read() )
+        {
             handleRegisterPlayer( sample );
+        }
     }
     if ( a_reader == m_rMove )
     {
         for ( Move& sample : m_rMove->read() )
+        {
             handleMove( sample );
+        }
     }
 }
 
@@ -29,18 +33,26 @@ void Referee::handleRegisterPlayer( const RegisterPlayer& a_sample )
 {
     AssignedPlayer* sample { nullptr };
     if ( game.playerX.name.empty() )
+    {
         sample = &game.playerX;
+    }
     else if ( game.playerO.name.empty() )
+    {
         sample = &game.playerO;
+    }
     else
+    {
         return;
+    }
 
     sample->name = a_sample.name;
 
     m_wAssignedPlayer->write( *sample );
 
     if ( not game.playerX.name.empty() && not game.playerO.name.empty() )
+    {
         startGame();
+    }
 }
 
 void Referee::handleMove( const Move& a_sample )
@@ -61,21 +73,25 @@ void Referee::handleMove( const Move& a_sample )
     SquareState lookForWinner { game.board.square( a_sample.row(), a_sample.col() ) };
     bool hasWinner { false };
     // Check rows
-    for ( int row = 0; row < 3; ++row )
+    for ( int row { 0 }; row < 3; ++row )
+    {
         if ( game.board.square( row, 0 ) == lookForWinner &&
-             game.board.square( row, 1 ) == lookForWinner &&
-             game.board.square( row, 2 ) == lookForWinner )
+            game.board.square( row, 1 ) == lookForWinner &&
+            game.board.square( row, 2 ) == lookForWinner )
         {
             hasWinner = true;
         }
+    }
     // Check columns
-    for ( int col = 0; col < 3; ++col )
+    for ( int col { 0 }; col < 3; ++col )
+    {
         if ( game.board.square( 0, col ) == lookForWinner &&
-             game.board.square( 1, col ) == lookForWinner &&
-             game.board.square( 2, col ) == lookForWinner )
+            game.board.square( 1, col ) == lookForWinner &&
+            game.board.square( 2, col ) == lookForWinner )
         {
             hasWinner = true;
         }
+    }
     // Check diagonals
     if ( game.board.square( 0, 0 ) == lookForWinner &&
          game.board.square( 1, 1 ) == lookForWinner &&
@@ -91,18 +107,30 @@ void Referee::handleMove( const Move& a_sample )
     }
 
     if ( hasWinner )
+    {
         if ( lookForWinner == SquareState::HasO )
+        {
             game.board.setState( GameState::VictoryO );
+        }
         else
+        {
             game.board.setState( GameState::VictoryX );
+        }
+    }
     else
     {
         // Check for draw
         bool draw { true };
-        for ( int row = 0; row < 3; ++row )
-            for ( int col = 0; col < 3; ++col )
+        for ( int row { 0 }; row < 3; ++row )
+        {
+            for ( int col { 0 }; col < 3; ++col )
+            {
                 if ( game.board.square( row, col ) == SquareState::Empty )
+                {
                     draw = false;
+                }
+            }
+        }
         if ( draw )
         {
             game.board.setState( GameState::Draw );

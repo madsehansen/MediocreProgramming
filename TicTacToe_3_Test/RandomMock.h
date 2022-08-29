@@ -15,7 +15,9 @@ public:
     int getNext() override
     {
         if ( m_data.empty() )
+        {
             return 0;
+        }
 
         auto value { m_data.front() };
         m_data.erase( m_data.begin() );

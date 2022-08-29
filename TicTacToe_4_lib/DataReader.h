@@ -29,7 +29,9 @@ private:
         if ( a_reader == m_reader )
         {
             for ( T& sample : m_reader->read() )
+            {
                 m_callback( sample );
+            }
         }
     }
 

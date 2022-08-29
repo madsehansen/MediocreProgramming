@@ -22,19 +22,25 @@ void FirstFreePlayer::readData( IntraCom::Reader* a_reader )
     if ( a_reader == m_rAssignedPlayer )
     {
         for ( AssignedPlayer& sample : m_rAssignedPlayer->read() )
+        {
             handleAssignedPlayer( sample );
+        }
     }
     if ( a_reader == m_rBoard )
     {
         for ( Board& sample : m_rBoard->read() )
+        {
             handleBoard( sample );
+        }
     }
 }
 
 void FirstFreePlayer::handleAssignedPlayer( const AssignedPlayer& a_sample )
 {
     if ( a_sample.name != m_myName )
+    {
         return;
+    }
 
     m_myToken = a_sample.token;
 }
@@ -47,8 +53,10 @@ void FirstFreePlayer::handleBoard( const Board& a_sample )
         Move myMove {};
         myMove.token = m_myToken;
 
-        for ( int row = 0; row < 3; row++ )
-            for ( int col = 0; col < 3; col++ )
+        for ( int row { 0 }; row < 3; row++ )
+        {
+            for ( int col { 0 }; col < 3; col++ )
+            {
                 if ( a_sample.squares[ row ][ col ] == SquareState::Empty )
                 {
                     myMove.row = row;
@@ -56,5 +64,7 @@ void FirstFreePlayer::handleBoard( const Board& a_sample )
                     m_wMove->write( myMove );
                     return;
                 }
+            }
+        }
     }
 }

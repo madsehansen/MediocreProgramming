@@ -23,29 +23,29 @@ namespace TicTacToe2Test
 
 		TEST_METHOD( GettingTheTokenGivesTheSameTokenAsPreviouslySet )
 		{
-			Move sut( PlayerToken::PlayX, 0, 0 );
+			Move sut { PlayerToken::PlayX, 0, 0 };
 
 			Assert::AreEqual( PlayerToken::PlayX, sut.token() );
 		}
 
 		TEST_METHOD( SettingWithTooLowRowThrowsException )
 		{
-			Assert::ExpectException< std::range_error >( [] { Move sut( PlayerToken::PlayO, -1, 0 ); } );
+			Assert::ExpectException< std::range_error >( [] { Move sut { PlayerToken::PlayO, -1, 0 }; } );
 		}
 
 		TEST_METHOD( SettingWithTooLowColThrowsException )
 		{
-			Assert::ExpectException< std::range_error >( [] { Move sut( PlayerToken::PlayO, 0, -1 ); } );
+			Assert::ExpectException< std::range_error >( [] { Move sut { PlayerToken::PlayO, 0, -1 }; } );
 		}
 
 		TEST_METHOD( SettingWithTooHighRowThrowsException )
 		{
-			Assert::ExpectException< std::range_error >( [] { Move sut( PlayerToken::PlayO, 3, 0 ); } );
+			Assert::ExpectException< std::range_error >( [] { Move sut { PlayerToken::PlayO, 3, 0 }; } );
 		}
 
 		TEST_METHOD( SettingWithTooHighColThrowsException )
 		{
-			Assert::ExpectException< std::range_error >( [] { Move sut( PlayerToken::PlayO, 0, 3 ); } );
+			Assert::ExpectException< std::range_error >( [] { Move sut { PlayerToken::PlayO, 0, 3 }; } );
 		}
 	};
 }

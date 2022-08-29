@@ -25,19 +25,25 @@ void RandomPlayer::readData( IntraCom::Reader* a_reader )
     if ( a_reader == m_rAssignedPlayer )
     {
         for ( AssignedPlayer& sample : m_rAssignedPlayer->read() )
+        {
             handleAssignedPlayer( sample );
+        }
     }
     if ( a_reader == m_rBoard )
     {
         for ( Board& sample : m_rBoard->read() )
+        {
             handleBoard( sample );
+        }
     }
 }
 
 void RandomPlayer::handleAssignedPlayer( const AssignedPlayer& a_sample )
 {
     if ( a_sample.name != m_myName )
+    {
         return;
+    }
 
     m_myToken = a_sample.token;
 
@@ -52,14 +58,20 @@ void RandomPlayer::handleBoard( const Board& a_sample )
     {
         std::vector< std::pair< int, int > > freeSquares;
 
-        for (int row = 0; row < 3; row++ )
-            for ( int col = 0; col < 3; col++ )
+        for ( int row { 0 }; row < 3; row++ )
+        {
+            for ( int col { 0 }; col < 3; col++ )
+            {
                 if ( a_sample.square( row, col ) == SquareState::Empty )
+                {
                     freeSquares.emplace_back( row, col );
+                }
+            }
+        }
 
         if ( freeSquares.size() > 0 )
         {
-            int selected = std::rand() % freeSquares.size();
+            auto selected { std::rand() % freeSquares.size() };
             Move myMove { m_myToken, freeSquares[ selected ].first, freeSquares[ selected ].second };
 
             m_wMove->write( myMove );

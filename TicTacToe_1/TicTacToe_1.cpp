@@ -12,10 +12,13 @@
 void printBoard( const Board& a_board )
 {
     std::cout << std::endl << ToString( a_board.state ) << std::endl;
-    for ( int row = 0; row < 3; ++row )
+
+    for ( int row { 0 }; row < 3; ++row )
     {
-        for ( int col = 0; col < 3; ++col )
+        for ( int col { 0 }; col < 3; ++col )
+        {
             std::cout << ToString( a_board.squares[ row ][ col ] );
+        }
         std::cout << std::endl;
     }
 }
@@ -38,9 +41,11 @@ int main()
             {
                 printBoard( b );
                 if ( b.state == GameState::Draw ||
-                     b.state == GameState::VictoryO ||
-                     b.state == GameState::VictoryX )
+                    b.state == GameState::VictoryO ||
+                    b.state == GameState::VictoryX )
+                {
                     stopRunning = true;
+                }
             }
         }
     } ) };
@@ -49,7 +54,9 @@ int main()
     intracom.start();
 
     while ( not stopRunning )
+    {
         std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
+    }
 
     std::cout << "Game ended!\n";
 }

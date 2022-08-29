@@ -95,7 +95,7 @@ namespace TicTacToe3Test
 		}
 		TEST_METHOD( MakesMoveWhenBoardSayThePlayerShallPlay )
 		{
-			AssignedPlayer assignedPlayer = { m_wRegisterPlayer.data[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_wRegisterPlayer.data[ 0 ].name, PlayerToken::PlayO };
 			m_sut->handleAssignedPlayer( assignedPlayer );
 
 			Board board( GameState::ToMoveO, 
@@ -112,7 +112,7 @@ namespace TicTacToe3Test
 
 		TEST_METHOD( MakesNoMoveWhenBoardSayThePlayerShallNotPlay )
 		{
-			AssignedPlayer assignedPlayer = { m_wRegisterPlayer.data[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_wRegisterPlayer.data[ 0 ].name, PlayerToken::PlayO };
 			m_sut->handleAssignedPlayer( assignedPlayer );
 
 			Board board( GameState::ToMoveX,
@@ -126,7 +126,7 @@ namespace TicTacToe3Test
 
 		TEST_METHOD( MakesMoveWhenBoardSayThePlayerShallPlayAndFirstSquareIsUsed )
 		{
-			AssignedPlayer assignedPlayer = { m_wRegisterPlayer.data[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_wRegisterPlayer.data[ 0 ].name, PlayerToken::PlayO };
 			m_sut->handleAssignedPlayer( assignedPlayer );
 
 			Board board( GameState::ToMoveO,
@@ -143,7 +143,7 @@ namespace TicTacToe3Test
 
 		TEST_METHOD( MakesNoMoveWhenBoardSayThePlayerShallPlayButNoSquareFree )
 		{
-			AssignedPlayer assignedPlayer = { m_wRegisterPlayer.data[ 0 ].name, PlayerToken::PlayO };
+			AssignedPlayer assignedPlayer { m_wRegisterPlayer.data[ 0 ].name, PlayerToken::PlayO };
 			m_sut->handleAssignedPlayer( assignedPlayer );
 
 			Board board( GameState::ToMoveO,

@@ -16,17 +16,20 @@
 void printBoard( const Board& a_board )
 {
     std::wcout << std::endl << ToString( a_board.state() ) << std::endl;
-    for ( int row = 0; row < 3; ++row )
+
+    for ( int row { 0 }; row < 3; ++row )
     {
-        for ( int col = 0; col < 3; ++col )
+        for ( int col { 0 }; col < 3; ++col )
+        {
             std::wcout << ToString( a_board.square( row, col ) );
-        std::cout << std::endl;
+        }
+        std::wcout << std::endl;
     }
 }
 
 int main()
 {
-    std::cout << "Start game!\n";
+    std::wcout << "Start game!\n";
 
     bool stopRunning { false };
 
@@ -43,9 +46,9 @@ int main()
 
     Random random;
 
-    AssignedPlayer playerOneAssigned = { "FFP 1" };
-    AssignedPlayer playerTwoAssigned = { "RP 1" };
-    GameData game = { Board{ }, AssignedPlayer{ "", PlayerToken::PlayX }, AssignedPlayer{ "", PlayerToken::PlayO } };
+    AssignedPlayer playerOneAssigned { "FFP 1" };
+    AssignedPlayer playerTwoAssigned { "RP 1" };
+    GameData game { Board{ }, AssignedPlayer{ "", PlayerToken::PlayX }, AssignedPlayer{ "", PlayerToken::PlayO } };
 
     Referee referee { &wReferee_AssignedPlayer, &wReferee_Board, &game };
     FirstFreePlayer player_one { &wPlayer_one_RegisterPlayer, &wPlayer_one_Move, &playerOneAssigned };
@@ -67,9 +70,11 @@ int main()
             {
                 printBoard( b );
                 if ( b.state() == GameState::Draw ||
-                     b.state() == GameState::VictoryO ||
-                     b.state() == GameState::VictoryX )
+                    b.state() == GameState::VictoryO ||
+                    b.state() == GameState::VictoryX )
+                {
                     stopRunning = true;
+                }
             }
         }
     } ) };
@@ -78,7 +83,9 @@ int main()
     intracom.start();
 
     while ( not stopRunning )
+    {
         std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
+    }
 
     std::cout << "Game ended!\n";
 }

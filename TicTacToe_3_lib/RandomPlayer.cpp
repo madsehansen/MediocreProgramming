@@ -23,7 +23,9 @@ RandomPlayer::RandomPlayer(
 void RandomPlayer::handleAssignedPlayer( const AssignedPlayer& a_sample )
 {
     if ( a_sample.name != m_myName )
+    {
         return;
+    }
 
     m_myToken = a_sample.token;
 
@@ -37,14 +39,20 @@ void RandomPlayer::handleBoard( const Board& a_sample )
     {
         std::vector< std::pair< int, int > > freeSquares;
 
-        for (int row = 0; row < 3; row++ )
-            for ( int col = 0; col < 3; col++ )
+        for ( int row { 0 }; row < 3; row++ )
+        {
+            for ( int col { 0 }; col < 3; col++ )
+            {
                 if ( a_sample.square( row, col ) == SquareState::Empty )
+                {
                     freeSquares.emplace_back( row, col );
+                }
+            }
+        }
 
         if ( freeSquares.size() > 0 )
         {
-            int selected = m_random->getNext() % freeSquares.size();
+            auto selected { m_random->getNext() % freeSquares.size() };
             Move myMove { m_myToken, freeSquares[ selected ].first, freeSquares[ selected ].second };
 
             m_wMove->write( myMove );
