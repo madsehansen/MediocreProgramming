@@ -8,7 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Material\header.md = Material\header.md
 		Material\make_slides.bat = Material\make_slides.bat
 		overview.txt = overview.txt
-		Material\slides.html = Material\slides.html
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Class design", "Class design", "{8612506C-CD5E-46A8-A4CE-C9402DD6129E}"
