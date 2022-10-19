@@ -56,7 +56,6 @@ These objects are used to ensure that resource management is done properly and t
     - This can eliminate the need to check if a value is set or a flag at the end of the scope
     - Will also be exception safe
     - Can actually check if reached because of exception or normal flow
-    - Check Andrei at CppCon...
 - Objects owning access to another object
   * locked_ptr (not standard, make your own)
 
@@ -65,6 +64,7 @@ These objects are used to ensure that resource management is done properly and t
 - std::shared_ptr (memory, move and copy)
 - std::ifstream (file, only moveable)
 - std::lock_guard (mutex-lock, neither move nor copy)
+  * std::unique_lock and std::scoped_lock may be better choices
 
 ## Task
     TODO: come up with some useful task

@@ -36,11 +36,11 @@
 
 ### Shared interface
 ~~~{.cpp .numberLines}
-int isSpace( char a_ch ) { return a_ch == ' ' ? 1 : 0; }
-int isDigit( char a_ch ) { return a_ch >= '0' && a_ch <= '9' ? 1 : 0; }
+auto isSpace( char a_ch ) -> int { return a_ch == ' ' ? 1 : 0; }
+auto isDigit( char a_ch ) -> int { return a_ch >= '0' && a_ch <= '9' ? 1 : 0; }
 
 template <typename FUNC>
-int count_char( FUNC a_func, const std::string_view a_str )
+auto count_char( FUNC a_func, const std::string_view a_str ) -> int
 {
     // This function actually exists in STL: std::count_if(),
     // and it would be better to call that
@@ -52,12 +52,12 @@ int count_char( FUNC a_func, const std::string_view a_str )
     return result;
 }
 
-int count_space( const std::string_view a_str )
+auto count_space( const std::string_view a_str ) -> int
 {
     return count_char( isSpace, a_str );
 }
 
-int count_digits( const std::string_view a_str )
+auto count_digits( const std::string_view a_str ) -> int
 {
     return count_char( isdigit, a_str );
 }
@@ -100,13 +100,13 @@ constexpr auto char_counter( char a_ch )
     };
 }
 
-int count_space( const std::string_view a_str )
+auto count_space( const std::string_view a_str ) -> int
 {
     return char_counter( ' ' )( a_str );
 }
 const auto countSpace { char_counter( ' ' ) };
 
-int count_zero( const std::string_view a_str )
+auto count_zero( const std::string_view a_str ) -> int
 {
     return char_counter( '0' )( a_str );
 }
@@ -198,17 +198,17 @@ class Circle
 {
 public:
     ...
-    double radius() const;
-    Position position() const;
+    auto radius() const -> double;
+    auto position() const -> Position;
 };
 
 class Rectangle
 {
 public:
     ...
-    double height() const;
-    double width() const;
-    Position position() const;
+    auto height() const -> double;
+    auto width() const -> double;
+    auto position() const -> Position;
 };
 ~~~
 

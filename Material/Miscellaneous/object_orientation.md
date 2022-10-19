@@ -3,7 +3,7 @@
 - Object orientation is about managing complexity
 - Classes may inherit eachother
 - Class hierarchies
-- Object orientated frameworks
+- Object oriented frameworks
 - Visitor pattern
 
 
@@ -120,7 +120,7 @@ public:
 - May be hard to refactor away later
 
 
-## Object orientated frameworks
+## Object oriented frameworks
 - Easy to add types
 - Hard to add functionality
 

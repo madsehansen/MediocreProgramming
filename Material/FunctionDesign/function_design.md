@@ -17,6 +17,8 @@ auto rootOfSumOfSquares( double x, double y, double z );
 ## Type
 - The type of a function is composed of the argument types and the return type
 - The type of a method also contains the class
+  * And a CV-qualifier (const methods, mostly)
+  * And ref-qualifier (& and &&, for making them applicable to only certain objects, this is rare)
 - When the type of the function is good, it does tell a lot about the function
 ~~~{.cpp .numberLines}
 auto funcA( function< B(const A&) >, const vector< A >& ) -> vector< B >;
@@ -44,7 +46,8 @@ auto C::C( string newValue )
 ### Pass by reference
 - When large or otherwise slow to copy
 - When you need access to the actual object passed
-- When there has to be an object there
+- When there has to be an object there (the function requires the object)
+- This should be preferred over pointer, unless the optional capability of a pointer is needed
 ~~~{.cpp .numberLines}
 auto func( vector< string >& lines )
 {
@@ -56,6 +59,7 @@ auto func( vector< string >& lines )
 - When large and slow to copy
 - When you need access to the actual object passed
 - When you accept that there might not be an object (nullptr)
+- If the object is not optional, use a reference
 ~~~{.cpp .numberLines}
 auto func( vector< string >* lines )
 {
@@ -87,7 +91,9 @@ auto func( const vector< string >& lines )
 ### Return by value
 - Mostly
 - When the function constructs the returned value
+  * This is typically a calculation
 - To protect against exposing internals to the application
+  * The class may want to have a stable interface, independant of inner representation
 ~~~{.cpp .numberLines}
 auto func( ) -> vector< string >
 {
@@ -138,7 +144,10 @@ private:
 ### When to const returned value
 - When returning access to internals, by reference or pointer
   * This is to avoid having clients use the access to internals to break the class invariant
+  * This still reveals inner structure, which *may* be a problem later
 - Also when operating on const data, including const methods
+- If found in a table from some optimized class storage (when the object has optimized space, f.ex. holding an enum, representing a string)
+- If the value is fast to create (small, no allocations) it can be returned by value instead
 ~~~{.cpp .numberLines}
 class C
 {
@@ -161,10 +170,6 @@ private:
 - Or construct one object that is returned from all paths
 - Does not work for returning members, as they must be copied
 - Never std::move() in a return statement
-- Never enclose the returned value in parenthesis
-  * return ("hello"); -> This blocks RVO
-  * return "hello"; -> This does not block RVO, so a copy/move is elided
-  * return std::string("hello"); -> This does not block RVO, so a copy/move is elided
 
 ### Returning more than one thing
 - Output parameters
@@ -179,6 +184,11 @@ private:
   * Basically the same as for structs, but also implies some invariant
   * More natural to have query methods on the returned class for checking the returned value(s)
   * Example: std::string
+- std::pair and std::tuple
+  * Basically structs with unnamed fields, though pair has first and second
+  * These are useful as they allow for structured binding
+  * std::tuple also allows for some iteration over fields, which can be useful in templates, but that is advanced
+
 
 ## Argument order
 - When deciding the order of arguments a few things should be considered
@@ -195,15 +205,16 @@ private:
     - If possible the less-arguments function should call the more-argument function
     - This makes the difference in arguments potential default arguments and the less-argument function can be removed
 
-## Contract
-- Const methods
-  * Const all methods that do not change the observable state of the object
-  * Cached calculations can be "mutable" so that they can be modified in const methods
-  * Do not change any observable state in a const method, ever
-  * Mutexes must be mutable, since it is necessary to lock them even in const methods
-    - They are not really observable outside the class anyway, so this is ok
-    - If the method returns access to some internal data, the mutex must remain locked
-      * This calls for a locked_ptr type of return value
+## Const methods
+- Const all methods that do not change the observable state of the object
+- Cached calculations can be "mutable" so that they can be modified in const methods
+- Do not change any observable state in a const method, ever
+- Mutexes must be mutable, since it is necessary to lock them even in const methods
+  * They are not really observable outside the class anyway, so this is ok
+  * If the method returns access to some internal data, the mutex must remain locked
+    - This calls for a locked_ptr type of return value
+- Only const methods can be called on const objects
+- Const is an important part of the contract, and should not be ignored
 
 ## Static methods
 - Useful or just a complicated name for a free function
@@ -246,14 +257,14 @@ private:
   * is easy to test
   * is easy to reason about
   * can be implemented as a table lookup
- - Make functions pure if possible
-   * This may mean that the pure part is moved to another function and then sent to the side-effect part later
- - Methods can also be pure functions
-   * This is not about pure virtuals, which is a different thing
-   * Pure methods shall be const
-     - Remember that the object itself is an argument
-   * Pure methods do not have the same flexibility as pure functions
-     - They need the implicit argument "this"
+- Make functions pure if possible
+  * This may mean that the pure part is moved to another function and then sent to the side-effect part later
+- Methods can also be pure functions
+  * This is not about pure virtuals, which is a different thing
+  * Pure methods shall be const
+    - Remember that the object itself is an argument
+  * Pure methods do not have the same flexibility as pure functions
+    - They need the implicit argument "this"
 
 ## Variables
 
@@ -333,7 +344,7 @@ private:
 - Split into several functions that then do not need the argument
 - If called with varying values for the argument, make a convenience function that handles the selecting of the function to call
 
-### Function decorations
+### Function decorations (specifiers)
 - Pure virtuals must have "= 0", as per language rules
 - Overriding a virtual method shall have "override" to catch bugs, but not "virtual"
 - The leaf class shall declare overridden virtuals as "final", still not "virtual"
@@ -342,10 +353,12 @@ private:
 - All methods that do not change the visible state of the object shall be "const"
 
 ## constexpr
-- Can be run at compiletime, or runtime
+- Can be run at compiletime, or runtime, compiler decides
 - Does not allow undefined behaviour, less bugs
 - More capabilities as the language continues to grow
 - When run at compiletime, can result in massive optimizations
   * At the cost of compile speed
 - When possible, use "constexpr" on functions and methods, including constructors and destructors (C++20)
-    
+- consteval is guaranteed to be run/evaluated at compiletime, this can be used as well
+- This can be very useful for generating tables and other data that does not change at runtime
+  * Generating these with code can be more clear or maintainable than adding huge tables by hand

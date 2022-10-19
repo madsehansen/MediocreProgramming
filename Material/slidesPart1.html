@@ -101,7 +101,7 @@ number="1">
 <li>Object orientation is about managing complexity</li>
 <li>Classes may inherit eachother</li>
 <li>Class hierarchies</li>
-<li>Object orientated frameworks</li>
+<li>Object oriented frameworks</li>
 <li>Visitor pattern</li>
 </ul>
 </div>
@@ -290,9 +290,9 @@ known at class definition</li>
 </ul>
 </div>
 
-<div id="object-orientated-frameworks"
+<div id="object-oriented-frameworks"
 class="title-slide slide section level2" number="1.4">
-<h1><span class="header-section-number">1.4</span> Object orientated
+<h1><span class="header-section-number">1.4</span> Object oriented
 frameworks</h1>
 <ul>
 <li>Easy to add types</li>
@@ -536,11 +536,11 @@ number="2.1.3">
 <h1><span class="header-section-number">2.1.3</span> Shared
 interface</h1>
 <div class="sourceCode" id="cb7"><pre
-class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1"></a><span class="dt">int</span> isSpace<span class="op">(</span> <span class="dt">char</span> a_ch <span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> a_ch <span class="op">==</span> <span class="ch">&#39; &#39;</span> <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="dt">int</span> isDigit<span class="op">(</span> <span class="dt">char</span> a_ch <span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> a_ch <span class="op">&gt;=</span> <span class="ch">&#39;0&#39;</span> <span class="op">&amp;&amp;</span> a_ch <span class="op">&lt;=</span> <span class="ch">&#39;9&#39;</span> <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">;</span> <span class="op">}</span></span>
+class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">auto</span> isSpace<span class="op">(</span> <span class="dt">char</span> a_ch <span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">int</span> <span class="op">{</span> <span class="cf">return</span> a_ch <span class="op">==</span> <span class="ch">&#39; &#39;</span> <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">auto</span> isDigit<span class="op">(</span> <span class="dt">char</span> a_ch <span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">int</span> <span class="op">{</span> <span class="cf">return</span> a_ch <span class="op">&gt;=</span> <span class="ch">&#39;0&#39;</span> <span class="op">&amp;&amp;</span> a_ch <span class="op">&lt;=</span> <span class="ch">&#39;9&#39;</span> <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">;</span> <span class="op">}</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> FUNC<span class="op">&gt;</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="dt">int</span> count_char<span class="op">(</span> FUNC a_func<span class="op">,</span> <span class="at">const</span> <span class="bu">std::</span>string_view<span class="op"> </span>a_str <span class="op">)</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">auto</span> count_char<span class="op">(</span> FUNC a_func<span class="op">,</span> <span class="at">const</span> <span class="bu">std::</span>string_view<span class="op"> </span>a_str <span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">int</span></span>
 <span id="cb7-6"><a href="#cb7-6"></a><span class="op">{</span></span>
 <span id="cb7-7"><a href="#cb7-7"></a>    <span class="co">// This function actually exists in STL: std::count_if(),</span></span>
 <span id="cb7-8"><a href="#cb7-8"></a>    <span class="co">// and it would be better to call that</span></span>
@@ -552,12 +552,12 @@ class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><sp
 <span id="cb7-14"><a href="#cb7-14"></a>    <span class="cf">return</span> result<span class="op">;</span></span>
 <span id="cb7-15"><a href="#cb7-15"></a><span class="op">}</span></span>
 <span id="cb7-16"><a href="#cb7-16"></a></span>
-<span id="cb7-17"><a href="#cb7-17"></a><span class="dt">int</span> count_space<span class="op">(</span> <span class="at">const</span> <span class="bu">std::</span>string_view<span class="op"> </span>a_str <span class="op">)</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="kw">auto</span> count_space<span class="op">(</span> <span class="at">const</span> <span class="bu">std::</span>string_view<span class="op"> </span>a_str <span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">int</span></span>
 <span id="cb7-18"><a href="#cb7-18"></a><span class="op">{</span></span>
 <span id="cb7-19"><a href="#cb7-19"></a>    <span class="cf">return</span> count_char<span class="op">(</span> isSpace<span class="op">,</span> a_str <span class="op">);</span></span>
 <span id="cb7-20"><a href="#cb7-20"></a><span class="op">}</span></span>
 <span id="cb7-21"><a href="#cb7-21"></a></span>
-<span id="cb7-22"><a href="#cb7-22"></a><span class="dt">int</span> count_digits<span class="op">(</span> <span class="at">const</span> <span class="bu">std::</span>string_view<span class="op"> </span>a_str <span class="op">)</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a><span class="kw">auto</span> count_digits<span class="op">(</span> <span class="at">const</span> <span class="bu">std::</span>string_view<span class="op"> </span>a_str <span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">int</span></span>
 <span id="cb7-23"><a href="#cb7-23"></a><span class="op">{</span></span>
 <span id="cb7-24"><a href="#cb7-24"></a>    <span class="cf">return</span> count_char<span class="op">(</span> isdigit<span class="op">,</span> a_str <span class="op">);</span></span>
 <span id="cb7-25"><a href="#cb7-25"></a><span class="op">}</span></span></code></pre></div>
@@ -619,13 +619,13 @@ class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><sp
 <span id="cb8-12"><a href="#cb8-12"></a>    <span class="op">};</span></span>
 <span id="cb8-13"><a href="#cb8-13"></a><span class="op">}</span></span>
 <span id="cb8-14"><a href="#cb8-14"></a></span>
-<span id="cb8-15"><a href="#cb8-15"></a><span class="dt">int</span> count_space<span class="op">(</span> <span class="at">const</span> <span class="bu">std::</span>string_view<span class="op"> </span>a_str <span class="op">)</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="kw">auto</span> count_space<span class="op">(</span> <span class="at">const</span> <span class="bu">std::</span>string_view<span class="op"> </span>a_str <span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">int</span></span>
 <span id="cb8-16"><a href="#cb8-16"></a><span class="op">{</span></span>
 <span id="cb8-17"><a href="#cb8-17"></a>    <span class="cf">return</span> char_counter<span class="op">(</span> <span class="ch">&#39; &#39;</span> <span class="op">)(</span> a_str <span class="op">);</span></span>
 <span id="cb8-18"><a href="#cb8-18"></a><span class="op">}</span></span>
 <span id="cb8-19"><a href="#cb8-19"></a><span class="at">const</span> <span class="kw">auto</span> countSpace <span class="op">{</span> char_counter<span class="op">(</span> <span class="ch">&#39; &#39;</span> <span class="op">)</span> <span class="op">};</span></span>
 <span id="cb8-20"><a href="#cb8-20"></a></span>
-<span id="cb8-21"><a href="#cb8-21"></a><span class="dt">int</span> count_zero<span class="op">(</span> <span class="at">const</span> <span class="bu">std::</span>string_view<span class="op"> </span>a_str <span class="op">)</span></span>
+<span id="cb8-21"><a href="#cb8-21"></a><span class="kw">auto</span> count_zero<span class="op">(</span> <span class="at">const</span> <span class="bu">std::</span>string_view<span class="op"> </span>a_str <span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">int</span></span>
 <span id="cb8-22"><a href="#cb8-22"></a><span class="op">{</span></span>
 <span id="cb8-23"><a href="#cb8-23"></a>    <span class="cf">return</span> char_counter<span class="op">(</span> <span class="ch">&#39;0&#39;</span> <span class="op">)(</span> a_str <span class="op">);</span></span>
 <span id="cb8-24"><a href="#cb8-24"></a><span class="op">}</span></span>
@@ -804,17 +804,17 @@ class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><sp
 <span id="cb9-8"><a href="#cb9-8"></a><span class="op">{</span></span>
 <span id="cb9-9"><a href="#cb9-9"></a><span class="kw">public</span><span class="op">:</span></span>
 <span id="cb9-10"><a href="#cb9-10"></a>    <span class="op">...</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a>    <span class="dt">double</span> radius<span class="op">()</span> <span class="at">const</span><span class="op">;</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a>    Position position<span class="op">()</span> <span class="at">const</span><span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a>    <span class="kw">auto</span> radius<span class="op">()</span> <span class="at">const</span> <span class="op">-&gt;</span> <span class="dt">double</span><span class="op">;</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a>    <span class="kw">auto</span> position<span class="op">()</span> <span class="at">const</span> <span class="op">-&gt;</span> Position<span class="op">;</span></span>
 <span id="cb9-13"><a href="#cb9-13"></a><span class="op">};</span></span>
 <span id="cb9-14"><a href="#cb9-14"></a></span>
 <span id="cb9-15"><a href="#cb9-15"></a><span class="kw">class</span> Rectangle</span>
 <span id="cb9-16"><a href="#cb9-16"></a><span class="op">{</span></span>
 <span id="cb9-17"><a href="#cb9-17"></a><span class="kw">public</span><span class="op">:</span></span>
 <span id="cb9-18"><a href="#cb9-18"></a>    <span class="op">...</span></span>
-<span id="cb9-19"><a href="#cb9-19"></a>    <span class="dt">double</span> height<span class="op">()</span> <span class="at">const</span><span class="op">;</span></span>
-<span id="cb9-20"><a href="#cb9-20"></a>    <span class="dt">double</span> width<span class="op">()</span> <span class="at">const</span><span class="op">;</span></span>
-<span id="cb9-21"><a href="#cb9-21"></a>    Position position<span class="op">()</span> <span class="at">const</span><span class="op">;</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a>    <span class="kw">auto</span> height<span class="op">()</span> <span class="at">const</span> <span class="op">-&gt;</span> <span class="dt">double</span><span class="op">;</span></span>
+<span id="cb9-20"><a href="#cb9-20"></a>    <span class="kw">auto</span> width<span class="op">()</span> <span class="at">const</span> <span class="op">-&gt;</span> <span class="dt">double</span><span class="op">;</span></span>
+<span id="cb9-21"><a href="#cb9-21"></a>    <span class="kw">auto</span> position<span class="op">()</span> <span class="at">const</span> <span class="op">-&gt;</span> Position<span class="op">;</span></span>
 <span id="cb9-22"><a href="#cb9-22"></a><span class="op">};</span></span></code></pre></div>
 </div>
 
@@ -1434,6 +1434,7 @@ tests</h1>
 <ul>
 <li>Component tests</li>
 <li>System tests</li>
+<li>Other tests that can be automated</li>
 <li>All tests shall be minimal to check what needs to be checked at this
 level</li>
 </ul>
@@ -1474,10 +1475,35 @@ tests</li>
 checking if all wiring between components is in place</li>
 </ul>
 </div>
+<div id="other-tests-that-can-be-automated" class="slide section level3"
+number="4.6.3">
+<h1><span class="header-section-number">4.6.3</span> Other tests that
+can be automated</h1>
+<ul>
+<li>Many other tests can be automated, use the imagination</li>
+<li>Automating more tests can help avoiding rot
+<ul>
+<li>Performance - can the system deliver the performance needed</li>
+<li>Visibility of data - can the system display all data</li>
+<li>Common user operations - has the workflow been disrupted</li>
+<li>Memory leaks - does the system leak memory</li>
+<li>Stability - can the system operate without failure for a long
+time</li>
+<li>Text completeness - are all texts there, for all languages and all
+formats</li>
+</ul></li>
+<li>This list is not complete, any testing/feature that can be checked
+automatically may qualify</li>
+<li>Testing all the things will be a huge endeavour, select what gives
+most value</li>
+<li>Look for common problems that occur during development, can they be
+tested automatically so that they are detected early?</li>
+</ul>
+</div>
 <div
 id="all-tests-shall-be-minimal-to-check-what-needs-to-be-checked-at-this-level"
-class="slide section level3" number="4.6.3">
-<h1><span class="header-section-number">4.6.3</span> All tests shall be
+class="slide section level3" number="4.6.4">
+<h1><span class="header-section-number">4.6.4</span> All tests shall be
 minimal to check what needs to be checked at this level</h1>
 <ul>
 <li>This means that large scale tests do not check what smaller scale
@@ -1488,6 +1514,21 @@ error handling</li>
 <li>System tests checks that components talk OK with eachother</li>
 <li>This allows the tests to be easy to maintain</li>
 <li>This allows the tests to run fast</li>
+<li>The other tests may be slow, so those are more likely to be run
+outside normal developer workflow
+<ul>
+<li>Scheduled to run every night/week</li>
+<li>May be run on separate servers or the actual hardware</li>
+<li>May also need to be started manually as part of other tests</li>
+</ul></li>
+<li>Status of tests should be visible to the developers, testers,
+managers
+<ul>
+<li>Not on some webpage, that is too easy to miss</li>
+<li>Suggestion: Put it on monitors in the hallways for all to see</li>
+<li>Teams should feel that the quality of testing for their components
+is important</li>
+</ul></li>
 </ul>
 </div>
 
@@ -2219,7 +2260,6 @@ the end of the scope</li>
 <li>Will also be exception safe</li>
 <li>Can actually check if reached because of exception or normal
 flow</li>
-<li>Check Andrei at CppCon…</li>
 </ul></li>
 </ul></li>
 <li>Objects owning access to another object
@@ -2236,7 +2276,10 @@ number="8.4">
 <li>std::unique_ptr (memory, only moveable)</li>
 <li>std::shared_ptr (memory, move and copy)</li>
 <li>std::ifstream (file, only moveable)</li>
-<li>std::lock_guard (mutex-lock, neither move nor copy)</li>
+<li>std::lock_guard (mutex-lock, neither move nor copy)
+<ul>
+<li>std::unique_lock and std::scoped_lock may be better choices</li>
+</ul></li>
 </ul>
 </div>
 
@@ -2281,7 +2324,12 @@ class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><sp
 <ul>
 <li>The type of a function is composed of the argument types and the
 return type</li>
-<li>The type of a method also contains the class</li>
+<li>The type of a method also contains the class
+<ul>
+<li>And a CV-qualifier (const methods, mostly)</li>
+<li>And ref-qualifier (&amp; and &amp;&amp;, for making them applicable
+to only certain objects, this is rare)</li>
+</ul></li>
 <li>When the type of the function is good, it does tell a lot about the
 function</li>
 </ul>
@@ -2322,7 +2370,10 @@ reference</h1>
 <ul>
 <li>When large or otherwise slow to copy</li>
 <li>When you need access to the actual object passed</li>
-<li>When there has to be an object there</li>
+<li>When there has to be an object there (the function requires the
+object)</li>
+<li>This should be preferred over pointer, unless the optional
+capability of a pointer is needed</li>
 </ul>
 <div class="sourceCode" id="cb16"><pre
 class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">auto</span> func<span class="op">(</span> vector<span class="op">&lt;</span> string <span class="op">&gt;&amp;</span> lines <span class="op">)</span></span>
@@ -2337,6 +2388,7 @@ pointer</h1>
 <li>When large and slow to copy</li>
 <li>When you need access to the actual object passed</li>
 <li>When you accept that there might not be an object (nullptr)</li>
+<li>If the object is not optional, use a reference</li>
 </ul>
 <div class="sourceCode" id="cb17"><pre
 class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">auto</span> func<span class="op">(</span> vector<span class="op">&lt;</span> string <span class="op">&gt;*</span> lines <span class="op">)</span></span>
@@ -2385,18 +2437,23 @@ number="9.4">
 value</h1>
 <ul>
 <li>Mostly</li>
-<li>When the function constructs the returned value</li>
-<li>To protect against exposing internals to the application</li>
+<li>When the function constructs the returned value
+<ul>
+<li>This is typically a calculation</li>
+</ul></li>
+<li>To protect against exposing internals to the application
+<ul>
+<li>The class may want to have a stable interface, independant of inner
+representation</li>
 </ul>
 <div class="sourceCode" id="cb19"><pre
 class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">auto</span> func<span class="op">(</span> <span class="op">)</span> <span class="op">-&gt;</span> vector<span class="op">&lt;</span> string <span class="op">&gt;</span></span>
 <span id="cb19-2"><a href="#cb19-2"></a><span class="op">{</span></span>
-<span id="cb19-3"><a href="#cb19-3"></a>    vector<span class="op">&lt;</span> string <span class="op">&gt;</span> result<span class="op">;</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a>    result<span class="op">.</span>push_back<span class="op">(</span> <span class="st">&quot;StartOfFile&quot;</span> <span class="op">);</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a>  vector<span class="op">&lt;</span> string <span class="op">&gt;</span> result<span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a>  result<span class="op">.</span>push_back<span class="op">(</span> <span class="st">&quot;StartOfFile&quot;</span> <span class="op">);</span></span>
 <span id="cb19-5"><a href="#cb19-5"></a></span>
-<span id="cb19-6"><a href="#cb19-6"></a>    <span class="cf">return</span> result<span class="op">;</span></span>
-<span id="cb19-7"><a href="#cb19-7"></a><span class="op">}</span></span></code></pre></div>
-<ul>
+<span id="cb19-6"><a href="#cb19-6"></a>  <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="op">}</span></span></code></pre></div></li>
 <li>Never return the base class by value, use pointer or reference for
 this scenario (slicing)</li>
 </ul>
@@ -2458,8 +2515,15 @@ returned value</h1>
 <ul>
 <li>This is to avoid having clients use the access to internals to break
 the class invariant</li>
+<li>This still reveals inner structure, which <em>may</em> be a problem
+later</li>
 </ul></li>
 <li>Also when operating on const data, including const methods</li>
+<li>If found in a table from some optimized class storage (when the
+object has optimized space, f.ex. holding an enum, representing a
+string)</li>
+<li>If the value is fast to create (small, no allocations) it can be
+returned by value instead</li>
 </ul>
 <div class="sourceCode" id="cb22"><pre
 class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">class</span> C</span>
@@ -2486,14 +2550,6 @@ optimization (RVO and NRVO)</h1>
 <li>Or construct one object that is returned from all paths</li>
 <li>Does not work for returning members, as they must be copied</li>
 <li>Never std::move() in a return statement</li>
-<li>Never enclose the returned value in parenthesis
-<ul>
-<li>return (“hello”); -&gt; This blocks RVO</li>
-<li>return “hello”; -&gt; This does not block RVO, so a copy/move is
-elided</li>
-<li>return std::string(“hello”); -&gt; This does not block RVO, so a
-copy/move is elided</li>
-</ul></li>
 </ul>
 </div>
 <div id="returning-more-than-one-thing" class="slide section level3"
@@ -2521,6 +2577,14 @@ invariant</li>
 <li>More natural to have query methods on the returned class for
 checking the returned value(s)</li>
 <li>Example: std::string</li>
+</ul></li>
+<li>std::pair and std::tuple
+<ul>
+<li>Basically structs with unnamed fields, though pair has first and
+second</li>
+<li>These are useful as they allow for structured binding</li>
+<li>std::tuple also allows for some iteration over fields, which can be
+useful in templates, but that is advanced</li>
 </ul></li>
 </ul>
 </div>
@@ -2563,11 +2627,9 @@ and the less-argument function can be removed</li>
 </ul>
 </div>
 
-<div id="contract" class="title-slide slide section level2"
+<div id="const-methods" class="title-slide slide section level2"
 number="9.6">
-<h1><span class="header-section-number">9.6</span> Contract</h1>
-<ul>
-<li>Const methods
+<h1><span class="header-section-number">9.6</span> Const methods</h1>
 <ul>
 <li>Const all methods that do not change the observable state of the
 object</li>
@@ -2585,7 +2647,9 @@ remain locked
 <li>This calls for a locked_ptr type of return value</li>
 </ul></li>
 </ul></li>
-</ul></li>
+<li>Only const methods can be called on const objects</li>
+<li>Const is an important part of the contract, and should not be
+ignored</li>
 </ul>
 </div>
 
@@ -2841,10 +2905,10 @@ different things depending on an argument</h1>
 function that handles the selecting of the function to call</li>
 </ul>
 </div>
-<div id="function-decorations" class="slide section level3"
+<div id="function-decorations-specifiers" class="slide section level3"
 number="9.11.3">
 <h1><span class="header-section-number">9.11.3</span> Function
-decorations</h1>
+decorations (specifiers)</h1>
 <ul>
 <li>Pure virtuals must have “= 0”, as per language rules</li>
 <li>Overriding a virtual method shall have “override” to catch bugs, but
@@ -2864,7 +2928,7 @@ be “const”</li>
 number="9.12">
 <h1><span class="header-section-number">9.12</span> constexpr</h1>
 <ul>
-<li>Can be run at compiletime, or runtime</li>
+<li>Can be run at compiletime, or runtime, compiler decides</li>
 <li>Does not allow undefined behaviour, less bugs</li>
 <li>More capabilities as the language continues to grow</li>
 <li>When run at compiletime, can result in massive optimizations
@@ -2873,6 +2937,14 @@ number="9.12">
 </ul></li>
 <li>When possible, use “constexpr” on functions and methods, including
 constructors and destructors (C++20)</li>
+<li>consteval is guaranteed to be run/evaluated at compiletime, this can
+be used as well</li>
+<li>This can be very useful for generating tables and other data that
+does not change at runtime
+<ul>
+<li>Generating these with code can be more clear or maintainable than
+adding huge tables by hand</li>
+</ul></li>
 </ul>
 </div>
 

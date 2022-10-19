@@ -178,6 +178,7 @@
 ## Other automatic tests
 - Component tests
 - System tests
+- Other tests that can be automated
 - All tests shall be minimal to check what needs to be checked at this level
 
 ### Component tests
@@ -201,6 +202,19 @@
   * Users
 - If the unit tests are very good, the system tests are basically checking if all wiring between components is in place
  
+### Other tests that can be automated
+- Many other tests can be automated, use the imagination
+- Automating more tests can help avoiding rot
+  * Performance - can the system deliver the performance needed
+  * Visibility of data - can the system display all data
+  * Common user operations - has the workflow been disrupted
+  * Memory leaks - does the system leak memory
+  * Stability - can the system operate without failure for a long time
+  * Text completeness - are all texts there, for all languages and all formats
+- This list is not complete, any testing/feature that can be checked automatically may qualify
+- Testing all the things will be a huge endeavour, select what gives most value
+- Look for common problems that occur during development, can they be tested automatically so that they are detected early?
+
 ### All tests shall be minimal to check what needs to be checked at this level
 - This means that large scale tests do not check what smaller scale tests have checked
 - Unit tests checks all the details of the unit, including quality and error handling
@@ -208,3 +222,11 @@
 - System tests checks that components talk OK with eachother
 - This allows the tests to be easy to maintain
 - This allows the tests to run fast
+- The other tests may be slow, so those are more likely to be run outside normal developer workflow
+  * Scheduled to run every night/week
+  * May be run on separate servers or the actual hardware
+  * May also need to be started manually as part of other tests
+- Status of tests should be visible to the developers, testers, managers
+  * Not on some webpage, that is too easy to miss
+  * Suggestion: Put it on monitors in the hallways for all to see
+  * Teams should feel that the quality of testing for their components is important
