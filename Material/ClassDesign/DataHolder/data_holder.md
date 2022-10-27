@@ -148,10 +148,3 @@ to an actual value is less then the extra time needed to fetch more cache lines
 ## Example
 - Circle
 - Employee
-
-## Task
-- Look at the TicTacToe code and try to identify DataHolder objects
-- Can they be improved?
-- If so, how?
-- Try making one of the DataHolder objects into a proper DataHolder
-- Add automatic tests for it

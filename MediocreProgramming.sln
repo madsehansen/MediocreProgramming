@@ -79,6 +79,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tasks", "Tasks", "{0CDCD7B8-8E2D-4742-9476-37B1421BA8C0}"
 	ProjectSection(SolutionItems) = preProject
 		Material\Tasks\TicTacToe_1.md = Material\Tasks\TicTacToe_1.md
+		Material\Tasks\TicTacToe_2.md = Material\Tasks\TicTacToe_2.md
+		Material\Tasks\TicTacToe_3.md = Material\Tasks\TicTacToe_3.md
+		Material\Tasks\TicTacToe_4.md = Material\Tasks\TicTacToe_4.md
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TicTacToe_1", "TicTacToe_1\TicTacToe_1.vcxproj", "{E18AA1A3-C6AE-468D-BEAA-2B18A074311D}"

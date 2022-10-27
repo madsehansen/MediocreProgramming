@@ -1,4 +1,4 @@
-# Task: Distributed Tic-Tac-Toe
+# Task: Distributed Tic-Tac-Toe part 1
 A lot of the systems we write are distributed, with several executables cooperating to solve the task.
 
 For this task the executables are going to be simulated in one executable, for simplicity.

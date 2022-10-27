@@ -55,12 +55,3 @@ This is part of the interface, and shall be documented there. Do not mix these f
 ## Example
 - Publishing data through DDS data writer
 - Receiving data from file
-
-## Task
-- Look at the TicTacToe code and try to identify IO objects
-- Can their use be improved?
-- If so, how?
-- Try making the IO objects into proper IO class(es), with useful interfaces
-- Change the automatic tests to take advantage of this
-
-## <Provide a suggested solution>

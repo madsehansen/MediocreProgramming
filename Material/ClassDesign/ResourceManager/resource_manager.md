@@ -1,7 +1,7 @@
 # Resource managers
 
-These objects are used to ensure that resource management is done properly and that resources are released when no longer needed
-    This is RAII, Resource Acquisition Is Initialization
+- These objects are used to ensure that resource management is done properly and that resources are released when no longer needed
+  * This is RAII, Resource Acquisition Is Initialization
 
 ## Value semantics
 
@@ -65,8 +65,3 @@ These objects are used to ensure that resource management is done properly and t
 - std::ifstream (file, only moveable)
 - std::lock_guard (mutex-lock, neither move nor copy)
   * std::unique_lock and std::scoped_lock may be better choices
-
-## Task
-    TODO: come up with some useful task
-    
-## Provide a suggested solution

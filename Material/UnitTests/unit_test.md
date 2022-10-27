@@ -1,11 +1,7 @@
 
 # Unit tests
-- Why have unit tests
-- How to write tests
-- How to make code testable
-- Speed of running translates to number of runs
-- The tests are part of the system
-- Other automatic tests
+- And other automatic tests
+  * (mostly unit tests)
 
 
 ## Why have unit tests
