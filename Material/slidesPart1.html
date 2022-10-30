@@ -6,7 +6,6 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Mads E Hansen" />
-  <meta name="date" content="2022-07-04" />
   <title>Mediocre programming</title>
   <style type="text/css">
     code{white-space: pre-wrap;}
@@ -89,7 +88,7 @@
   <p class="author">
 Mads E Hansen
   </p>
-  <p class="date">July 04, 2022</p>
+  <p class="date">Oct 30, 2022</p>
 </div>
 <div id="object-orientation" class="title-slide slide section level1" number="1">
 <h1><span class="header-section-number">1</span> Object orientation</h1>
@@ -986,16 +985,7 @@ for the possible design</h1>
 <div id="why-have-unit-tests" class="title-slide slide section level2" number="4.1">
 <h1><span class="header-section-number">4.1</span> Why have unit
 tests</h1>
-<ul>
-<li>Make better design</li>
-<li>Specify what should happen</li>
-<li>Document how to use</li>
-<li>Avoid debugger</li>
-<li>Avoid starting application</li>
-<li>Allow refactoring with confidence</li>
-<li>Catch bugs</li>
-<li>Faster development</li>
-</ul>
+
 </div>
 <div id="make-better-design" class="slide section level3" number="4.1.1">
 <h1><span class="header-section-number">4.1.1</span> Make better
@@ -1085,18 +1075,7 @@ down development this does not happen in practice</li>
 <div id="how-to-write-tests" class="title-slide slide section level2" number="4.2">
 <h1><span class="header-section-number">4.2</span> How to write
 tests</h1>
-<ul>
-<li>Test one thing, if it fails it failed for one reason</li>
-<li>Name the test according to what it tests, if it fails the name
-basically tells you what is wrong</li>
-<li>This makes for many testcases, which is a good thing</li>
-<li>Test either a free function or a class’ behaviour, not a method</li>
-<li>Group testcases logically</li>
-<li>Only test the public interface of classes</li>
-<li>Test corner cases as well as normal cases</li>
-<li>Test error cases</li>
-<li>Tests shall either succeed, every time, or fail, every time</li>
-</ul>
+
 </div>
 <div id="test-one-thing-if-it-fails-it-failed-for-one-reason" class="slide section level3" number="4.2.1">
 <h1><span class="header-section-number">4.2.1</span> Test one thing, if
@@ -1152,9 +1131,9 @@ X.end()</li>
 logically</h1>
 <ul>
 <li>This makes them easier to read and manage mentally</li>
-<li>XTest/AfterCreation/is_empty</li>
-<li>XTest/AfterCreation/has_no_elements</li>
-<li>XTest/AfterCreation/has_zero_size</li>
+<li>UnitTest/XTest/AfterCreation/is_empty</li>
+<li>UnitTest/XTest/AfterCreation/has_no_elements</li>
+<li>UnitTest/XTest/AfterCreation/has_zero_size</li>
 </ul>
 </div>
 <div id="only-test-the-public-interface-of-classes" class="slide section level3" number="4.2.6">
@@ -1212,16 +1191,60 @@ design</li>
 the tests, so always make sure that the tests are OK</li>
 </ul>
 </div>
+<div id="what-does-a-unit-test-test-case-look-like" class="slide section level3" number="4.2.10">
+<h1><span class="header-section-number">4.2.10</span> What does a unit
+test test case look like</h1>
+<ul>
+<li>It is placed in a hierarchy of test suites</li>
+<li>It has three distinct parts, marked with comments
+<ul>
+<li>Arrange, setting up the start state</li>
+<li>Act, performing the act to test</li>
+<li>Assert, checking that the resulting state is correct</li>
+<li>Sometimes the parts “given, when, then” are used instead, this is
+BDD, a subset of TDD</li>
+</ul></li>
+<li>Arrange should be approximately one statement</li>
+<li>Act shall be one statement</li>
+<li>Assert should be approximately one statement</li>
+<li>Sometimes it is useful to have some common setup/teardown code</li>
+<li>No control statements (if, switch, loops, etc.), purely communistic
+code</li>
+</ul>
+</div>
+<div id="example-test-case-unit-test" class="slide section level3" number="4.2.11">
+<h1><span class="header-section-number">4.2.11</span> Example test case
+(unit test)</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1"></a><span class="ex">BOOST_</span>AUTO_TEST_CASE<span class="op">(</span> AdderAddingOneIncreasesTheStateByOne <span class="op">)</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a>    <span class="co">// Arrange</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>    <span class="dt">int</span> state <span class="op">{</span> <span class="dv">4</span> <span class="op">};</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>    Adder sut <span class="op">{</span> <span class="op">&amp;</span>state <span class="op">};</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a></span>
+<span id="cb12-7"><a href="#cb12-7"></a>    <span class="co">// Act</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a>    sut<span class="op">.</span>add<span class="op">(</span> <span class="dv">1</span> <span class="op">);</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a></span>
+<span id="cb12-10"><a href="#cb12-10"></a>    <span class="co">// Assert</span></span>
+<span id="cb12-11"><a href="#cb12-11"></a>    <span class="ex">BOOST_</span>CHECK_EQUAL<span class="op">(</span> state<span class="op">,</span> <span class="dv">5</span> <span class="op">);</span></span>
+<span id="cb12-12"><a href="#cb12-12"></a><span class="op">}</span></span></code></pre></div>
+<ul>
+<li>Here the Arrange part has two statements, had the Adder object been
+just a collection of free functions it could have been one</li>
+<li>Sometimes the Arrange part is empty, if there is nothing to do
+there, the comment should be there though</li>
+<li>Sometimes the method/function called in Act returns a value that
+shall be checked, it must then be captured in a local value</li>
+<li>If the expected change/no-change in state is more than one thing,
+the Assert part may have several statements</li>
+<li>If a unit test test case is more complex than this, something is
+wrong with the design of the code</li>
+</ul>
+</div>
 
 <div id="how-to-make-code-testable" class="title-slide slide section level2" number="4.3">
 <h1><span class="header-section-number">4.3</span> How to make code
 testable</h1>
-<ul>
-<li>Separate concerns into separate entities</li>
-<li>Inject dependencies</li>
-<li>No global/static/singleton data unless actually constant over all
-runs</li>
-</ul>
+
 </div>
 <div id="separate-concerns-into-separate-entities" class="slide section level3" number="4.3.1">
 <h1><span class="header-section-number">4.3.1</span> Separate concerns
@@ -1247,13 +1270,25 @@ delays</li>
 <li>Doing this also allows for fast negative test, where no result is
 produced</li>
 </ul></li>
+<li>Business logic shall not own the state
+<ul>
+<li>A lot of code mixes the state of the system with the operations on
+that state</li>
+<li>Schools tend to teach this, especially to teach polymorphism</li>
+<li>This makes for fragile tests or breaking encapsulation</li>
+<li>Keeping the data outside the operations makes it possible to have
+more robust tests</li>
+<li>Classes operating on data may know about the data, but shall not own
+it</li>
+</ul></li>
 </ul>
 </div>
 <div id="inject-dependencies" class="slide section level3" number="4.3.2">
 <h1><span class="header-section-number">4.3.2</span> Inject
 dependencies</h1>
 <ul>
-<li>This allows for faster tests</li>
+<li>This allows for faster and more complete tests by allowing fake
+objects to be used</li>
 <li>Also easy test of dependency usage</li>
 <li>Allows faking errors so that error handling code is also tested</li>
 <li>Better design in general</li>
@@ -1334,13 +1369,7 @@ degrades</li>
 <div id="other-automatic-tests" class="title-slide slide section level2" number="4.6">
 <h1><span class="header-section-number">4.6</span> Other automatic
 tests</h1>
-<ul>
-<li>Component tests</li>
-<li>System tests</li>
-<li>Other tests that can be automated</li>
-<li>All tests shall be minimal to check what needs to be checked at this
-level</li>
-</ul>
+
 </div>
 <div id="component-tests" class="slide section level3" number="4.6.1">
 <h1><span class="header-section-number">4.6.1</span> Component
@@ -1784,6 +1813,13 @@ between components and applications</li>
 application, even though it is very important</li>
 <li>IO should only be concerned with getting data into the application
 and sending data out from the application</li>
+<li>In general these also include other infrastructure type classes
+<ul>
+<li>Shielding from operating system</li>
+<li>Data transport layers</li>
+<li>Event producers like timers</li>
+<li>etc</li>
+</ul></li>
 </ul>
 </div>
 <div id="io-classes-shall-always-implement-some-interface" class="title-slide slide section level2" number="7.1">
@@ -2194,13 +2230,13 @@ design</h1>
 <li>Functions should do one thing and be named accordingly</li>
 <li>Name functions for what they do, not how</li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">// Good</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="kw">auto</span> radiansFromDegrees<span class="op">(</span> <span class="dt">double</span> degrees <span class="op">);</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="kw">auto</span> pythagoras<span class="op">(</span> <span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">,</span> <span class="dt">double</span> z <span class="op">);</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co">// Bad</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="kw">auto</span> to_radians<span class="op">(</span> <span class="dt">double</span> degrees <span class="op">);</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="kw">auto</span> rootOfSumOfSquares<span class="op">(</span> <span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">,</span> <span class="dt">double</span> z <span class="op">);</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">// Good</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="kw">auto</span> radiansFromDegrees<span class="op">(</span> <span class="dt">double</span> degrees <span class="op">);</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="kw">auto</span> pythagoras<span class="op">(</span> <span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">,</span> <span class="dt">double</span> z <span class="op">);</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="co">// Bad</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="kw">auto</span> to_radians<span class="op">(</span> <span class="dt">double</span> degrees <span class="op">);</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="kw">auto</span> rootOfSumOfSquares<span class="op">(</span> <span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">,</span> <span class="dt">double</span> z <span class="op">);</span></span></code></pre></div>
 </div>
 
 <div id="type" class="title-slide slide section level2" number="12.2">
@@ -2217,13 +2253,13 @@ to only certain objects, this is rare)</li>
 <li>When the type of the function is good, it does tell a lot about the
 function</li>
 </ul>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">auto</span> funcA<span class="op">(</span> function<span class="op">&lt;</span> B<span class="op">(</span><span class="at">const</span> A<span class="op">&amp;)</span> <span class="op">&gt;,</span> <span class="at">const</span> vector<span class="op">&lt;</span> A <span class="op">&gt;&amp;</span> <span class="op">)</span> <span class="op">-&gt;</span> vector<span class="op">&lt;</span> B <span class="op">&gt;;</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="kw">auto</span> funcB<span class="op">(</span> <span class="at">const</span> vector<span class="op">&lt;</span> A <span class="op">&gt;&amp;</span> <span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">size_t</span><span class="op">;</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a></span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="kw">auto</span> funcC<span class="op">(</span> <span class="at">const</span> vector<span class="op">&lt;</span> A <span class="op">&gt;&amp;</span> <span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">bool</span><span class="op">;</span></span>
-<span id="cb13-6"><a href="#cb13-6"></a></span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="kw">auto</span> funcD<span class="op">(</span> function<span class="op">&lt;</span> B<span class="op">(</span> B<span class="op">,</span> <span class="at">const</span> A<span class="op">&amp;</span> <span class="op">)</span> <span class="op">&gt;,</span> B<span class="op">,</span> <span class="at">const</span> vector<span class="op">&lt;</span> A <span class="op">&gt;&amp;</span> <span class="op">)</span> <span class="op">-&gt;</span> B<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">auto</span> funcA<span class="op">(</span> function<span class="op">&lt;</span> B<span class="op">(</span><span class="at">const</span> A<span class="op">&amp;)</span> <span class="op">&gt;,</span> <span class="at">const</span> vector<span class="op">&lt;</span> A <span class="op">&gt;&amp;</span> <span class="op">)</span> <span class="op">-&gt;</span> vector<span class="op">&lt;</span> B <span class="op">&gt;;</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="kw">auto</span> funcB<span class="op">(</span> <span class="at">const</span> vector<span class="op">&lt;</span> A <span class="op">&gt;&amp;</span> <span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">size_t</span><span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="kw">auto</span> funcC<span class="op">(</span> <span class="at">const</span> vector<span class="op">&lt;</span> A <span class="op">&gt;&amp;</span> <span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">bool</span><span class="op">;</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="kw">auto</span> funcD<span class="op">(</span> function<span class="op">&lt;</span> B<span class="op">(</span> B<span class="op">,</span> <span class="at">const</span> A<span class="op">&amp;</span> <span class="op">)</span> <span class="op">&gt;,</span> B<span class="op">,</span> <span class="at">const</span> vector<span class="op">&lt;</span> A <span class="op">&gt;&amp;</span> <span class="op">)</span> <span class="op">-&gt;</span> B<span class="op">;</span></span></code></pre></div>
 </div>
 
 <div id="arguments" class="title-slide slide section level2" number="12.3">
@@ -2236,10 +2272,10 @@ function</li>
 <li>When small and fast to copy</li>
 <li>When you are going to move the value to take ownership of data</li>
 </ul>
-<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">auto</span> func<span class="op">(</span> <span class="dt">int</span> a<span class="op">,</span> <span class="dt">double</span> b <span class="op">);</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="kw">auto</span> C<span class="op">::</span>C<span class="op">(</span> string newValue <span class="op">)</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a>    <span class="op">:</span> <span class="va">m_value</span><span class="op">(</span> move<span class="op">(</span> newValue <span class="op">)</span> <span class="op">)</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="op">{</span> <span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">auto</span> func<span class="op">(</span> <span class="dt">int</span> a<span class="op">,</span> <span class="dt">double</span> b <span class="op">);</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="kw">auto</span> C<span class="op">::</span>C<span class="op">(</span> string newValue <span class="op">)</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>    <span class="op">:</span> <span class="va">m_value</span><span class="op">(</span> move<span class="op">(</span> newValue <span class="op">)</span> <span class="op">)</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="op">{</span> <span class="op">}</span></span></code></pre></div>
 <ul>
 <li>Never pass the base class by value, use pointer or reference for
 this scenario (slicing)</li>
@@ -2256,10 +2292,10 @@ object)</li>
 <li>This should be preferred over pointer, unless the optional
 capability of a pointer is needed</li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">auto</span> func<span class="op">(</span> vector<span class="op">&lt;</span> string <span class="op">&gt;&amp;</span> lines <span class="op">)</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="op">{</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>    lines<span class="op">.</span>push_back<span class="op">(</span> <span class="st">&quot;EndOfFile&quot;</span> <span class="op">);</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">auto</span> func<span class="op">(</span> vector<span class="op">&lt;</span> string <span class="op">&gt;&amp;</span> lines <span class="op">)</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="op">{</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a>    lines<span class="op">.</span>push_back<span class="op">(</span> <span class="st">&quot;EndOfFile&quot;</span> <span class="op">);</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <div id="pass-by-pointer" class="slide section level3" number="12.3.3">
 <h1><span class="header-section-number">12.3.3</span> Pass by
@@ -2270,11 +2306,11 @@ pointer</h1>
 <li>When you accept that there might not be an object (nullptr)</li>
 <li>If the object is not optional, use a reference</li>
 </ul>
-<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">auto</span> func<span class="op">(</span> vector<span class="op">&lt;</span> string <span class="op">&gt;*</span> lines <span class="op">)</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="op">{</span></span>
-<span id="cb16-3"><a href="#cb16-3"></a>    <span class="cf">if</span> <span class="op">(</span> lines <span class="op">!=</span> <span class="kw">nullptr</span> <span class="op">)</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a>        lines<span class="op">-&gt;</span>push_back<span class="op">(</span> <span class="st">&quot;EndOfFile&quot;</span> <span class="op">);</span></span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">auto</span> func<span class="op">(</span> vector<span class="op">&lt;</span> string <span class="op">&gt;*</span> lines <span class="op">)</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="op">{</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a>    <span class="cf">if</span> <span class="op">(</span> lines <span class="op">!=</span> <span class="kw">nullptr</span> <span class="op">)</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a>        lines<span class="op">-&gt;</span>push_back<span class="op">(</span> <span class="st">&quot;EndOfFile&quot;</span> <span class="op">);</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <div id="when-to-const-arguments" class="slide section level3" number="12.3.4">
 <h1><span class="header-section-number">12.3.4</span> When to const
@@ -2284,10 +2320,10 @@ arguments</h1>
 <li>As long as you do not need to modify the argument</li>
 <li>As long as the argument type is const correct</li>
 </ul>
-<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">auto</span> func<span class="op">(</span> <span class="at">const</span> vector<span class="op">&lt;</span> string <span class="op">&gt;&amp;</span> lines <span class="op">)</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="op">{</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a>    <span class="co">// lines.push_back( &quot;EndOfFile&quot; ); &lt;- error, lines is const</span></span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">auto</span> func<span class="op">(</span> <span class="at">const</span> vector<span class="op">&lt;</span> string <span class="op">&gt;&amp;</span> lines <span class="op">)</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="op">{</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a>    <span class="co">// lines.push_back( &quot;EndOfFile&quot; ); &lt;- error, lines is const</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <div id="hidden-argument-this-and-the-dependency-implications" class="slide section level3" number="12.3.5">
 <h1><span class="header-section-number">12.3.5</span> Hidden argument
@@ -2321,13 +2357,13 @@ value</h1>
 <li>The class may want to have a stable interface, independant of inner
 representation</li>
 </ul>
-<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">auto</span> func<span class="op">(</span> <span class="op">)</span> <span class="op">-&gt;</span> vector<span class="op">&lt;</span> string <span class="op">&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="op">{</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a>  vector<span class="op">&lt;</span> string <span class="op">&gt;</span> result<span class="op">;</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>  result<span class="op">.</span>push_back<span class="op">(</span> <span class="st">&quot;StartOfFile&quot;</span> <span class="op">);</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a></span>
-<span id="cb18-6"><a href="#cb18-6"></a>  <span class="cf">return</span> result<span class="op">;</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a><span class="op">}</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">auto</span> func<span class="op">(</span> <span class="op">)</span> <span class="op">-&gt;</span> vector<span class="op">&lt;</span> string <span class="op">&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="op">{</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a>  vector<span class="op">&lt;</span> string <span class="op">&gt;</span> result<span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a>  result<span class="op">.</span>push_back<span class="op">(</span> <span class="st">&quot;StartOfFile&quot;</span> <span class="op">);</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a></span>
+<span id="cb19-6"><a href="#cb19-6"></a>  <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="op">}</span></span></code></pre></div></li>
 <li>Never return the base class by value, use pointer or reference for
 this scenario (slicing)</li>
 </ul>
@@ -2341,16 +2377,16 @@ to survive the call, so no local variables</li>
 <li>When the function returns access to an object held by this object,
 like in containers</li>
 </ul>
-<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">class</span> C</span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="op">{</span></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="kw">public</span><span class="op">:</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a>    <span class="kw">auto</span> func<span class="op">(</span> <span class="op">)</span> <span class="op">-&gt;</span> vector<span class="op">&lt;</span> string <span class="op">&gt;&amp;</span> <span class="co">// Bad, as it allows clients to change internal data</span></span>
-<span id="cb19-5"><a href="#cb19-5"></a>    <span class="op">{</span></span>
-<span id="cb19-6"><a href="#cb19-6"></a>        <span class="cf">return</span> <span class="va">m_myStrings</span><span class="op">;</span></span>
-<span id="cb19-7"><a href="#cb19-7"></a>    <span class="op">}</span></span>
-<span id="cb19-8"><a href="#cb19-8"></a><span class="kw">private</span><span class="op">:</span></span>
-<span id="cb19-9"><a href="#cb19-9"></a>    vector<span class="op">&lt;</span> string <span class="op">&gt;</span> <span class="va">m_myStrings</span><span class="op">;</span></span>
-<span id="cb19-10"><a href="#cb19-10"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">class</span> C</span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="op">{</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a>    <span class="kw">auto</span> func<span class="op">(</span> <span class="op">)</span> <span class="op">-&gt;</span> vector<span class="op">&lt;</span> string <span class="op">&gt;&amp;</span> <span class="co">// Bad, as it allows clients to change internal data</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a>    <span class="op">{</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a>        <span class="cf">return</span> <span class="va">m_myStrings</span><span class="op">;</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a>    <span class="op">}</span></span>
+<span id="cb20-8"><a href="#cb20-8"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb20-9"><a href="#cb20-9"></a>    vector<span class="op">&lt;</span> string <span class="op">&gt;</span> <span class="va">m_myStrings</span><span class="op">;</span></span>
+<span id="cb20-10"><a href="#cb20-10"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <div id="return-by-pointer" class="slide section level3" number="12.4.3">
 <h1><span class="header-section-number">12.4.3</span> Return by
@@ -2363,19 +2399,19 @@ this object, like in containers</li>
 <li>Note that this can be done by returning an optional&lt;&gt;, which
 makes for clearer code</li>
 </ul>
-<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">class</span> C</span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="op">{</span></span>
-<span id="cb20-3"><a href="#cb20-3"></a><span class="kw">public</span><span class="op">:</span></span>
-<span id="cb20-4"><a href="#cb20-4"></a>    <span class="kw">auto</span> func<span class="op">(</span> <span class="op">)</span> <span class="op">-&gt;</span> vector<span class="op">&lt;</span> string <span class="op">&gt;*</span> <span class="co">// Bad, as it allows clients to change internal data</span></span>
-<span id="cb20-5"><a href="#cb20-5"></a>    <span class="op">{</span></span>
-<span id="cb20-6"><a href="#cb20-6"></a>        <span class="cf">if</span> <span class="op">(</span> <span class="va">m_myStrings</span><span class="op">.</span>empty<span class="op">()</span> <span class="op">)</span></span>
-<span id="cb20-7"><a href="#cb20-7"></a>            <span class="cf">return</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb20-8"><a href="#cb20-8"></a></span>
-<span id="cb20-9"><a href="#cb20-9"></a>        <span class="cf">return</span> <span class="op">&amp;</span><span class="va">m_myStrings</span><span class="op">;</span></span>
-<span id="cb20-10"><a href="#cb20-10"></a>    <span class="op">}</span></span>
-<span id="cb20-11"><a href="#cb20-11"></a><span class="kw">private</span><span class="op">:</span></span>
-<span id="cb20-12"><a href="#cb20-12"></a>    vector<span class="op">&lt;</span> string <span class="op">&gt;</span> <span class="va">m_myStrings</span><span class="op">;</span></span>
-<span id="cb20-13"><a href="#cb20-13"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">class</span> C</span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="op">{</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a>    <span class="kw">auto</span> func<span class="op">(</span> <span class="op">)</span> <span class="op">-&gt;</span> vector<span class="op">&lt;</span> string <span class="op">&gt;*</span> <span class="co">// Bad, as it allows clients to change internal data</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>    <span class="op">{</span></span>
+<span id="cb21-6"><a href="#cb21-6"></a>        <span class="cf">if</span> <span class="op">(</span> <span class="va">m_myStrings</span><span class="op">.</span>empty<span class="op">()</span> <span class="op">)</span></span>
+<span id="cb21-7"><a href="#cb21-7"></a>            <span class="cf">return</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a></span>
+<span id="cb21-9"><a href="#cb21-9"></a>        <span class="cf">return</span> <span class="op">&amp;</span><span class="va">m_myStrings</span><span class="op">;</span></span>
+<span id="cb21-10"><a href="#cb21-10"></a>    <span class="op">}</span></span>
+<span id="cb21-11"><a href="#cb21-11"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb21-12"><a href="#cb21-12"></a>    vector<span class="op">&lt;</span> string <span class="op">&gt;</span> <span class="va">m_myStrings</span><span class="op">;</span></span>
+<span id="cb21-13"><a href="#cb21-13"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <div id="when-to-const-returned-value" class="slide section level3" number="12.4.4">
 <h1><span class="header-section-number">12.4.4</span> When to const
@@ -2395,19 +2431,19 @@ string)</li>
 <li>If the value is fast to create (small, no allocations) it can be
 returned by value instead</li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">class</span> C</span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="op">{</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="kw">public</span><span class="op">:</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a>    <span class="kw">auto</span> func<span class="op">(</span> <span class="op">)</span> <span class="at">const</span> <span class="op">-&gt;</span> <span class="at">const</span> vector<span class="op">&lt;</span> string <span class="op">&gt;&amp;</span> <span class="co">//  Better, clients not allowed to change internal data, but structure revealed</span></span>
-<span id="cb21-5"><a href="#cb21-5"></a>    <span class="op">{</span></span>
-<span id="cb21-6"><a href="#cb21-6"></a>        <span class="cf">return</span> <span class="va">m_myStrings</span><span class="op">;</span></span>
-<span id="cb21-7"><a href="#cb21-7"></a>    <span class="op">}</span></span>
-<span id="cb21-8"><a href="#cb21-8"></a></span>
-<span id="cb21-9"><a href="#cb21-9"></a>    <span class="kw">auto</span> <span class="kw">operator</span><span class="op">+(</span> <span class="at">const</span> C<span class="op">&amp;</span> other <span class="op">)</span> <span class="at">const</span> <span class="op">-&gt;</span> <span class="at">const</span> C<span class="op">;</span> <span class="co">// Disallow a + b = c</span></span>
-<span id="cb21-10"><a href="#cb21-10"></a></span>
-<span id="cb21-11"><a href="#cb21-11"></a><span class="kw">private</span><span class="op">:</span></span>
-<span id="cb21-12"><a href="#cb21-12"></a>    vector<span class="op">&lt;</span> string <span class="op">&gt;</span> <span class="va">m_myStrings</span><span class="op">;</span></span>
-<span id="cb21-13"><a href="#cb21-13"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp numberLines"><code class="sourceCode cpp"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">class</span> C</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="op">{</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a>    <span class="kw">auto</span> func<span class="op">(</span> <span class="op">)</span> <span class="at">const</span> <span class="op">-&gt;</span> <span class="at">const</span> vector<span class="op">&lt;</span> string <span class="op">&gt;&amp;</span> <span class="co">//  Better, clients not allowed to change internal data, but structure revealed</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a>    <span class="op">{</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a>        <span class="cf">return</span> <span class="va">m_myStrings</span><span class="op">;</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a>    <span class="op">}</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a></span>
+<span id="cb22-9"><a href="#cb22-9"></a>    <span class="kw">auto</span> <span class="kw">operator</span><span class="op">+(</span> <span class="at">const</span> C<span class="op">&amp;</span> other <span class="op">)</span> <span class="at">const</span> <span class="op">-&gt;</span> <span class="at">const</span> C<span class="op">;</span> <span class="co">// Disallow a + b = c</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a></span>
+<span id="cb22-11"><a href="#cb22-11"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb22-12"><a href="#cb22-12"></a>    vector<span class="op">&lt;</span> string <span class="op">&gt;</span> <span class="va">m_myStrings</span><span class="op">;</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <div id="return-value-optimization-rvo-and-nrvo" class="slide section level3" number="12.4.5">
 <h1><span class="header-section-number">12.4.5</span> Return value

@@ -3,6 +3,11 @@
 - Keeping these as separate objects allows them to be easily shared between components and applications
 - IO should not really be considered part of the business of the application, even though it is very important
 - IO should only be concerned with getting data into the application and sending data out from the application
+- In general these also include other infrastructure type classes
+  * Shielding from operating system
+  * Data transport layers
+  * Event producers like timers
+  * etc
 
 
 ## IO classes shall always implement some interface

@@ -5,14 +5,6 @@
 
 
 ## Why have unit tests
-- Make better design
-- Specify what should happen
-- Document how to use
-- Avoid debugger
-- Avoid starting application
-- Allow refactoring with confidence
-- Catch bugs
-- Faster development
 
 ### Make better design
 - This works better if the tests drive the design, write tests first
@@ -57,15 +49,6 @@
 
 
 ## How to write tests
-- Test one thing, if it fails it failed for one reason
-- Name the test according to what it tests, if it fails the name basically tells you what is wrong
-- This makes for many testcases, which is a good thing
-- Test either a free function or a class' behaviour, not a method
-- Group testcases logically
-- Only test the public interface of classes
-- Test corner cases as well as normal cases
-- Test error cases
-- Tests shall either succeed, every time, or fail, every time
 
 ### Test one thing, if it fails it failed for one reason
 - If the test can fail for several reasons, more checking/debugging is needed to pinpoint the problem if it fails
@@ -90,9 +73,9 @@
 
 ### Group testcases logically
 - This makes them easier to read and manage mentally
-- XTest/AfterCreation/is_empty
-- XTest/AfterCreation/has_no_elements
-- XTest/AfterCreation/has_zero_size
+- UnitTest/XTest/AfterCreation/is_empty
+- UnitTest/XTest/AfterCreation/has_no_elements
+- UnitTest/XTest/AfterCreation/has_zero_size
 
 ### Only test the public interface of classes
 - Internal state is just an implementation detail, and can change
@@ -118,10 +101,41 @@
 - Tests that are unstable are hard to know when are fixed
 - Tests that fail makes the developers insensitive and indifferent to the tests, so always make sure that the tests are OK
 
+### What does a unit test test case look like
+- It is placed in a hierarchy of test suites
+- It has three distinct parts, marked with comments
+  * Arrange, setting up the start state
+  * Act, performing the act to test
+  * Assert, checking that the resulting state is correct
+  * Sometimes the parts "given, when, then" are used instead, this is BDD, a subset of TDD
+- Arrange should be approximately one statement
+- Act shall be one statement
+- Assert should be approximately one statement
+- Sometimes it is useful to have some common setup/teardown code
+- No control statements (if, switch, loops, etc.), purely communistic code
+
+### Example test case (unit test)
+~~~{.cpp .numberLines}
+BOOST_AUTO_TEST_CASE( AdderAddingOneIncreasesTheStateByOne )
+{
+    // Arrange
+    int state { 4 };
+    Adder sut { &state };
+
+    // Act
+    sut.add( 1 );
+
+    // Assert
+    BOOST_CHECK_EQUAL( state, 5 );
+}
+~~~
+- Here the Arrange part has two statements, had the Adder object been just a collection of free functions it could have been one
+- Sometimes the Arrange part is empty, if there is nothing to do there, the comment should be there though
+- Sometimes the method/function called in Act returns a value that shall be checked, it must then be captured in a local value
+- If the expected change/no-change in state is more than one thing, the Assert part may have several statements
+- If a unit test test case is more complex than this, something is wrong with the design of the code
+
 ## How to make code testable
-- Separate concerns into separate entities
-- Inject dependencies
-- No global/static/singleton data unless actually constant over all runs
 
 ### Separate concerns into separate entities
 - Code not really part of the class/function should be separated and tested separately
@@ -135,9 +149,15 @@
   * Timers shall be external to the unit, and just call a method, pass an argument that can be used to know how much time has passed
   * Doing this should provide a unit that can be tested with no delays
   * Doing this also allows for fast negative test, where no result is produced
+- Business logic shall not own the state
+  * A lot of code mixes the state of the system with the operations on that state
+  * Schools tend to teach this, especially to teach polymorphism
+  * This makes for fragile tests or breaking encapsulation
+  * Keeping the data outside the operations makes it possible to have more robust tests
+  * Classes operating on data may know about the data, but shall not own it
 
 ### Inject dependencies
-- This allows for faster tests
+- This allows for faster and more complete tests by allowing fake objects to be used
 - Also easy test of dependency usage
 - Allows faking errors so that error handling code is also tested
 - Better design in general
@@ -172,10 +192,6 @@
   * If tests are not maintained, the benefits are quickly lost and code degrades
 
 ## Other automatic tests
-- Component tests
-- System tests
-- Other tests that can be automated
-- All tests shall be minimal to check what needs to be checked at this level
 
 ### Component tests
 - These test full subsystems/components
